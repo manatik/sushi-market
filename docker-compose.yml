@@ -1,0 +1,62 @@
+version: "3.10"
+
+x-node-version: &node-version node:18.12.0
+
+services:
+  db:
+    image: postgres:14.5
+    container_name: sman_db
+    ports:
+      - "25432:5432"
+    environment:
+      - POSTGRES_DB=sman
+      - POSTGRES_USER=sman
+      - POSTGRES_PASSWORD=smanserverpostgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - pgsql-sock:/var/run/postgresql
+    networks:
+      - web
+
+  backend:
+    image: *node-version
+    container_name: sman_nestjs
+    ports:
+      - "9000:9000"
+    networks:
+      - web
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/backend
+      - pgsql-sock:/var/run/postgresql
+      - ./backend/assets:/var/lib/images
+    working_dir: /backend
+    command: bash -c "
+      yarn install
+      && yarn build
+      && yarn start:dev
+      && yarn typeorm migration:run"
+
+  frontend:
+    image: *node-version
+    container_name: sman_nextjs
+    ports:
+      - "3000:3000"
+    networks:
+      - web
+    volumes:
+      - ./frontend:/frontend
+    working_dir: /frontend
+    command: bash -c "
+      yarn install
+      && yarn build
+      && yarn start"
+
+
+volumes:
+  pgdata:
+  pgsql-sock:
+
+networks:
+  web:

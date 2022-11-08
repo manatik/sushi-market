@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@jwt-auth/*": ["src/authorization/jwt-auth/*"],
+      "@typeorm/*": ["src/database/typeorm/*"],
+      "@common-types/*": ["src/types/*"],
+      "@category/*": ["src/app/category/*"],
+      "@district/*": ["src/app/district/*"],
+      "@order/*": ["src/app/order/*"],
+      "@payment/*": ["src/app/payment/*"],
+      "@product/*": ["src/app/product/*"],
+      "@promotion/*": ["src/app/promotion/*"],
+      "@role/*": ["src/app/role/*"],
+      "@sub-category/*": ["src/app/sub-category/*"],
+      "@user/*": ["src/app/user/*"],
+      "@config/*": ["src/common/config/*"],
+      "@file/*": ["src/common/file/*"],
+      "@consts/*": ["src/common/consts/*"],
+      "@error/*": ["src/common/error/*"],
+      "@utils/*": ["src/common/utils/*"]
+    }
+  }
+}
