@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class Promotion1667837193367 implements MigrationInterface {
+export class Photo1667836657550 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'promotion',
+        name: 'photo',
         columns: [
           {
             name: 'id',
@@ -14,60 +14,34 @@ export class Promotion1667837193367 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'article',
-            type: 'varchar',
-            isUnique: true,
-            isNullable: false,
-          },
-          {
-            name: 'discount',
-            type: 'NUMERIC(7,2)',
-            default: 0,
-          },
-          {
             name: 'name',
             type: 'varchar',
             isNullable: false,
-            isUnique: true,
           },
           {
-            name: 'promocode',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'kind_promo',
+            name: 'path',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'type_promotion',
+            name: 'filename',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'old_price',
-            type: 'NUMERIC(7,2)',
+            name: 'original_filename',
+            type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'new_price',
-            type: 'NUMERIC(7,2)',
+            name: 'size',
+            type: 'int',
             isNullable: false,
+            default: 0,
           },
           {
             name: 'description',
             type: 'varchar',
-          },
-          {
-            name: 'date_start',
-            type: 'timestamp',
-            isNullable: false,
-          },
-          {
-            name: 'date_end',
-            type: 'timestamp',
-            isNullable: false,
           },
           {
             name: 'date_created',
@@ -90,6 +64,6 @@ export class Promotion1667837193367 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('promotion', true, true, true);
+    await queryRunner.dropTable('photos', true, true, true);
   }
 }

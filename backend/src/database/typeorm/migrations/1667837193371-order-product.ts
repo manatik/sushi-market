@@ -26,7 +26,12 @@ export class OrderProduct1667837257584 implements MigrationInterface {
           {
             name: 'sub_category_id',
             type: 'uuid',
-            isNullable: false,
+            isNullable: true,
+          },
+          {
+            name: 'category_id',
+            type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'photos_id',

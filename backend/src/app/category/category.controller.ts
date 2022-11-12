@@ -1,18 +1,23 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
 import { CategoryService } from '@category/category.service';
 import { CreateCategoryDto } from '@category/dto/create-category.dto';
 import { UpdateCategoryDto } from '@category/dto/update-category.dto';
+import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
+import { Public, Roles } from '@jwt-auth/decorators';
+import { Role } from '@jwt-auth/enum';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
+@Roles(Role.Admin)
 @Controller(GLOBAL_PREFIXES.CATEGORY)
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Public()
   @Get(ENDPOINTS.DEFAULT.ALL)
   async all() {
     return await this.categoryService.all();
   }
 
+  @Public()
   @Get(ENDPOINTS.DEFAULT.BY_ID)
   async byId(@Param('id') id: string) {
     return await this.categoryService.byId(id);

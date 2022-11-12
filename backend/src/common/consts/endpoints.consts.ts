@@ -3,6 +3,7 @@ export const GLOBAL_PREFIXES = {
   ROLE: 'role',
   USER: 'user',
   CATEGORY: 'category',
+  SUB_CATEGORY: 'sub-category',
 };
 
 export const ENDPOINTS = {

@@ -2,9 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-export const getTypeormConfig = async (
-  configService: ConfigService,
-): Promise<TypeOrmModuleOptions> => ({
+export const getTypeormConfig = async (configService: ConfigService): Promise<TypeOrmModuleOptions> => ({
   type: 'postgres',
   host: 'db',
   port: parseInt(configService.get('PG_PORT')),

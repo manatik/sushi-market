@@ -24,23 +24,19 @@ export class Product1667836799605 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'photos_id',
-            type: 'uuid',
-          },
-          {
             name: 'article',
             type: 'varchar',
             isNullable: false,
             isUnique: true,
           },
           {
-            name: 'description',
-            type: 'varchar',
-          },
-          {
             name: 'name',
             type: 'varchar',
             isNullable: false,
+          },
+          {
+            name: 'description',
+            type: 'varchar',
           },
           {
             name: 'hidden',
@@ -107,13 +103,6 @@ export class Product1667836799605 implements MigrationInterface {
             referencedColumnNames: ['id'],
             columnNames: ['sub_category_id'],
             onDelete: 'CASCADE',
-          },
-          {
-            name: 'fk_product_photos',
-            referencedTableName: 'photos',
-            referencedColumnNames: ['id'],
-            columnNames: ['photos_id'],
-            onDelete: 'SET NULL',
           },
         ],
       }),

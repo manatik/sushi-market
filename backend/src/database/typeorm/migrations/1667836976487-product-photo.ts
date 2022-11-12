@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class PromotionProduct1667837336106 implements MigrationInterface {
+export class ProductPhoto1667836976487 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'promotion_product',
+        name: 'product_photo',
         columns: [
           {
             name: 'id',
@@ -19,7 +19,7 @@ export class PromotionProduct1667837336106 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'promotion_id',
+            name: 'photo_id',
             type: 'uuid',
             isNullable: false,
           },
@@ -33,26 +33,21 @@ export class PromotionProduct1667837336106 implements MigrationInterface {
             type: 'timestamp',
             isNullable: true,
           },
-          {
-            name: 'date_deleted',
-            type: 'timestamp',
-            isNullable: true,
-          },
         ],
         foreignKeys: [
           {
-            name: 'fk_promotion-product_promotion',
-            referencedTableName: 'promotion',
-            referencedColumnNames: ['id'],
-            columnNames: ['promotion_id'],
-            onDelete: 'CASCADE',
-          },
-          {
-            name: 'fk_promotion-product_product',
+            name: 'fk_product-photo_product',
             referencedTableName: 'product',
             referencedColumnNames: ['id'],
             columnNames: ['product_id'],
-            onDelete: 'CASCADE',
+            onDelete: 'SET NULL',
+          },
+          {
+            name: 'fk_product-photo_photo',
+            referencedTableName: 'photo',
+            referencedColumnNames: ['id'],
+            columnNames: ['photo_id'],
+            onDelete: 'SET NULL',
           },
         ],
       }),
@@ -60,6 +55,6 @@ export class PromotionProduct1667837336106 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('promotion_product', true, true, true);
+    await queryRunner.dropTable('product_photo', true, true, true);
   }
 }
