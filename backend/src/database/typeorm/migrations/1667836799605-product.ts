@@ -37,6 +37,7 @@ export class Product1667836799605 implements MigrationInterface {
           {
             name: 'description',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'hidden',
@@ -56,22 +57,27 @@ export class Product1667836799605 implements MigrationInterface {
           {
             name: 'calories',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'proteins',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'fats',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'carbohydrates',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'weight',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'date_created',

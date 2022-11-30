@@ -4,6 +4,8 @@ export const GLOBAL_PREFIXES = {
   USER: 'user',
   CATEGORY: 'category',
   SUB_CATEGORY: 'sub-category',
+  PRODUCT: 'product',
+  PROMOTION: 'promotion',
 };
 
 export const ENDPOINTS = {
@@ -31,5 +33,14 @@ export const ENDPOINTS = {
     ACTIVE_ADDRESS: 'address/active',
     UPDATE_ADDRESS: 'address/:id',
     REMOVE_ADDRESS: 'address/:id',
+  },
+  PRODUCT: {
+    ALL: '',
+    CREATE: '',
+    ADD_PHOTOS: 'photos/:id',
+    BY_ID: ':id',
+    UPDATE: ':id',
+    REMOVE: ':id',
+    REMOVE_PHOTO: 'photos/:id',
   },
 };

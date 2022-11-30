@@ -1,7 +1,9 @@
 import { CategoryEntity } from '@category/entity/category.entity';
+import { PhotosEntity } from '@photos/entity/photos.entity';
+import { PromotionEntity } from '@promotion/entity/promotion.entity';
 import { SubCategoryEntity } from '@sub-category/entity/sub-category.entity';
 import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
 
 @Entity('product')
 export class ProductEntity extends Base {
@@ -54,4 +56,10 @@ export class ProductEntity extends Base {
   @ManyToOne(() => SubCategoryEntity, (sub) => sub.products)
   @JoinColumn({ name: 'sub_category_id' })
   subCategory: SubCategoryEntity;
+
+  @ManyToMany(() => PromotionEntity, (promotion) => promotion.products)
+  promotions: PromotionEntity[];
+
+  @ManyToMany(() => PhotosEntity, (photo) => photo.products)
+  photos: PhotosEntity[];
 }

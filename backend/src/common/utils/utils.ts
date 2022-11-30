@@ -1,6 +1,9 @@
 export const isTrue = (value: string | boolean) => {
-  if (typeof value === 'string') return value.toLowerCase() === 'true';
-  return value;
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  return /true/i.test(value);
 };
 
 export const idsArrayToArrayOfObjects = (ids: string[]): { id: string }[] =>

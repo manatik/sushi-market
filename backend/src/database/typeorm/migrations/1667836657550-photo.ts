@@ -42,6 +42,7 @@ export class Photo1667836657550 implements MigrationInterface {
           {
             name: 'description',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'date_created',

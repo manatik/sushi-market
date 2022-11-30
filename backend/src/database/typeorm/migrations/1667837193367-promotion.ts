@@ -34,16 +34,20 @@ export class Promotion1667837193367 implements MigrationInterface {
             name: 'promocode',
             type: 'varchar',
             isUnique: true,
+            isNullable: true,
           },
           {
-            name: 'kind_promo',
-            type: 'varchar',
-            isNullable: false,
+            name: 'is_disposable',
+            type: 'bool',
+            isNullable: true,
+            default: true,
           },
           {
             name: 'type_promotion',
-            type: 'varchar',
+            type: 'enum',
             isNullable: false,
+            enum: ['combo', 'promo'],
+            enumName: 'type_promotion',
           },
           {
             name: 'old_price',
@@ -51,13 +55,14 @@ export class Promotion1667837193367 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'new_price',
+            name: 'price',
             type: 'NUMERIC(7,2)',
             isNullable: false,
           },
           {
             name: 'description',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'date_start',

@@ -19,7 +19,15 @@ export class PhotosService {
 
       return await this.photoRepository.save(entity);
     } catch (e) {
-      return this.errorService.internal('Ошибка создания фото', e.message);
+      throw new Error('Ошибка создания фото');
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      return await this.photoRepository.delete({ id });
+    } catch (e) {
+      throw new Error('Ошибка удаления фото');
     }
   }
 }

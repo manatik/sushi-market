@@ -9,6 +9,6 @@ import { PhotosService } from './photos.service';
   imports: [ErrorModule, TypeOrmModule.forFeature([PhotosEntity])],
   controllers: [PhotosController],
   providers: [PhotosService],
-  exports: [],
+  exports: [PhotosService],
 })
 export class PhotosModule {}

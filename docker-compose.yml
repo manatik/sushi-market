@@ -35,8 +35,8 @@ services:
     command: bash -c "
       yarn install
       && yarn build
-      && yarn start:dev
-      && yarn typeorm migration:run"
+      && yarn typeorm migration:run
+      && yarn start:dev"
 
   frontend:
     image: *node-version

@@ -40,16 +40,17 @@ export class ProductPhoto1667836976487 implements MigrationInterface {
             referencedTableName: 'product',
             referencedColumnNames: ['id'],
             columnNames: ['product_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
           },
           {
             name: 'fk_product-photo_photo',
             referencedTableName: 'photo',
             referencedColumnNames: ['id'],
             columnNames: ['photo_id'],
-            onDelete: 'SET NULL',
+            onDelete: 'CASCADE',
           },
         ],
+        uniques: [{ name: 'uniq-product_id-photo_id', columnNames: ['product_id', 'photo_id'] }],
       }),
     );
   }
