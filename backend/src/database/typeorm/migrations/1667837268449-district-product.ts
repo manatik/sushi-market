@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class PointsOfSale1667837514481 implements MigrationInterface {
+export class DistrictProduct1667837268449 implements MigrationInterface {
+  private TABLE_NAME = 'district_product';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'points_of_sale',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -14,27 +16,13 @@ export class PointsOfSale1667837514481 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'address_point_sale',
-            type: 'varchar',
+            name: 'district_id',
+            type: 'uuid',
             isNullable: false,
           },
           {
-            name: 'fp_api_code',
-            type: 'varchar',
-          },
-          {
-            name: 'city',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'operating_mode_point_sale',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'operating_mode_delivery',
-            type: 'varchar',
+            name: 'product_id',
+            type: 'uuid',
             isNullable: false,
           },
           {
@@ -53,11 +41,27 @@ export class PointsOfSale1667837514481 implements MigrationInterface {
             isNullable: true,
           },
         ],
+        foreignKeys: [
+          {
+            name: 'fk_district-product_district',
+            referencedTableName: 'district',
+            referencedColumnNames: ['id'],
+            columnNames: ['district_id'],
+            onDelete: 'CASCADE',
+          },
+          {
+            name: 'fk_district-product_product',
+            referencedTableName: 'product',
+            referencedColumnNames: ['id'],
+            columnNames: ['product_id'],
+            onDelete: 'CASCADE',
+          },
+        ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('points_of_sale', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

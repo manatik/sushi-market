@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class District1667837193366 implements MigrationInterface {
+export class District1667837268447 implements MigrationInterface {
+  private TABLE_NAME = 'district';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'district',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -22,21 +24,21 @@ export class District1667837193366 implements MigrationInterface {
           {
             name: 'point_sale_id',
             type: 'uuid',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'min_sum_order',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
             name: 'price_delivery',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
             name: 'price_free_delivery',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
@@ -55,11 +57,20 @@ export class District1667837193366 implements MigrationInterface {
             isNullable: true,
           },
         ],
+        foreignKeys: [
+          {
+            name: 'fk-district-points_of_sale',
+            referencedTableName: 'points_of_sale',
+            referencedColumnNames: ['id'],
+            columnNames: ['point_sale_id'],
+            onDelete: 'SET NULL',
+          },
+        ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('district', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

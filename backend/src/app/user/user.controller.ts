@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { UserService } from '@user/user.service';
-import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
-import { CreateUserDto } from '@user/dto/create-user.dto';
-import { UpdateUserDto } from '@user/dto/update-user.dto';
-import { CurrentUser, Roles } from '@jwt-auth/decorators';
 import { User } from '@common-types/User.type';
+import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
+import { CurrentUser, Roles } from '@jwt-auth/decorators';
 import { Role } from '@jwt-auth/enum';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { AddRolesDto } from '@user/dto/add-roles.dto';
 import { CreateAddressDto } from '@user/dto/create-address.dto';
+import { CreateUserDto } from '@user/dto/create-user.dto';
+import { RemoveRoleQuery } from '@user/dto/remove-role.query';
 import { SetActiveAddressDto } from '@user/dto/set-active-address.dto';
 import { UpdateAddressDto } from '@user/dto/update-address.dto';
+import { UpdateUserDto } from '@user/dto/update-user.dto';
+import { UserService } from '@user/user.service';
 
 @Roles(Role.Admin)
 @Controller(GLOBAL_PREFIXES.USER)
@@ -74,5 +76,17 @@ export class UserController {
   @Delete(ENDPOINTS.USER.REMOVE_ADDRESS)
   async removeAddress(@CurrentUser() user: User, @Param('id') addressId: string) {
     return await this.userService.removeAddress(user.id, addressId);
+  }
+
+  @Roles(Role.Admin)
+  @Post()
+  async addRoles(@Param('id') userId: string, @Body() dto: AddRolesDto) {
+    return await this.userService.addRoles(userId, dto);
+  }
+
+  @Roles(Role.Admin)
+  @Delete()
+  async removeRole(@Param('id') userId: string, @Query() query: RemoveRoleQuery) {
+    return await this.userService.removeRole(userId, query.roleId);
   }
 }

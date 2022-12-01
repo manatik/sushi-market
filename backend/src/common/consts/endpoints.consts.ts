@@ -6,6 +6,7 @@ export const GLOBAL_PREFIXES = {
   SUB_CATEGORY: 'sub-category',
   PRODUCT: 'product',
   PROMOTION: 'promotion',
+  INGREDIENT: 'ingredient',
 };
 
 export const ENDPOINTS = {

@@ -1,15 +1,16 @@
+import { ErrorService } from '@error/error.service';
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from '@user/enitity/user.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { ErrorService } from '@error/error.service';
-import { CreateUserDto } from '@user/dto/create-user.dto';
-import { UpdateUserDto } from '@user/dto/update-user.dto';
-import { idsArrayToArrayOfObjects } from '@utils/utils';
-import { FindParams } from '@user/user.types';
+import { AddRolesDto } from '@user/dto/add-roles.dto';
 import { CreateAddressDto } from '@user/dto/create-address.dto';
-import { AddressEntity } from '@user/enitity/address.entity';
+import { CreateUserDto } from '@user/dto/create-user.dto';
 import { UpdateAddressDto } from '@user/dto/update-address.dto';
+import { UpdateUserDto } from '@user/dto/update-user.dto';
+import { AddressEntity } from '@user/enitity/address.entity';
+import { UserEntity } from '@user/enitity/user.entity';
+import { FindParams } from '@user/user.types';
+import { idsArrayToArrayOfObjects } from '@utils/utils';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -80,7 +81,11 @@ export class UserService {
       }
 
       const entity = this.userRepository.create(dto);
-      const user = await this.userRepository.save(entity);
+      const savedUser = await this.userRepository.save(entity);
+      const user = await this.userRepository.findOne({
+        where: { id: savedUser.id },
+        relations: { roles: true, addresses: true },
+      });
 
       return this.errorService.success('Пользователь успешно создан', { user });
     } catch (e) {
@@ -153,6 +158,30 @@ export class UserService {
       return this.errorService.success('Адрес успешно удалён', { address });
     } catch (e) {
       throw this.errorService.internal('Ошибка удаления адреса', e.message);
+    }
+  }
+
+  async addRoles(id: string, dto: AddRolesDto) {
+    try {
+      const user = await this.userRepository.findOne({ where: { id }, relations: { roles: true } });
+
+      await this.userRepository.save({ ...user, roles: idsArrayToArrayOfObjects(dto.roles) });
+
+      return this.errorService.success('Роли успешно добавлены');
+    } catch (e) {
+      throw this.errorService.internal('Ошибка добавления ролей', e.message);
+    }
+  }
+
+  async removeRole(id: string, roleId: string) {
+    try {
+      const user = await this.userRepository.findOne({ where: { id }, relations: { roles: true } });
+
+      await this.userRepository.save({ ...user, roles: user.roles.filter((role) => role.id !== roleId) });
+
+      return this.errorService.success('Роль успешно удалена');
+    } catch (e) {
+      throw this.errorService.internal('Ошибка удаления роли', e.message);
     }
   }
 }

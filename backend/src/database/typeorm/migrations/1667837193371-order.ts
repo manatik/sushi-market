@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class Order1667837193370 implements MigrationInterface {
+  private TABLE_NAME = 'order';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -20,16 +22,16 @@ export class Order1667837193370 implements MigrationInterface {
           {
             name: 'payment_id',
             type: 'uuid',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'status_id',
             type: 'uuid',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'price_total',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
@@ -108,6 +110,6 @@ export class Order1667837193370 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

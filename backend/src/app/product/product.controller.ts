@@ -46,7 +46,11 @@ export class ProductController {
 
   @UseInterceptors(FilesInterceptor('photos'))
   @Post(ENDPOINTS.PRODUCT.ADD_PHOTOS)
-  async add(@Param('id') id: string, @UploadedFiles() photos: Array<Express.Multer.File>, @Body() dto: AddPhotosDto) {
+  async addPhotos(
+    @Param('id') id: string,
+    @UploadedFiles() photos: Array<Express.Multer.File>,
+    @Body() dto: AddPhotosDto,
+  ) {
     return await this.productService.addPhotos(id, photos, dto);
   }
 

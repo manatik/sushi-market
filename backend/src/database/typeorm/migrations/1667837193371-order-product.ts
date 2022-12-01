@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class OrderProduct1667837257584 implements MigrationInterface {
+  private TABLE_NAME = 'order_product';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_product',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -34,18 +36,10 @@ export class OrderProduct1667837257584 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'photos_id',
-            type: 'uuid',
-          },
-          {
             name: 'article',
             type: 'varchar',
             isNullable: false,
             isUnique: true,
-          },
-          {
-            name: 'description',
-            type: 'varchar',
           },
           {
             name: 'name',
@@ -53,48 +47,48 @@ export class OrderProduct1667837257584 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'description',
+            type: 'varchar',
+            isNullable: true,
+          },
+          {
             name: 'hidden',
             type: 'boolean',
             default: false,
           },
           {
+            name: 'order_by',
+            type: 'int',
+            default: 1,
+          },
+          {
             name: 'price',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
             name: 'calories',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'proteins',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'fats',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'carbohydrates',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'weight',
             type: 'varchar',
-          },
-          {
-            name: 'date_created',
-            type: 'timestamp',
-            default: 'NOW()',
-          },
-          {
-            name: 'date_updated',
-            type: 'timestamp',
-            isNullable: true,
-          },
-          {
-            name: 'date_deleted',
-            type: 'timestamp',
             isNullable: true,
           },
         ],
@@ -111,6 +105,6 @@ export class OrderProduct1667837257584 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order_product', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

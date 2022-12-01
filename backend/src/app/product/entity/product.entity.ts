@@ -1,4 +1,5 @@
 import { CategoryEntity } from '@category/entity/category.entity';
+import { IngredientEntity } from '@ingredient/entity/ingredient.entity';
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { PromotionEntity } from '@promotion/entity/promotion.entity';
 import { SubCategoryEntity } from '@sub-category/entity/sub-category.entity';
@@ -62,4 +63,7 @@ export class ProductEntity extends Base {
 
   @ManyToMany(() => PhotosEntity, (photo) => photo.products)
   photos: PhotosEntity[];
+
+  @ManyToMany(() => IngredientEntity, (ingredient) => ingredient.products)
+  ingredients: IngredientEntity[];
 }

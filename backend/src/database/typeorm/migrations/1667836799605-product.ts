@@ -51,7 +51,7 @@ export class Product1667836799605 implements MigrationInterface {
           },
           {
             name: 'price',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {

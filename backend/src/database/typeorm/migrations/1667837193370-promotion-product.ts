@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class PromotionProduct1667837193370 implements MigrationInterface {
+  private TABLE_NAME = 'promotion_product';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'promotion_product',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -55,11 +57,12 @@ export class PromotionProduct1667837193370 implements MigrationInterface {
             onDelete: 'CASCADE',
           },
         ],
+        uniques: [{ name: 'uniq-promotion_id-product_id', columnNames: ['product_id', 'promotion_id'] }],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('promotion_product', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class OrderPromotion1667837614537 implements MigrationInterface {
+  private TABLE_NAME = 'order_promotion';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_promotion',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -19,10 +21,6 @@ export class OrderPromotion1667837614537 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'photos_id',
-            type: 'uuid',
-          },
-          {
             name: 'article',
             type: 'varchar',
             isUnique: true,
@@ -30,7 +28,7 @@ export class OrderPromotion1667837614537 implements MigrationInterface {
           },
           {
             name: 'discount',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             default: 0,
           },
           {
@@ -43,30 +41,35 @@ export class OrderPromotion1667837614537 implements MigrationInterface {
             name: 'promocode',
             type: 'varchar',
             isUnique: true,
+            isNullable: true,
           },
           {
-            name: 'kind_promo',
-            type: 'varchar',
-            isNullable: false,
+            name: 'is_disposable',
+            type: 'bool',
+            isNullable: true,
+            default: true,
           },
           {
             name: 'type_promotion',
-            type: 'varchar',
+            type: 'enum',
             isNullable: false,
+            enum: ['combo', 'promo'],
+            enumName: 'type_promotion',
           },
           {
             name: 'old_price',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
-            name: 'new_price',
-            type: 'NUMERIC(7,2)',
+            name: 'price',
+            type: 'int',
             isNullable: false,
           },
           {
             name: 'description',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'date_start',
@@ -77,27 +80,6 @@ export class OrderPromotion1667837614537 implements MigrationInterface {
             name: 'date_end',
             type: 'timestamp',
             isNullable: false,
-          },
-          {
-            name: 'count',
-            type: 'int',
-            isNullable: false,
-            default: 1,
-          },
-          {
-            name: 'date_created',
-            type: 'timestamp',
-            default: 'NOW()',
-          },
-          {
-            name: 'date_updated',
-            type: 'timestamp',
-            isNullable: true,
-          },
-          {
-            name: 'date_deleted',
-            type: 'timestamp',
-            isNullable: true,
           },
         ],
         foreignKeys: [
@@ -114,6 +96,6 @@ export class OrderPromotion1667837614537 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order_promotion', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

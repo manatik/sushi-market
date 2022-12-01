@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class Promotion1667837193367 implements MigrationInterface {
+  private TABLE_NAME = 'promotion';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'promotion',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -21,7 +23,7 @@ export class Promotion1667837193367 implements MigrationInterface {
           },
           {
             name: 'discount',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             default: 0,
           },
           {
@@ -51,12 +53,12 @@ export class Promotion1667837193367 implements MigrationInterface {
           },
           {
             name: 'old_price',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
             name: 'price',
-            type: 'NUMERIC(7,2)',
+            type: 'int',
             isNullable: false,
           },
           {
@@ -95,6 +97,6 @@ export class Promotion1667837193367 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('promotion', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

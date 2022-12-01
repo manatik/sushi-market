@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class DistrictProduct1667837268448 implements MigrationInterface {
+export class PointsOfSale1667837268446 implements MigrationInterface {
+  private TABLE_NAME = 'points_of_sale';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'district_product',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -14,13 +16,27 @@ export class DistrictProduct1667837268448 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'district_id',
-            type: 'uuid',
+            name: 'address_point_sale',
+            type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'product_id',
-            type: 'uuid',
+            name: 'fp_api_code',
+            type: 'varchar',
+          },
+          {
+            name: 'city',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'operating_mode_point_sale',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'operating_mode_delivery',
+            type: 'varchar',
             isNullable: false,
           },
           {
@@ -39,27 +55,11 @@ export class DistrictProduct1667837268448 implements MigrationInterface {
             isNullable: true,
           },
         ],
-        foreignKeys: [
-          {
-            name: 'fk_district-product_district',
-            referencedTableName: 'district',
-            referencedColumnNames: ['id'],
-            columnNames: ['district_id'],
-            onDelete: 'CASCADE',
-          },
-          {
-            name: 'fk_district-product_product',
-            referencedTableName: 'product',
-            referencedColumnNames: ['id'],
-            columnNames: ['product_id'],
-            onDelete: 'CASCADE',
-          },
-        ],
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('district_product', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }

@@ -15,6 +15,11 @@ export class RoleController {
     return await this.roleService.all();
   }
 
+  @Get(ENDPOINTS.DEFAULT.BY_ID)
+  async byId(@Param('id') id: string) {
+    return await this.roleService.getBy({ id });
+  }
+
   @Post(ENDPOINTS.DEFAULT.CREATE)
   async create(@Body() dto: CreateRoleDto) {
     return await this.roleService.create(dto);

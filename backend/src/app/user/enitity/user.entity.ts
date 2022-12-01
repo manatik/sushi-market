@@ -30,7 +30,7 @@ export class UserEntity extends Base {
   @DeleteDateColumn({ name: 'date_deleted' })
   dateDeleted: Date;
 
-  @ManyToMany(() => RoleEntity, (role) => role.users)
+  @ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
   @JoinTable({
     name: 'user_role',
     joinColumn: { name: 'user_id' },

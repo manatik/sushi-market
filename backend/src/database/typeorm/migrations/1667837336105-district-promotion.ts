@@ -1,10 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class DistrictPromotion1667837405615 implements MigrationInterface {
+  private TABLE_NAME = 'district_promotion';
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'district_promotion',
+        name: this.TABLE_NAME,
         columns: [
           {
             name: 'id',
@@ -60,6 +62,6 @@ export class DistrictPromotion1667837405615 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('district_promotion', true, true, true);
+    await queryRunner.dropTable(this.TABLE_NAME, true, true, true);
   }
 }
