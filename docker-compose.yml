@@ -51,7 +51,7 @@ services:
     command: bash -c "
       yarn install
       && yarn build
-      && yarn start"
+      && yarn dev"
 
 
 volumes:
