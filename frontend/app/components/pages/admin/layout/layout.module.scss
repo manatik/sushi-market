@@ -1,0 +1,25 @@
+.layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  gap: 10px;
+  background-color: #FBF7F4;
+
+  .left {
+  }
+
+  .right {
+    display: grid;
+    grid-template-rows: 1.3fr 10fr 1.3fr;
+    gap: 10px;
+
+    .topLine {
+    }
+
+    .content {
+    }
+
+    .bottomLine {
+    }
+  }
+}

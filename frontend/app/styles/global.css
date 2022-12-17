@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Montserrat, sans-serif;
+}
+
+button,
+h3 {
+    all: unset;
+}
+
+:root {
+    --primary-text-color: #3E3836;
+    --primary-font-size: 16px;
+    --secondary-font-size: 14px;
+    --small-border-radius: 5px;
+    --medium-border-radius: 10px;
+}

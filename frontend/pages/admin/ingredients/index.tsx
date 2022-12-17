@@ -1,7 +1,8 @@
+import Ingredients from '@components/pages/admin/ingredients/Ingredients'
 import React from 'react'
 
 const IngredientsPage = () => {
-	return <div>ingredients page</div>
+	return <Ingredients />
 }
 
 export default IngredientsPage

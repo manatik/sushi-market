@@ -14,31 +14,31 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./app/",
+    "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "components/*"
+        "app/components/*"
       ],
       "@styles/*": [
-        "styles/*"
+        "app/styles/*"
       ],
       "@hooks/*": [
-        "hooks/*"
+        "app/hooks/*"
       ],
       "@providers/*": [
-        "providers/*"
+        "app/providers/*"
       ],
       "@services/*": [
-        "services/*"
+        "app/services/*"
       ],
       "@common-types/*": [
-        "types/*"
+        "app/types/*"
       ],
       "@store/*": [
-        "store/*"
+        "app/store/*"
       ],
       "@utils/*": [
-        "utils/*"
+        "app/utils/*"
       ]
     }
   },
