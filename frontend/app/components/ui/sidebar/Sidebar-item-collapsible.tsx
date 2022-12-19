@@ -49,7 +49,9 @@ const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({ title, children 
 				<span className={styles.sidebarItem__link}>{title}</span>
 			</div>
 
-			{!isCollapsed && <div className={styles.sidebarItemCollapsible__collapse}>{children}</div>}
+			<div className={styles.sidebarItemCollapsible__collapse} data-state={collapse}>
+				{children}
+			</div>
 		</div>
 	)
 }

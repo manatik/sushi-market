@@ -46,12 +46,14 @@
 }
 
 .customField .errorMessage {
-  width: 100%;
+  width: calc(98% - 12px);
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  padding-left: 12px;
+  margin-top: 5px;
   font-size: 12px;
-  background: #d30909;
+  background: #ee5b62;
+  border-radius: var(--small-border-radius);
   color: #fff;
   height: 24px;
 }

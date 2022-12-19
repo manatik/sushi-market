@@ -4,7 +4,7 @@ const nextConfig = {
 	swcMinify: true,
 	poweredByHeader: false,
 	env: {
-		APP_URL: process.env.REACT_APP_URL
+		API_URL: process.env.REACT_APP_API_URL
 	},
 	images: {
 		domains: ['nestjs']

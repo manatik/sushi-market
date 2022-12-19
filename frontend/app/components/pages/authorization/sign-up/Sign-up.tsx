@@ -1,0 +1,93 @@
+import { IDefaultResponse } from '@common-types/IDefaultResponse'
+import {
+	ISignResponse,
+	ISignUpForm,
+	SignUpSchema
+} from '@components/pages/authorization/authorization.types'
+import ButtonLoading from '@components/ui/button-loading/Button-loading'
+import Checkbox from '@components/ui/checkbox/Checkbox'
+import Input from '@components/ui/input/Input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as Label from '@radix-ui/react-label'
+import { AuthService } from '@services/auth.service'
+import { LocalStorageService } from '@services/local-storage.service'
+import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import styles from '../authorization.style.module.scss'
+
+const SignUp = () => {
+	const [isShowPassword, setIsShowPassword] = useState(false)
+	const {
+		handleSubmit,
+		register,
+		formState: { errors }
+	} = useForm<ISignUpForm>({
+		resolver: zodResolver(SignUpSchema)
+	})
+
+	const { mutate: signUp, isLoading } = useMutation<
+		ISignResponse,
+		AxiosError<IDefaultResponse>,
+		ISignUpForm
+	>(['sign-up'], AuthService.signUp, {
+		onSuccess(data) {
+			LocalStorageService.setAccessToken(data.accessToken)
+			toast.success(data.message)
+		},
+		onError(error) {
+			toast.error(error.response?.data.message)
+		}
+	})
+
+	const onSubmit = (formData: ISignUpForm) => {
+		signUp(formData)
+	}
+
+	return (
+		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+			<Input
+				{...register('phone')}
+				type={'tel'}
+				label={'Номер телефона'}
+				error={errors.phone?.message}
+			/>
+
+			<Input
+				{...register('firstname')}
+				type={'text'}
+				label={'Как вас называть?'}
+				error={errors.firstname?.message}
+			/>
+
+			<Input
+				{...register('password')}
+				type={isShowPassword ? 'text' : 'password'}
+				label={'Пароль'}
+				error={errors.password?.message}
+			/>
+
+			<div className={styles.formItem}>
+				<Checkbox
+					id='show-password'
+					className={styles.formItem__checkbox}
+					size={'medium'}
+					onCheckedChange={value => setIsShowPassword(value as boolean)}
+					checked={isShowPassword}
+				/>
+
+				<Label.Root htmlFor='show-password'>Показать пароль</Label.Root>
+			</div>
+
+			<div className={styles.formItem}>
+				<ButtonLoading className={styles.formItem__button} isLoading={isLoading}>
+					Зарегистрироваться
+				</ButtonLoading>
+			</div>
+		</form>
+	)
+}
+
+export default SignUp

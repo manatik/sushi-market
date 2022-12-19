@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.9.10",
     "@radix-ui/react-accordion": "^1.0.1",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-icons": "^1.1.1",
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-switch": "^1.0.1",
+    "@radix-ui/react-tabs": "^1.0.1",
     "@tanstack/react-query": "^4.20.4",
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
@@ -22,14 +24,18 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.40.0",
+    "react-input-mask": "^2.0.4",
+    "react-toastify": "^9.1.1",
     "recoil": "^0.7.6",
-    "sass": "^1.56.2"
+    "sass": "^1.56.2",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
+    "@types/react-input-mask": "^3.0.2",
     "autoprefixer": "^10.4.13",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
