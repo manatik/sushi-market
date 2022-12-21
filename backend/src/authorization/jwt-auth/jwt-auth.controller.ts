@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { JwtAuthService } from '@jwt-auth/jwt-auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Public } from './decorators';
@@ -22,7 +22,7 @@ export class JwtAuthController {
     const { refreshToken, accessToken } = await this.authService.login(dto);
     res.cookie(TOKENS.REFRESH, refreshToken, COOKIE_CONFIG);
     res.cookie(TOKENS.ACCESS, accessToken, COOKIE_CONFIG);
-    res.json(this.errorService.success('Успешный вход', { accessToken }));
+    res.json(this.errorService.success('Успешный вход'));
   }
 
   @Post(ENDPOINTS.AUTH.REGISTER)
@@ -30,18 +30,20 @@ export class JwtAuthController {
     const { refreshToken, accessToken } = await this.authService.register(dto);
     res.cookie(TOKENS.REFRESH, refreshToken, COOKIE_CONFIG);
     res.cookie(TOKENS.ACCESS, accessToken, COOKIE_CONFIG);
-    res.json(this.errorService.success('Успешная регистрация', { accessToken }));
+    res.json(this.errorService.success('Успешная регистрация'));
   }
 
-  @Post(ENDPOINTS.AUTH.REFRESH)
-  async refresh(@Body() cookies, @Res() res: Response) {
-    const tokens = await this.authService.refresh(cookies);
+  @Get(ENDPOINTS.AUTH.REFRESH)
+  async refresh(@Req() req, @Res() res: Response) {
+    const { refreshToken, accessToken } = await this.authService.refresh(req.cookies);
 
-    if (tokens.refreshToken) {
-      res.cookie(TOKENS.REFRESH, tokens.refreshToken, COOKIE_CONFIG);
-      res.cookie(TOKENS.ACCESS, tokens.accessToken, COOKIE_CONFIG);
+    if (refreshToken) {
+      res.cookie(TOKENS.REFRESH, refreshToken, COOKIE_CONFIG);
+      res.cookie(TOKENS.ACCESS, accessToken, COOKIE_CONFIG);
+    } else {
+      res.cookie(TOKENS.ACCESS, accessToken, COOKIE_CONFIG);
     }
 
-    res.json(this.errorService.success('Токены успешно обновлены', { ...tokens }));
+    res.json(this.errorService.success('Токены успешно обновлены'));
   }
 }

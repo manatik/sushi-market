@@ -20,7 +20,7 @@ export class CategoryService {
 
       return this.errorService.success('Категории успешно получены', { categories });
     } catch (e) {
-      return this.errorService.internal('Ошибка получения категорий', e.message);
+      throw this.errorService.internal('Ошибка получения категорий', e.message);
     }
   }
 
@@ -30,7 +30,7 @@ export class CategoryService {
 
       return this.errorService.success('Категория успешно получена', { category });
     } catch (e) {
-      return this.errorService.internal('Ошибка получения категории', e.message);
+      throw this.errorService.internal('Ошибка получения категории', e.message);
     }
   }
 
@@ -41,7 +41,7 @@ export class CategoryService {
 
       return this.errorService.success('Категория успешно создана', { category });
     } catch (e) {
-      return this.errorService.internal('Ошибка создания категории', e.message);
+      throw this.errorService.internal('Ошибка создания категории', e.message);
     }
   }
 
@@ -51,7 +51,7 @@ export class CategoryService {
 
       return this.errorService.success('Категория успешно обновлена', { category });
     } catch (e) {
-      return this.errorService.internal('Ошибка обновления категории', e.message);
+      throw this.errorService.internal('Ошибка обновления категории', e.message);
     }
   }
 
@@ -61,7 +61,7 @@ export class CategoryService {
 
       return this.errorService.success('Категория успешно удалена', { category });
     } catch (e) {
-      return this.errorService.internal('Ошибка удаления категории', e.message);
+      throw this.errorService.internal('Ошибка удаления категории', e.message);
     }
   }
 }

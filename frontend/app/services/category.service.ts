@@ -1,4 +1,4 @@
-import { ICategoryForm } from '@components/pages/admin/create/category/category.types'
+import type { ICreateCategory } from '@common-types/category.types'
 import { axiosErrorHandle } from '@utils/axios-error-handle'
 import { axiosInstance } from '../api/axios'
 
@@ -14,9 +14,9 @@ export const CategoryService = {
 
 	async byId() {},
 
-	async create(dto: ICategoryForm) {
+	async create(dto: ICreateCategory) {
 		try {
-			const res = await axiosInstance.post<ICategoryForm>('category', dto)
+			const res = await axiosInstance.post<ICreateCategory>('category', dto)
 			console.log(res)
 		} catch (e) {
 			axiosErrorHandle(e)

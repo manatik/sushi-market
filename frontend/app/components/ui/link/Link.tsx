@@ -1,6 +1,8 @@
+import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import NextLink, { LinkProps } from 'next/link'
-import React, { PropsWithChildren, useState, useEffect } from 'react'
+import { PropsWithChildren, useState, useEffect } from 'react'
+import styles from './link.style.module.scss'
 
 type ActiveLinkProps = LinkProps & {
 	className?: string
@@ -37,7 +39,7 @@ const Link = ({
 
 	return (
 		<NextLink {...props}>
-			<a className={computedClassName}>{children}</a>
+			<a className={classNames(styles.a, computedClassName)}>{children}</a>
 		</NextLink>
 	)
 }

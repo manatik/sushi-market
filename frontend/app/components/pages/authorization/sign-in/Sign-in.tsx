@@ -1,4 +1,6 @@
-import { ISignInForm, SignInSchema } from '@components/pages/authorization/authorization.types'
+import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { ISignIn } from '@common-types/user.types'
+import { SignInSchema } from '@components/pages/authorization/authorization.schema'
 import ButtonLoading from '@components/ui/button-loading/Button-loading'
 import Checkbox from '@components/ui/checkbox/Checkbox'
 import Input from '@components/ui/input/Input'
@@ -6,26 +8,41 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
 import { AuthService } from '@services/auth.service'
 import { useMutation } from '@tanstack/react-query'
-import { useState } from 'react'
+import { AxiosError } from 'axios'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import styles from '../authorization.style.module.scss'
+import type { ISignProps } from '../authorization.types'
 
-const SignIn = () => {
+const SignIn: FC<ISignProps> = ({ onSuccessSign }) => {
 	const [isShowPassword, setIsShowPassword] = useState(false)
-	const { mutate: signIn, isLoading } = useMutation(['sign-in'], AuthService.signIn)
+
+	const { mutate: signIn, isLoading } = useMutation<
+		IDefaultResponse,
+		AxiosError<IDefaultResponse>,
+		ISignIn
+	>(['sign-in'], AuthService.signIn, {
+		onSuccess() {
+			onSuccessSign()
+		},
+		onError(error) {
+			toast.error(error.response?.data.message)
+		}
+	})
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<ISignInForm>({
+	} = useForm<ISignIn>({
 		defaultValues: {
 			phone: '+7'
 		},
 		resolver: zodResolver(SignInSchema)
 	})
 
-	const onSubmit = (formData: ISignInForm) => {
+	const onSubmit = (formData: ISignIn) => {
 		signIn(formData)
 	}
 

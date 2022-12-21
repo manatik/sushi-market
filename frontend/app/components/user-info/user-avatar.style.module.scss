@@ -1,0 +1,50 @@
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .8rem;
+  background-color: #fff;
+  border-radius: var(--medium-border-radius);
+  box-shadow: 0 2px 10px var(--shadow-color);
+
+  &__label {
+    font-size: var(--secondary-font-size);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--small-border-radius);
+  }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.content {
+  background: #fff;
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 14rem;
+  width: 100%;
+
+  &__item {
+    padding: .5rem;
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--gray-color);
+      border-radius: var(--small-border-radius);
+    }
+  }
+}

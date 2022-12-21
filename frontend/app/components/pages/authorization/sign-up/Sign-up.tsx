@@ -1,48 +1,44 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse'
-import {
-	ISignResponse,
-	ISignUpForm,
-	SignUpSchema
-} from '@components/pages/authorization/authorization.types'
+import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { ISignUp } from '@common-types/user.types'
+import { SignUpSchema } from '@components/pages/authorization/authorization.schema'
 import ButtonLoading from '@components/ui/button-loading/Button-loading'
 import Checkbox from '@components/ui/checkbox/Checkbox'
 import Input from '@components/ui/input/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
 import { AuthService } from '@services/auth.service'
-import { LocalStorageService } from '@services/local-storage.service'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import styles from '../authorization.style.module.scss'
+import type { ISignProps } from '../authorization.types'
 
-const SignUp = () => {
+const SignUp: FC<ISignProps> = ({ onSuccessSign }) => {
 	const [isShowPassword, setIsShowPassword] = useState(false)
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
-	} = useForm<ISignUpForm>({
+	} = useForm<ISignUp>({
 		resolver: zodResolver(SignUpSchema)
 	})
 
 	const { mutate: signUp, isLoading } = useMutation<
-		ISignResponse,
+		IDefaultResponse,
 		AxiosError<IDefaultResponse>,
-		ISignUpForm
+		ISignUp
 	>(['sign-up'], AuthService.signUp, {
 		onSuccess(data) {
-			LocalStorageService.setAccessToken(data.accessToken)
-			toast.success(data.message)
+			onSuccessSign()
 		},
 		onError(error) {
 			toast.error(error.response?.data.message)
 		}
 	})
 
-	const onSubmit = (formData: ISignUpForm) => {
+	const onSubmit = (formData: ISignUp) => {
 		signUp(formData)
 	}
 

@@ -1,5 +1,11 @@
+import Link from 'next/link'
+
 const Home = () => {
-	return <div>Home11dsds</div>
+	return (
+		<div>
+			<Link href={'/admin/dashboard'}>Админка</Link>
+		</div>
+	)
 }
 
 export default Home

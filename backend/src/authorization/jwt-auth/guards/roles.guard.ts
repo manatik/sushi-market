@@ -1,14 +1,19 @@
 import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
-import { Role } from '@jwt-auth/enum';
+import { Role, TOKENS } from '@jwt-auth/enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private reflector: Reflector, private jwtService: JwtService) {}
+  constructor(
+    private reflector: Reflector,
+    private jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     try {
@@ -28,11 +33,10 @@ export class RolesGuard implements CanActivate {
       }
 
       const request = context.switchToHttp().getRequest();
-      const authHeader = request.headers?.authorization;
-      const token = authHeader?.split(' ')[1];
+      const token = request.cookies[TOKENS.ACCESS];
 
       const tokenInfo = this.jwtService.verify(token, {
-        secret: process.env.JWT_SECRET,
+        secret: this.configService.get('JWT_SECRET'),
       });
 
       return tokenInfo.roles.some((role) => requireRoles.includes(role?.name));

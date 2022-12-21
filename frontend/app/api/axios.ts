@@ -1,14 +1,15 @@
-import axios from 'axios'
-import * as process from 'process'
+import { AuthService } from '@services/auth.service'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 export const API_URL = `${process.env.API_URL}`
 
 export const axiosInstance = axios.create({
-	baseURL: API_URL
+	baseURL: API_URL,
+	withCredentials: true
 })
 
 axiosInstance.interceptors.request.use(
-	config => {
+	(config: AxiosRequestConfig) => {
 		return config
 	},
 	error => {
@@ -20,7 +21,25 @@ axiosInstance.interceptors.response.use(
 	response => {
 		return response
 	},
-	error => {
+	async error => {
+		const originalRequest = error.config
+
+		if (error.response.status === 401) {
+			try {
+				await AuthService.refresh()
+				return axiosInstance(originalRequest)
+			} catch (e) {
+				if (e instanceof AxiosError) {
+					if (e.response?.status === 403) {
+						error.response.data.isForbidden = true
+						return Promise.reject(error)
+					}
+				}
+
+				return Promise.reject(error)
+			}
+		}
+
 		return Promise.reject(error)
 	}
 )

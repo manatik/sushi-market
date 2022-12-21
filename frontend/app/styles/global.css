@@ -12,6 +12,7 @@ h3 {
 }
 
 :root {
+    --shadow-color: #e3e3e3;
     --gray-color: #f2f2f2;
     --primary-text-color: #3E3836;
     --primary-font-size: 16px;

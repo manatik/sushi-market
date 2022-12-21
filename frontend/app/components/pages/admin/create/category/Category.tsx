@@ -1,3 +1,4 @@
+import type { ICreateCategory } from '@common-types/category.types'
 import Input from '@components/ui/input/Input'
 import Switch from '@components/ui/switch/Switch'
 import * as Label from '@radix-ui/react-label'
@@ -7,7 +8,7 @@ import { AxiosError } from 'axios'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CategorySchema, ICategoryForm } from './category.types'
+import { CategorySchema } from './category.schema'
 import styles from './category.style.module.scss'
 
 const Category = () => {
@@ -16,13 +17,13 @@ const Category = () => {
 		register,
 		control,
 		formState: { errors }
-	} = useForm<ICategoryForm>({
+	} = useForm<ICreateCategory>({
 		defaultValues: { orderBy: 1 },
 		reValidateMode: 'onChange',
 		resolver: zodResolver(CategorySchema)
 	})
 
-	const { mutate } = useMutation<void, AxiosError, ICategoryForm>(
+	const { mutate } = useMutation<void, AxiosError, ICreateCategory>(
 		['category'],
 		CategoryService.create
 	)

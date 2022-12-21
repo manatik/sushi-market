@@ -1,35 +1,26 @@
-import {
-	ISignInForm,
-	ISignResponse,
-	ISignUpForm
-} from '@components/pages/authorization/authorization.types'
-import { axiosErrorHandle } from '@utils/axios-error-handle'
-import { AxiosResponse } from 'axios'
+import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { ISignIn, ISignUp } from '@common-types/user.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {
 	singIn: 'auth/login',
-	signUp: 'auth/register'
+	signUp: 'auth/register',
+	refresh: 'auth/refresh'
 }
 
 export const AuthService = {
-	async signIn(dto: ISignInForm) {
-		try {
-			const { data } = await axiosInstance.post<ISignInForm, AxiosResponse<ISignResponse>>(
-				URLS.singIn,
-				dto
-			)
-			return data
-		} catch (e) {
-			axiosErrorHandle(e)
-		}
+	async signIn(dto: ISignIn) {
+		const { data } = await axiosInstance.post<IDefaultResponse>(URLS.singIn, dto)
+		return data
 	},
 
-	async signUp(dto: ISignUpForm) {
-		const { data } = await axiosInstance.post<ISignUpForm, AxiosResponse<ISignResponse>>(
-			URLS.signUp,
-			dto
-		)
+	async signUp(dto: ISignUp) {
+		const { data } = await axiosInstance.post<IDefaultResponse>(URLS.signUp, dto)
+		return data
+	},
+
+	async refresh() {
+		const { data } = await axiosInstance.get<IDefaultResponse>(URLS.refresh)
 		return data
 	}
 }

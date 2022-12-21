@@ -62,15 +62,22 @@ export class JwtAuthService {
 
   async refresh(cookies) {
     try {
+      if (!cookies[TOKENS.REFRESH]) {
+        throw this.errorService.forbidden('Невалидный токен', '');
+      }
+
       const refreshToken = cookies[TOKENS.REFRESH];
 
-      const refreshTokenInfo = this.jwtService.verify(refreshToken);
+      const refreshTokenInfo = this.jwtService.verify(refreshToken, { secret: this.configService.get('JWT_SECRET') });
 
       const expireIn = dayjs.unix(refreshTokenInfo.exp).toISOString();
 
-      const { user } = await this.userService.getBy({
-        phone: refreshTokenInfo.phone,
-      });
+      const { user } = await this.userService.getBy(
+        {
+          phone: refreshTokenInfo.phone,
+        },
+        { withRoles: true },
+      );
 
       if (!user || user.dateDeleted) {
         throw this.errorService.badRequest('Пользователь удалён или заблокирован');
