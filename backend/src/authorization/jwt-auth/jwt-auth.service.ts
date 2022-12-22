@@ -1,3 +1,4 @@
+import { User } from '@common-types/User.type';
 import { HttpException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
@@ -68,13 +69,13 @@ export class JwtAuthService {
 
       const refreshToken = cookies[TOKENS.REFRESH];
 
-      const refreshTokenInfo = this.jwtService.verify(refreshToken, { secret: this.configService.get('JWT_SECRET') });
+      const { info: refreshTokenInfo } = this.verifyToken(refreshToken);
 
       const expireIn = dayjs.unix(refreshTokenInfo.exp).toISOString();
 
       const { user } = await this.userService.getBy(
         {
-          phone: refreshTokenInfo.phone,
+          id: refreshTokenInfo.id,
         },
         { withRoles: true },
       );
@@ -101,6 +102,39 @@ export class JwtAuthService {
       }
 
       throw this.errorService.internal('Ошибка обновления токена', JSON.stringify(e));
+    }
+  }
+
+  async isAuth(cookies: Record<string, string>) {
+    try {
+      if (!cookies[TOKENS.ACCESS]) {
+        throw this.errorService.unauthorized();
+      }
+
+      const { isValid, info } = this.verifyToken(cookies[TOKENS.ACCESS]);
+
+      if (isValid) {
+        return { isAuth: isValid, roles: info.roles };
+      }
+
+      return { isAuth: isValid, roles: [] };
+    } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
+
+      throw this.errorService.internal('Ошибка валидации авторизации', e.message);
+    }
+  }
+
+  private verifyToken(token: string) {
+    try {
+      const info = this.jwtService.verify<User<{ exp: number; iat: number }>>(token, {
+        secret: this.configService.get('JWT_SECRET'),
+      });
+      return { isValid: true, info };
+    } catch (e) {
+      return { isValid: false };
     }
   }
 

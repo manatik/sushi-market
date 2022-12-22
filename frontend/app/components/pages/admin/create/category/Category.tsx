@@ -3,7 +3,7 @@ import Input from '@components/ui/input/Input'
 import Switch from '@components/ui/switch/Switch'
 import * as Label from '@radix-ui/react-label'
 import { CategoryService } from '@services/category.service'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -12,6 +12,7 @@ import { CategorySchema } from './category.schema'
 import styles from './category.style.module.scss'
 
 const Category = () => {
+	const queryClient = useQueryClient()
 	const {
 		handleSubmit,
 		register,
@@ -23,9 +24,14 @@ const Category = () => {
 		resolver: zodResolver(CategorySchema)
 	})
 
-	const { mutate } = useMutation<void, AxiosError, ICreateCategory>(
-		['category'],
-		CategoryService.create
+	const { mutate } = useMutation<ICreateCategory, AxiosError, ICreateCategory>(
+		['create-category'],
+		CategoryService.create,
+		{
+			onSuccess() {
+				queryClient.invalidateQueries({ queryKey: ['categories'] })
+			}
+		}
 	)
 
 	const onSubmit = (formData: any) => {

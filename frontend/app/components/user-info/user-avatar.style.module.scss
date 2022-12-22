@@ -14,7 +14,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--small-border-radius);
+    background-color: #e5dad8;
   }
 }
 
@@ -31,11 +31,11 @@
 
 .content {
   background: #fff;
-  padding: .5rem;
+  padding: .2rem;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  min-width: 14rem;
+  min-width: 13rem;
   width: 100%;
 
   &__item {
@@ -43,7 +43,7 @@
 
     &:hover {
       cursor: pointer;
-      background-color: var(--gray-color);
+      background-color: #e5dad8;
       border-radius: var(--small-border-radius);
     }
   }

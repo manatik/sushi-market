@@ -1,0 +1,52 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+}
+
+.dialogContent {
+  position: fixed;
+  z-index: 5;
+  background-color: #fff;
+  border-radius: var(--medium-border-radius);
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.iconButton {
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  top: 10px;
+  right: 10px;
+
+  &:hover {
+    background-color: var(--gray-color);
+  }
+}
+
+.confirmButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: .5rem 2rem;
+  border-radius: var(--small-border-radius);
+  color: #fff;
+  background-color: #FD7476;
+
+  &:hover {
+    background-color: #ff3539;
+  }
+}

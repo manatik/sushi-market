@@ -1,29 +1,34 @@
 import type { ICreateCategory } from '@common-types/category.types'
-import { axiosErrorHandle } from '@utils/axios-error-handle'
+import { IUpdateCategory } from '@common-types/category.types'
 import { axiosInstance } from '../api/axios'
+
+const URLS = {
+	all: 'category',
+	create: 'category',
+	update: 'category',
+	remove: 'category'
+}
 
 export const CategoryService = {
 	async all() {
-		try {
-			const categories = await axiosInstance.get('category')
-			console.log(categories)
-		} catch (e) {
-			axiosErrorHandle(e)
-		}
+		const { data } = await axiosInstance.get(URLS.all)
+		return data
 	},
 
 	async byId() {},
 
 	async create(dto: ICreateCategory) {
-		try {
-			const res = await axiosInstance.post<ICreateCategory>('category', dto)
-			console.log(res)
-		} catch (e) {
-			axiosErrorHandle(e)
-		}
+		const { data } = await axiosInstance.post<ICreateCategory>(URLS.create, dto)
+		return data
 	},
 
-	async update() {},
+	async update(dto: IUpdateCategory) {
+		const { data } = await axiosInstance.patch<IUpdateCategory>(URLS.update, dto)
+		return data
+	},
 
-	async remove() {}
+	async remove(id: string) {
+		const { data } = await axiosInstance.delete(`${URLS.remove}/${id}`)
+		return data
+	}
 }

@@ -19,6 +19,11 @@ export interface UserInfo {
 	dateUpdated: string | null
 }
 
+export interface IUserAuth {
+	isAuth: boolean
+	roles: IRole[]
+}
+
 export interface IRole {
 	id: string
 	name: string

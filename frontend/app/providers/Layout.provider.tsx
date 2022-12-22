@@ -1,5 +1,6 @@
 import { TypeComponentAuthFields } from '@common-types/private-route.types'
 import Layout from '@components/pages/admin/layout/Layout'
+import AuthProvider from '@providers/Auth.provider'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
@@ -16,7 +17,9 @@ const LayoutProvider: FC<ComponentWithLayoutProps> = ({ nextProps }) => {
 	if (isAdmin) {
 		return (
 			<Layout>
-				<Component {...pageProps} />
+				<AuthProvider Component={Component}>
+					<Component {...pageProps} />
+				</AuthProvider>
 			</Layout>
 		)
 	}

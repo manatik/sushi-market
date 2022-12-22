@@ -1,11 +1,15 @@
 .layout {
   height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: 1fr 8fr;
   gap: 10px;
   background-color: #FBF7F4;
 
   .left {
+    width: 220px;
+    overflow: auto;
+    height: 100vh;
+    box-sizing: border-box;
   }
 
   .right {

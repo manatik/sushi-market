@@ -1,26 +1,41 @@
+import { TypeComponentAuthFields } from '@common-types/private-route.types'
+import { IUserAuth } from '@common-types/user.types'
+import { AuthService } from '@services/auth.service'
+import { useQuery } from '@tanstack/react-query'
+import { HOME_PATH, LOGIN_PATH } from '@utils/pages-paths'
+import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import React, { FC, PropsWithChildren } from 'react'
-import { TypeComponentAuthFields } from '@common-types/private-route.types'
 
 const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
 	children,
-	Component: { isOnlyUser }
+	Component: { isOnlyRoles }
 }) => {
-	const { isLoading, user } = { isLoading: false, user: {} }
-	const { replace, pathname } = useRouter()
+	const router = useRouter()
+	const {
+		isLoading: authIsLoading,
+		data: authData,
+		error
+	} = useQuery<IUserAuth, AxiosError<any>>(['auth'], AuthService.isAuth, {
+		cacheTime: 0,
+		staleTime: 0,
+		refetchInterval: 30000
+	})
 
-	const Children = () => <>{children}</>
-
-	if (isLoading) {
-		return null
+	if (authIsLoading) {
+		return <div>loading...</div>
 	}
 
-	if (user) {
-		return <Children />
+	if (error?.response?.status === 401) {
+		router.pathname !== HOME_PATH && router.push(LOGIN_PATH)
 	}
 
-	if (isOnlyUser) {
-		pathname !== '/' && replace('/')
+	if (isOnlyRoles?.length && !authData?.roles.some(role => isOnlyRoles.includes(role.name))) {
+		router.pathname !== HOME_PATH && router.replace(HOME_PATH)
+	}
+
+	if (authData?.isAuth) {
+		return <>{children}</>
 	}
 
 	return null

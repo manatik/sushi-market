@@ -20,6 +20,13 @@ export class ErrorService {
     return new HttpException({ message, error, success: false }, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
+  unauthorized() {
+    return new HttpException(
+      { message: 'Не авторизован', error: true, success: false, isAuth: false },
+      HttpStatus.UNAUTHORIZED,
+    );
+  }
+
   forbidden(message: string, error: string) {
     return new HttpException({ message, error, success: false }, HttpStatus.FORBIDDEN);
   }

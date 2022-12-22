@@ -9,12 +9,14 @@ interface Props {
 	path: string
 	Icon?: ComponentType<IconProps>
 	label: string
+	className?: string
+	activeClassName?: string
 }
 
-const SidebarItem: FC<Props> = ({ path, label, Icon }) => {
+const SidebarItem: FC<Props> = ({ path, label, Icon, className, activeClassName }) => {
 	const { asPath, isReady } = useRouter()
-
 	const [isActiveItem, setIsActiveItem] = useState<boolean>(false)
+	const activeItemClass = activeClassName || styles.sidebarItem_active
 
 	useEffect(() => {
 		if (isReady) {
@@ -26,8 +28,9 @@ const SidebarItem: FC<Props> = ({ path, label, Icon }) => {
 	}, [asPath, isReady, path])
 
 	return (
-		<div className={classNames(styles.sidebarItem, { [styles.sidebarItem_active]: isActiveItem })}>
+		<div className={classNames(styles.sidebarItem, { [activeItemClass]: isActiveItem }, className)}>
 			{Icon && <Icon className={styles.sidebarItem__icon} />}
+
 			<Link className={styles.sidebarItem__link} href={path}>
 				{label}
 			</Link>

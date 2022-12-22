@@ -6,6 +6,8 @@ import styles from './sidebar.style.module.scss'
 
 interface Props {
 	title: string
+	className?: string
+	onClick?: () => void
 }
 
 enum CollapseState {
@@ -13,10 +15,14 @@ enum CollapseState {
 	Open = 'open'
 }
 
-const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({ title, children }) => {
+const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({
+	title,
+	children,
+	className,
+	onClick
+}) => {
 	const router = useRouter()
 	const [collapse, setCollapse] = useState<CollapseState>(CollapseState.Closed)
-	const isCollapsed = collapse === CollapseState.Closed
 
 	const handleClick = () => {
 		if (collapse === CollapseState.Closed) {
@@ -24,6 +30,8 @@ const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({ title, children 
 		} else {
 			setCollapse(CollapseState.Closed)
 		}
+
+		onClick?.()
 	}
 
 	useEffect(() => {
@@ -37,7 +45,7 @@ const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({ title, children 
 	}, [children, router.asPath])
 
 	return (
-		<div className={styles.sidebarItemCollapsible}>
+		<div className={classNames(styles.sidebarItemCollapsible, className)}>
 			<div
 				className={classNames(styles.sidebarItem, styles.sidebarItemCollapsible__title)}
 				data-state={collapse}

@@ -21,6 +21,8 @@ export const ENDPOINTS = {
     LOGIN: 'login',
     REGISTER: 'register',
     REFRESH: 'refresh',
+    IS_AUTH: 'is-auth',
+    LOGOUT: 'logout',
   },
   USER: {
     CREATE: '',

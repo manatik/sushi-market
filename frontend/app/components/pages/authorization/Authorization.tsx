@@ -21,7 +21,7 @@ const Authorization = () => {
 	}
 
 	const onSuccessSign = () => {
-		router.replace('/')
+		router.back()
 	}
 
 	return (
