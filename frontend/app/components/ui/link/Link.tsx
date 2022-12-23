@@ -38,8 +38,8 @@ const Link = ({
 	}, [asPath, isReady, props.as, props.href, activeClassName, className, computedClassName])
 
 	return (
-		<NextLink {...props}>
-			<a className={classNames(styles.a, computedClassName)}>{children}</a>
+		<NextLink className={classNames(styles.a, computedClassName)} {...props}>
+			{children}
 		</NextLink>
 	)
 }

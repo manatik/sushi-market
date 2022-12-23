@@ -34,6 +34,7 @@
 
   &:hover {
     background-color: var(--gray-color);
+    cursor: pointer;
   }
 }
 
@@ -44,9 +45,9 @@
   padding: .5rem 2rem;
   border-radius: var(--small-border-radius);
   color: #fff;
-  background-color: #FD7476;
+  background-color: var(--red-color);
 
   &:hover {
-    background-color: #ff3539;
+    cursor: pointer;
   }
 }

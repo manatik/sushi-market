@@ -37,7 +37,7 @@ const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({
 	useEffect(() => {
 		if (Array.isArray(children)) {
 			for (const child of children) {
-				if (router.asPath === location.pathname) {
+				if (router.pathname === location.pathname) {
 					setCollapse(CollapseState.Open)
 				}
 			}

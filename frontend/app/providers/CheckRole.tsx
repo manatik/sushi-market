@@ -17,8 +17,6 @@ const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
 		data: authData,
 		error
 	} = useQuery<IUserAuth, AxiosError<any>>(['auth'], AuthService.isAuth, {
-		cacheTime: 0,
-		staleTime: 0,
 		refetchInterval: 30000
 	})
 

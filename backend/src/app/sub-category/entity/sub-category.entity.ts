@@ -3,7 +3,7 @@ import { ProductEntity } from '@product/entity/product.entity';
 import { Base } from '@typeorm/Base';
 import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
-@Entity('sub-category')
+@Entity('sub_category')
 export class SubCategoryEntity extends Base {
   @Column()
   name: string;

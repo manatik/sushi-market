@@ -1,8 +1,8 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import React from 'react'
+import CreateIngredient from '@components/pages/admin/create/ingredient/Ingredient'
 
 const CreateIngredientPage: NextPageAuth = () => {
-	return <div>create ingredient</div>
+	return <CreateIngredient />
 }
 
 CreateIngredientPage.isOnlyRoles = ['admin']

@@ -1,45 +1,36 @@
 import type { ICreateCategory } from '@common-types/category.types'
 import Input from '@components/ui/input/Input'
+import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCreateCategory } from '@query-hooks/useCategories'
 import * as Label from '@radix-ui/react-label'
-import { CategoryService } from '@services/category.service'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { CategorySchema } from './category.schema'
 import styles from './category.style.module.scss'
 
-const Category = () => {
-	const queryClient = useQueryClient()
+const CreateCategory = () => {
+	const { mutate } = useCreateCategory()
+
 	const {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors }
+		formState: { errors, isDirty }
 	} = useForm<ICreateCategory>({
 		defaultValues: { orderBy: 1 },
-		reValidateMode: 'onChange',
 		resolver: zodResolver(CategorySchema)
 	})
 
-	const { mutate } = useMutation<ICreateCategory, AxiosError, ICreateCategory>(
-		['create-category'],
-		CategoryService.create,
-		{
-			onSuccess() {
-				queryClient.invalidateQueries({ queryKey: ['categories'] })
-			}
-		}
-	)
-
-	const onSubmit = (formData: any) => {
-		mutate(formData)
-	}
+	const onSubmit = (formData: ICreateCategory) => mutate(formData)
 
 	return (
-		<div>
+		<div className={styles.category}>
+			<h3 className={styles.category__title}>Создание категории</h3>
+
+			<Separator />
+
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<Input
 					{...register('name')}
@@ -88,7 +79,10 @@ const Category = () => {
 				</div>
 
 				<div className={styles.formField}>
-					<button className={styles.formField__button} disabled={!!Object.keys(errors).length}>
+					<button
+						className={styles.formField__button}
+						disabled={!isDirty || !!Object.keys(errors).length}
+					>
 						Создать
 					</button>
 				</div>
@@ -97,4 +91,4 @@ const Category = () => {
 	)
 }
 
-export default Category
+export default CreateCategory

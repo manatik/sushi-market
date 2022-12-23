@@ -1,5 +1,5 @@
 .categories {
-  max-width: 75%;
+  width: 96%;
   max-height: 75vh;
   color: var(--primary-text-color);
   overflow: auto;
@@ -7,7 +7,7 @@
 
 .categoryRow {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1fr .7fr .7fr .8fr .8fr;
+  grid-template-columns: 1.5fr 1.2fr 1fr .7fr .7fr 1fr 1fr;
   background-color: #fff;
   margin-bottom: 10px;
   font-size: var(--secondary-font-size);

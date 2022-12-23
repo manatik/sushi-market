@@ -1,24 +1,23 @@
 .customField {
   position: relative;
-  font-size: 14px;
-  border-top: 20px solid transparent;
-  margin-bottom: 5px;
+  font-size: var(--small-font-size);
   display: inline-block;
 }
 
 .customField input {
-  width: calc(98% - 12px);
+  width: calc(100% - 17px);
   border: none;
   -webkit-appearance: none;
   -ms-appearance: none;
   -moz-appearance: none;
   appearance: none;
   padding-left: 12px;
+  padding-right: 5px;
   background: #f2f2f2;
-  height: 40px;
+  height: 2.5rem;
   border-radius: var(--small-border-radius);
   outline: none;
-  font-size: 14px;
+  font-size: var(--small-font-size);
 }
 
 .customField .placeholder {
@@ -46,13 +45,14 @@
 }
 
 .customField .errorMessage {
-  width: calc(98% - 12px);
+  width: calc(100% - 17px);
   display: flex;
   align-items: center;
   padding-left: 12px;
+  padding-right: 5px;
   margin-top: 5px;
   font-size: 12px;
-  background: #ee5b62;
+  background: var(--red-color);
   border-radius: var(--small-border-radius);
   color: #fff;
   height: 24px;

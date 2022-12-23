@@ -31,6 +31,9 @@
       "@services/*": [
         "app/services/*"
       ],
+      "@query-hooks/*": [
+        "app/query-hooks/*"
+      ],
       "@common-types/*": [
         "app/types/*"
       ],

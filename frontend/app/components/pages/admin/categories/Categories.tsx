@@ -1,25 +1,15 @@
-import { ICategory, ICategoryResponse } from '@common-types/category.types'
 import CategoryItem from '@components/pages/admin/categories/Category-item'
-import { CategoryService } from '@services/category.service'
-import { useQuery } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import classNames from 'classnames'
+import { useCategories } from '@query-hooks/useCategories'
 import styles from './categories.style.module.scss'
 
 const Categories = () => {
-	const { isLoading, data: categories } = useQuery<ICategoryResponse, AxiosError<any>, ICategory[]>(
-		['categories'],
-		CategoryService.all,
-		{
-			select: data => data.categories,
-			refetchInterval: 15000
-		}
-	)
+	const { isLoading, data: categories } = useCategories()
 
 	if (isLoading) {
 		return <div>loading...</div>
 	}
-	console.log(categories)
+
 	return (
 		<div className={styles.categories}>
 			<div className={classNames(styles.categoryRow, styles.categoryRow_header)}>

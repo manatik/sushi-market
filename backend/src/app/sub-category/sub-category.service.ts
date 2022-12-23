@@ -1,5 +1,5 @@
 import { ErrorService } from '@error/error.service';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSubCategoryDto } from '@sub-category/dto/create-sub-category.dto';
 import { UpdateSubCategoryDto } from '@sub-category/dto/update-sub-category.dto';
@@ -16,7 +16,7 @@ export class SubCategoryService {
 
   async all() {
     try {
-      const subCategories = await this.subCategoryRepository.find();
+      const subCategories = await this.subCategoryRepository.find({ relations: { category: true } });
 
       return this.errorService.success('Подкатегории успешно получены', { subCategories });
     } catch (e) {
@@ -36,11 +36,21 @@ export class SubCategoryService {
 
   async create(dto: CreateSubCategoryDto) {
     try {
+      const found = await this.subCategoryRepository.findOne({ where: { article: dto.article } });
+
+      if (found) {
+        throw this.errorService.badRequest(`Подкатегория с артикулом - ${dto.article} уже существует`);
+      }
+
       const entity = this.subCategoryRepository.create(dto);
       const subCategory = await this.subCategoryRepository.save(entity);
 
       return this.errorService.success('Подкатегория создана', { subCategory });
     } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
+
       return this.errorService.internal('Ошибка сохранения подкатегории', e.message);
     }
   }

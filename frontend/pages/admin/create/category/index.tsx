@@ -1,9 +1,9 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import Category from '@components/pages/admin/create/category/Category'
+import CreateCategory from '@components/pages/admin/create/category/Category'
 import React from 'react'
 
 const CreateCategoryPage: NextPageAuth = () => {
-	return <Category />
+	return <CreateCategory />
 }
 
 CreateCategoryPage.isOnlyRoles = ['admin']

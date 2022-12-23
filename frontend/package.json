@@ -17,6 +17,7 @@
     "@radix-ui/react-hover-card": "^1.0.2",
     "@radix-ui/react-icons": "^1.1.1",
     "@radix-ui/react-label": "^2.0.0",
+    "@radix-ui/react-select": "^1.1.2",
     "@radix-ui/react-separator": "^1.0.1",
     "@radix-ui/react-switch": "^1.0.1",
     "@radix-ui/react-tabs": "^1.0.1",
@@ -25,7 +26,7 @@
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
-    "next": "^12.3.4",
+    "next": "^13.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.40.0",
@@ -33,6 +34,7 @@
     "react-toastify": "^9.1.1",
     "recoil": "^0.7.6",
     "sass": "^1.56.2",
+    "sharp": "^0.31.3",
     "zod": "^3.20.2"
   },
   "devDependencies": {

@@ -13,10 +13,10 @@ const Input = forwardRef<HTMLInputElement, Props>(
 		return (
 			<label className={styles.customField}>
 				<input
-					ref={ref}
-					placeholder='&nbsp;'
-					className={classNames(styles.input, className)}
 					{...props}
+					className={classNames(styles.input, className)}
+					placeholder='&nbsp;'
+					ref={ref}
 				/>
 
 				<span className={styles.placeholder}>{label}</span>
