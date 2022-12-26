@@ -22,8 +22,8 @@ export const SubCategoryService = {
 		return data
 	},
 
-	async update(dto: IUpdateSubCategory) {
-		const { data } = await axiosInstance.patch<IDefaultResponse>(URLS.update, dto)
+	async update({ id, dto }: { id: string; dto: IUpdateSubCategory }) {
+		const { data } = await axiosInstance.patch<IDefaultResponse>(`${URLS.update}/${id}`, dto)
 		return data
 	},
 

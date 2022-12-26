@@ -5,7 +5,6 @@ import Switch from '@components/ui/switch/Switch'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCreateCategory } from '@query-hooks/useCategories'
 import * as Label from '@radix-ui/react-label'
-import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { CategorySchema } from './category.schema'
 import styles from './category.style.module.scss'
@@ -32,36 +31,22 @@ const CreateCategory = () => {
 			<Separator />
 
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-				<Input
-					{...register('name')}
-					label={'Название'}
-					error={errors.name?.message}
-					type='text'
-					id='name'
-				/>
+				<Input {...register('name')} label={'Название'} error={errors.name?.message} type='text' />
 
 				<Input
 					{...register('article')}
 					label={'Артикул'}
 					error={errors.article?.message}
 					type='text'
-					id='name'
 				/>
 
-				<Input
-					{...register('code')}
-					label={'Код'}
-					error={errors.code?.message}
-					type='text'
-					id='name'
-				/>
+				<Input {...register('code')} label={'Код'} error={errors.code?.message} type='text' />
 
 				<Input
 					{...register('orderBy', { valueAsNumber: true })}
 					label={'Позиция'}
 					error={errors.orderBy?.message}
 					type='number'
-					id='name'
 				/>
 
 				<div className={styles.formField}>
@@ -73,7 +58,7 @@ const CreateCategory = () => {
 						control={control}
 						name={'hidden'}
 						render={({ field }) => (
-							<Switch id={'hidden'} onCheckedChange={e => field.onChange(e)} />
+							<Switch id={'hidden'} onCheckedChange={field.onChange} checked={field.value} />
 						)}
 					/>
 				</div>

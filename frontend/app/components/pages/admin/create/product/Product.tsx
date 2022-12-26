@@ -57,7 +57,6 @@ const CreateProduct = () => {
 							label={'Название'}
 							error={errors.name?.message}
 							type='text'
-							id='name'
 						/>
 
 						<Input
@@ -65,7 +64,6 @@ const CreateProduct = () => {
 							label={'Артикул'}
 							error={errors.article?.message}
 							type='text'
-							id='name'
 						/>
 
 						<Input
@@ -73,22 +71,7 @@ const CreateProduct = () => {
 							label={'Цена'}
 							error={errors.price?.message}
 							type='number'
-							id='name'
 						/>
-
-						<div className={styles.formField}>
-							<Label.Root htmlFor={'hidden'} className={styles.formField__label}>
-								Скрыть:
-							</Label.Root>
-
-							<Controller
-								control={control}
-								name={'hidden'}
-								render={({ field }) => (
-									<Switch id={'hidden'} onCheckedChange={e => field.onChange(e)} />
-								)}
-							/>
-						</div>
 					</div>
 
 					<div className={styles.formWithColumns__columnFields}>
@@ -99,6 +82,7 @@ const CreateProduct = () => {
 							name={'categoryId'}
 							render={({ field }) => (
 								<Select
+									fullWidth
 									onChange={field.onChange}
 									value={field.value}
 									placeholder='Выберите категорию'
@@ -117,6 +101,7 @@ const CreateProduct = () => {
 							name={'subCategoryId'}
 							render={({ field }) => (
 								<Select
+									fullWidth
 									onChange={field.onChange}
 									value={field.value}
 									placeholder='Выб. подкатегорию'
@@ -135,7 +120,6 @@ const CreateProduct = () => {
 							label={'Описание'}
 							error={errors.description?.message}
 							type='text'
-							id='name'
 						/>
 
 						<Input
@@ -143,8 +127,21 @@ const CreateProduct = () => {
 							label={'Позиция'}
 							error={errors.orderBy?.message}
 							type='number'
-							id='name'
 						/>
+
+						<div className={styles.formField}>
+							<Label.Root htmlFor={'hidden'} className={styles.formField__label}>
+								Скрыть:
+							</Label.Root>
+
+							<Controller
+								control={control}
+								name={'hidden'}
+								render={({ field }) => (
+									<Switch id={'hidden'} onCheckedChange={field.onChange} checked={field.value} />
+								)}
+							/>
+						</div>
 					</div>
 
 					<div className={styles.formWithColumns__columnFields}>
@@ -155,7 +152,6 @@ const CreateProduct = () => {
 							label={'Калории'}
 							error={errors.calories?.message}
 							type='text'
-							id='name'
 						/>
 
 						<Input
@@ -163,23 +159,15 @@ const CreateProduct = () => {
 							label={'Белки'}
 							error={errors.proteins?.message}
 							type='text'
-							id='name'
 						/>
 
-						<Input
-							{...register('fats')}
-							label={'Жиры'}
-							error={errors.fats?.message}
-							type='text'
-							id='name'
-						/>
+						<Input {...register('fats')} label={'Жиры'} error={errors.fats?.message} type='text' />
 
 						<Input
 							{...register('carbohydrates')}
 							label={'Углеводы'}
 							error={errors.carbohydrates?.message}
 							type='text'
-							id='name'
 						/>
 
 						<Input
@@ -187,7 +175,6 @@ const CreateProduct = () => {
 							label={'Вес'}
 							error={errors.weight?.message}
 							type='text'
-							id='name'
 						/>
 					</div>
 				</section>

@@ -4,7 +4,7 @@ import { IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsString, Max, Min } f
 export class UpdatePromotionDto {
   @IsOptional()
   @IsString()
-  article: string;
+  article?: string;
 
   @IsOptional()
   @IsNumber()
@@ -14,7 +14,7 @@ export class UpdatePromotionDto {
 
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
@@ -22,14 +22,25 @@ export class UpdatePromotionDto {
 
   @IsOptional()
   @IsBoolean()
-  isDisposable: boolean;
+  hidden?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  isDisposable?: boolean;
 
   @IsOptional()
   @IsEnum(TypePromotion)
-  typePromotion: TypePromotion;
+  typePromotion?: TypePromotion;
 
   @IsOptional()
-  price: number;
+  @IsNumber()
+  @Min(1)
+  price?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  oldPrice?: number;
 
   @IsOptional()
   @IsString()

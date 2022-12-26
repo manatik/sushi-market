@@ -1,79 +1,90 @@
 import { ICategory } from '@common-types/category.types'
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
 import useConfirm from '@hooks/useConfirm'
-import * as ContextMenu from '@radix-ui/react-context-menu'
-import { CategoryService } from '@services/category.service'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRemoveCategory, useUpdateCategory } from '@query-hooks/useCategories'
 import {
 	CREATE_CATEGORY_PATH,
 	CREATE_PRODUCT_PATH,
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
-import { AxiosError } from 'axios'
 import { FC, PropsWithChildren } from 'react'
-import styles from './categories.style.module.scss'
 
 interface Props {
 	category: ICategory
-	confirm: () => Promise<boolean>
 }
 
-const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, category, confirm }) => {
-	const queryClient = useQueryClient()
-	const { mutate: removeCategory } = useMutation<IDefaultResponse, AxiosError, string>(
-		['remove-category'],
-		CategoryService.remove,
-		{
-			onSuccess() {
-				queryClient.invalidateQueries({ queryKey: ['categories'] })
-			}
-		}
+const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, category }) => {
+	const { Dialog, onConfirm } = useConfirm(
+		'Вы уверены?',
+		<div>
+			<b>Удалить категорию - {category.name}?</b>
+			<p>Вместе с ней удалятся и связанные с ней подкатегории!</p>
+			<p>Продукты затронуты не будут</p>
+		</div>
 	)
+	const { mutate: removeCategory } = useRemoveCategory()
+	const { mutate: updateCategory } = useUpdateCategory()
+
+	const isHiddenCategory = !!category.dateDeleted
 
 	const onRemove = async () => {
-		const isConfirmed = await confirm()
+		const isConfirmed = await onConfirm()
 
 		if (isConfirmed) {
-			removeCategory(category.id)
+			removeCategory({ id: category.id, hard: true })
+		}
+	}
+
+	const onHide = (hidden: boolean) => {
+		if (hidden) {
+			updateCategory({ id: category.id, dto: { hidden: false, article: category.article } })
+		} else {
+			removeCategory({ id: category.id, hard: false })
 		}
 	}
 
 	return (
-		<ContextMenu.Root>
-			<ContextMenu.Trigger className='ContextMenuTrigger'>{children}</ContextMenu.Trigger>
+		<>
+			<Dialog />
 
-			<ContextMenu.Portal>
-				<ContextMenu.Content className={styles.contextMenu}>
-					<ContextMenu.Item className={styles.contextMenu__item}>Подробнее</ContextMenu.Item>
+			<ContextMenu>
+				<ContextMenu.Title>{children}</ContextMenu.Title>
 
-					<ContextMenu.Item className={styles.contextMenu__item}>
+				<ContextMenu.Content>
+					<ContextMenu.Item>Подробнее</ContextMenu.Item>
+
+					<ContextMenu.Item>
 						<Link href={CREATE_CATEGORY_PATH}>Создать категорию</Link>
 					</ContextMenu.Item>
 
-					<ContextMenu.Item className={styles.contextMenu__item}>
+					<ContextMenu.Item>
 						<Link href={{ pathname: CREATE_SUB_CATEGORY_PATH, query: { categoryId: category.id } }}>
 							Добавить подкатегорию
 						</Link>
 					</ContextMenu.Item>
 
-					<ContextMenu.Item className={styles.contextMenu__item}>
+					<ContextMenu.Item>
 						<Link href={{ pathname: CREATE_PRODUCT_PATH, query: { categoryId: category.id } }}>
 							Добавить продукт
 						</Link>
 					</ContextMenu.Item>
 
-					<ContextMenu.Item className={styles.contextMenu__item}>Редактировать</ContextMenu.Item>
+					<Separator />
+
+					<ContextMenu.Item>Редактировать</ContextMenu.Item>
+
+					<ContextMenu.Item onClick={() => onHide(isHiddenCategory)}>
+						{isHiddenCategory ? 'Вернуть' : 'Скрыть'}
+					</ContextMenu.Item>
 
 					<Separator />
 
-					<ContextMenu.Item className={styles.contextMenu__item} onClick={onRemove}>
-						Удалить
-					</ContextMenu.Item>
+					<ContextMenu.Item onClick={onRemove}>Удалить</ContextMenu.Item>
 				</ContextMenu.Content>
-			</ContextMenu.Portal>
-		</ContextMenu.Root>
+			</ContextMenu>
+		</>
 	)
 }
 

@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
 				await AuthService.refresh()
 				return axiosInstance(originalRequest)
 			} catch (e) {
-				return Promise.reject(error)
+				return Promise.reject(e)
 			}
 		}
 

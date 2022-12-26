@@ -9,8 +9,8 @@ import { CreatePromotionDto } from '@promotion/dto/create-promotion.dto';
 import { UpdatePromotionDto } from '@promotion/dto/update-promotion.dto';
 import { PromotionEntity } from '@promotion/entity/promotion.entity';
 import { FileManipulatorSingleton } from '@utils/file-manipulator';
-import path from 'path';
-import { FindManyOptions, IsNull, Not, Repository } from 'typeorm';
+import * as path from 'path';
+import { FindManyOptions, FindOptionsWhere, Not, Repository } from 'typeorm';
 import * as uuid from 'uuid';
 
 @Injectable()
@@ -22,13 +22,16 @@ export class PromotionService {
     private readonly promotionRepository: Repository<PromotionEntity>,
   ) {}
 
+  private readonly UNIQ_KEYS = ['article', 'name', 'promocode'];
+  private readonly ERROR_TRANSLATES = {
+    article: (value: string | number) => `артикулом - ${value}`,
+    name: (value: string | number) => `названием - ${value}`,
+    promocode: (value: string | number) => `промокодом - ${value}`,
+  };
+
   async all(query: GetAllQuery) {
     try {
-      let whereExpression: FindManyOptions<PromotionEntity> | undefined;
-
-      if (!query.withHidden) {
-        whereExpression = { where: { dateDeleted: IsNull() } };
-      }
+      const whereExpression: FindManyOptions<PromotionEntity> = { withDeleted: query.onlyHidden };
 
       const promotions = await this.promotionRepository.find(whereExpression);
 
@@ -50,13 +53,14 @@ export class PromotionService {
 
   async create(dto: CreatePromotionDto) {
     try {
-      const promotionExists = await this.promotionRepository.findOne({ where: { article: dto.article } });
+      const promotionEntity = await this.promotionRepository.create(dto);
 
-      if (promotionExists) {
-        throw new Error(`Акция с артикулом ${dto.article} уже существует`);
+      await this.checkDuplicateAndThrow(promotionEntity);
+
+      if (dto.hidden) {
+        promotionEntity.dateDeleted = new Date();
       }
 
-      const promotionEntity = await this.promotionRepository.create(dto);
       const promotion = await this.promotionRepository.save(promotionEntity);
 
       return this.errorService.success('Акция успешно создана', { promotion: promotion });
@@ -67,13 +71,16 @@ export class PromotionService {
 
   async update(id: string, dto: UpdatePromotionDto) {
     try {
-      const promotionExists = await this.promotionRepository.findOne({ where: { article: dto.article, id: Not(id) } });
+      const promotionEntity = await this.promotionRepository.create(dto);
 
-      if (promotionExists) {
-        throw new Error(`Акция с артикулом ${dto.article} уже существует`);
+      await this.checkDuplicateAndThrow(promotionEntity);
+
+      if (dto.hidden) {
+        promotionEntity.dateDeleted = new Date();
+      } else {
+        promotionEntity.dateDeleted = undefined;
       }
 
-      const promotionEntity = await this.promotionRepository.create(dto);
       const promotion = await this.promotionRepository.update({ id }, promotionEntity);
 
       return this.errorService.success('Акция успешно создана', { promotion });
@@ -97,7 +104,7 @@ export class PromotionService {
 
     const createdPhotos: PhotosEntity[] = [];
     try {
-      for await (const photo of photos) {
+      for (const photo of photos) {
         const filename = uuid.v4() + path.extname(photo.originalname);
 
         const result = await FileManipulatorSingleton.writeWithCompress(filename, photo.buffer, {
@@ -149,6 +156,31 @@ export class PromotionService {
       return this.errorService.success('Фото успешно удалено');
     } catch (e) {
       throw this.errorService.internal('Ошибка удаления фото', e.message);
+    }
+  }
+
+  private async checkDuplicateAndThrow(dto: PromotionEntity) {
+    for (const uniqKey of this.UNIQ_KEYS) {
+      const expression: FindOptionsWhere<PromotionEntity> = { [uniqKey]: dto[uniqKey] };
+
+      if (dto.id) {
+        expression.id = Not(dto.id);
+      }
+
+      if (!expression) {
+        continue;
+      }
+
+      const promotionExists = await this.promotionRepository.findOne({
+        where: expression,
+        withDeleted: true,
+      });
+
+      if (promotionExists) {
+        const translate: string = this.ERROR_TRANSLATES[uniqKey](dto[uniqKey]);
+
+        throw new Error(`Акция с ${translate} уже существует`);
+      }
     }
   }
 }

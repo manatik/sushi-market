@@ -33,11 +33,6 @@ export class Category1667836540100 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'hidden',
-            type: 'boolean',
-            default: false,
-          },
-          {
             name: 'order_by',
             type: 'int',
             default: 1,

@@ -41,7 +41,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 		select: data => data.user
 	})
 
-	if (isLoading || !user) {
+	if (isLoading) {
 		return <div>loading...</div>
 	}
 
@@ -76,7 +76,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 			<div className={styles.right}>
 				<div className={styles.topLine}>
 					<CurrentDate />
-					<UserAvatar firstname={user.firstname} />
+					{user && <UserAvatar firstname={user.firstname} />}
 				</div>
 				<div className={styles.center}>{children}</div>
 				<div className={styles.bottomLine}>.</div>

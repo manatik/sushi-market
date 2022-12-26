@@ -2,9 +2,10 @@ import { ErrorService } from '@error/error.service';
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSubCategoryDto } from '@sub-category/dto/create-sub-category.dto';
+import { GetAllQuery } from '@sub-category/dto/get-all.query';
 import { UpdateSubCategoryDto } from '@sub-category/dto/update-sub-category.dto';
 import { SubCategoryEntity } from '@sub-category/entity/sub-category.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, IsNull, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class SubCategoryService {
@@ -14,13 +15,25 @@ export class SubCategoryService {
     private readonly subCategoryRepository: Repository<SubCategoryEntity>,
   ) {}
 
-  async all() {
+  private readonly UNIQ_KEYS = ['article'];
+  private readonly ERROR_TRANSLATES = {
+    article: (value: string | number) => `артикулом - ${value}`,
+  };
+
+  async all(query: GetAllQuery) {
     try {
-      const subCategories = await this.subCategoryRepository.find({ relations: { category: true } });
+      const whereExpression: FindManyOptions<SubCategoryEntity> = query.onlyHidden
+        ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
+        : { withDeleted: false };
+
+      const subCategories = await this.subCategoryRepository.find({
+        ...whereExpression,
+        relations: { category: true },
+      });
 
       return this.errorService.success('Подкатегории успешно получены', { subCategories });
     } catch (e) {
-      return this.errorService.internal('Ошибка получения подкатегорий', e.message);
+      throw this.errorService.internal('Ошибка получения подкатегорий', e.message);
     }
   }
 
@@ -30,20 +43,21 @@ export class SubCategoryService {
 
       return this.errorService.success('Подкатегория получена', { subCategory });
     } catch (e) {
-      return this.errorService.internal('Ошибка получения подкатегории', e.message);
+      throw this.errorService.internal('Ошибка получения подкатегории', e.message);
     }
   }
 
   async create(dto: CreateSubCategoryDto) {
     try {
-      const found = await this.subCategoryRepository.findOne({ where: { article: dto.article } });
+      const subCategoryEntity = this.subCategoryRepository.create(dto);
 
-      if (found) {
-        throw this.errorService.badRequest(`Подкатегория с артикулом - ${dto.article} уже существует`);
+      await this.checkDuplicateAndThrow(subCategoryEntity);
+
+      if (dto.hidden) {
+        subCategoryEntity.dateDeleted = new Date();
       }
 
-      const entity = this.subCategoryRepository.create(dto);
-      const subCategory = await this.subCategoryRepository.save(entity);
+      const subCategory = await this.subCategoryRepository.save(subCategoryEntity);
 
       return this.errorService.success('Подкатегория создана', { subCategory });
     } catch (e) {
@@ -51,17 +65,27 @@ export class SubCategoryService {
         throw e;
       }
 
-      return this.errorService.internal('Ошибка сохранения подкатегории', e.message);
+      throw this.errorService.internal('Ошибка сохранения подкатегории', e.message);
     }
   }
 
   async update(id: string, dto: UpdateSubCategoryDto) {
     try {
+      const subCategoryEntity = this.subCategoryRepository.create({ ...dto, id });
+
+      await this.checkDuplicateAndThrow(subCategoryEntity);
+
+      if (dto.hidden) {
+        subCategoryEntity.dateDeleted = new Date();
+      } else {
+        subCategoryEntity.dateDeleted = undefined;
+      }
+
       const subCategory = await this.subCategoryRepository.update({ id }, dto);
 
       return this.errorService.success('Подкатегория обновлена', { subCategory });
     } catch (e) {
-      return this.errorService.internal('Ошибка обновления подкатегории', e.message);
+      throw this.errorService.internal('Ошибка обновления подкатегории', e.message);
     }
   }
 
@@ -71,7 +95,32 @@ export class SubCategoryService {
 
       return this.errorService.success('Подкатегория удалена', { subCategory });
     } catch (e) {
-      return this.errorService.internal('Ошибка удаления подкатегории', e.message);
+      throw this.errorService.internal('Ошибка удаления подкатегории', e.message);
+    }
+  }
+
+  private async checkDuplicateAndThrow(dto: SubCategoryEntity) {
+    for (const uniqKey of this.UNIQ_KEYS) {
+      const expression: FindOptionsWhere<SubCategoryEntity> = { [uniqKey]: dto[uniqKey] };
+
+      if (dto.id) {
+        expression.id = Not(dto.id);
+      }
+
+      if (!expression) {
+        continue;
+      }
+
+      const subCategoryExists = await this.subCategoryRepository.findOne({
+        where: expression,
+        withDeleted: true,
+      });
+
+      if (subCategoryExists) {
+        const translate: string = this.ERROR_TRANSLATES[uniqKey](dto[uniqKey]);
+
+        throw new Error(`Подкатегория с ${translate} уже существует`);
+      }
     }
   }
 }

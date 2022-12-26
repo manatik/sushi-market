@@ -1,5 +1,5 @@
 import { ErrorService } from '@error/error.service';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { PhotosService } from '@photos/photos.service';
@@ -10,7 +10,7 @@ import { UpdateProductDto } from '@product/dto/update-product.dto';
 import { ProductEntity } from '@product/entity/product.entity';
 import { FileManipulatorSingleton } from '@utils/file-manipulator';
 import * as path from 'path';
-import { FindManyOptions, Not, Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, IsNull, Not, Repository } from 'typeorm';
 import * as uuid from 'uuid';
 
 @Injectable()
@@ -22,13 +22,16 @@ export class ProductService {
     private readonly productRepository: Repository<ProductEntity>,
   ) {}
 
+  private readonly UNIQ_KEYS = ['article'];
+  private readonly ERROR_TRANSLATES = {
+    article: (value: string | number) => `артикулом - ${value}`,
+  };
+
   async all(query: GetAllQuery) {
     try {
-      let whereExpression: FindManyOptions<ProductEntity> | undefined;
-
-      if (!query.withHidden) {
-        whereExpression = { where: { hidden: false } };
-      }
+      const whereExpression: FindManyOptions<ProductEntity> = query.onlyHidden
+        ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
+        : { withDeleted: false };
 
       const products = await this.productRepository.find(whereExpression);
 
@@ -50,30 +53,38 @@ export class ProductService {
 
   async create(dto: CreateProductDto) {
     try {
-      const productExists = await this.productRepository.findOne({ where: { article: dto.article } });
+      const productEntity = await this.productRepository.create(dto);
 
-      if (productExists) {
-        throw new Error(`Продукт с артикулом ${dto.article} уже существует`);
+      await this.checkDuplicateAndThrow(productEntity);
+
+      if (dto.hidden) {
+        productEntity.dateDeleted = new Date();
       }
 
-      const productEntity = await this.productRepository.create(dto);
       const product = await this.productRepository.save(productEntity);
 
       return this.errorService.success('Продукт успешно создан', { product });
     } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
+
       throw this.errorService.internal('Ошибка создания продукта', e.message);
     }
   }
 
   async update(id: string, dto: UpdateProductDto) {
     try {
-      const productExists = await this.productRepository.findOne({ where: { article: dto.article, id: Not(id) } });
+      const productEntity = await this.productRepository.create({ ...dto, id });
 
-      if (productExists) {
-        throw new Error(`Продукт с артикулом ${dto.article} уже существует`);
+      await this.checkDuplicateAndThrow(productEntity);
+
+      if (dto.hidden) {
+        productEntity.dateDeleted = new Date();
+      } else {
+        productEntity.dateDeleted = undefined;
       }
 
-      const productEntity = await this.productRepository.create(dto);
       const product = await this.productRepository.update({ id }, productEntity);
 
       return this.errorService.success('Продукт успешно создан', { product });
@@ -144,6 +155,31 @@ export class ProductService {
       return this.errorService.success('Фото успешно удалено');
     } catch (e) {
       throw this.errorService.internal('Ошибка удаления фото', e.message);
+    }
+  }
+
+  private async checkDuplicateAndThrow(dto: ProductEntity) {
+    for (const uniqKey of this.UNIQ_KEYS) {
+      const expression: FindOptionsWhere<ProductEntity> = { [uniqKey]: dto[uniqKey] };
+
+      if (dto.id) {
+        expression.id = Not(dto.id);
+      }
+
+      if (!expression) {
+        continue;
+      }
+
+      const productExists = await this.productRepository.findOne({
+        where: expression,
+        withDeleted: true,
+      });
+
+      if (productExists) {
+        const translate: string = this.ERROR_TRANSLATES[uniqKey](dto[uniqKey]);
+
+        throw new Error(`Продукт с ${translate} уже существует`);
+      }
     }
   }
 }

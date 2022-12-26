@@ -1,7 +1,7 @@
 import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
 
-export interface IProductResponse extends IDefaultResponse {
-	products: IProduct[]
+export interface IProductResponse<T = IProduct[]> extends IDefaultResponse {
+	products: T
 }
 
 export interface IProduct {

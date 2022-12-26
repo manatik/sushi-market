@@ -1,5 +1,5 @@
 export const HOME_PATH = '/'
-export const LOGIN_PATH = '/login'
+export const LOGIN_PATH = '/sign'
 
 const USER = '/user'
 export const USER_PROFILE_PATH = `${USER}/profile`

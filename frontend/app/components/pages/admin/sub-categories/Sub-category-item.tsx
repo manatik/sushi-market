@@ -1,5 +1,5 @@
 import { ISubCategory } from '@common-types/sub-category.types'
-import SubCategoryContextMenu from '@components/pages/admin/create/sub-category/Sub-category-context-menu'
+import SubCategoryContextMenu from '@components/pages/admin/sub-categories/Sub-category-context-menu'
 import useConfirm from '@hooks/useConfirm'
 import { booleanYesOrNot, dateToFormatDate } from '@utils/utils'
 import React, { FC } from 'react'
@@ -10,14 +10,8 @@ interface Props {
 }
 
 const SubCategoryItem: FC<Props> = ({ subCategory }) => {
-	const { Dialog, onConfirm } = useConfirm(
-		'Вы уверены?',
-		`Удалить категорию - ${subCategory.name}?`
-	)
-
 	return (
-		<SubCategoryContextMenu subCategory={subCategory} confirm={onConfirm}>
-			<Dialog />
+		<SubCategoryContextMenu subCategory={subCategory}>
 			<div className={styles.subCategoryRow}>
 				<span className={styles.subCategoryRow__cell}>{subCategory.name}</span>
 				<span className={styles.subCategoryRow__cell}>{subCategory.article}</span>

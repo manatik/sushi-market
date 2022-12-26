@@ -1,5 +1,6 @@
 import { TypeComponentAuthFields } from '@common-types/private-route.types'
 import { IUserAuth } from '@common-types/user.types'
+import Loader from '@components/ui/loader/Loader'
 import { AuthService } from '@services/auth.service'
 import { useQuery } from '@tanstack/react-query'
 import { HOME_PATH, LOGIN_PATH } from '@utils/pages-paths'
@@ -21,10 +22,10 @@ const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
 	})
 
 	if (authIsLoading) {
-		return <div>loading...</div>
+		return <Loader />
 	}
 
-	if (error?.response?.status === 401) {
+	if (error?.response?.status === 401 || error?.response?.status === 403) {
 		router.pathname !== HOME_PATH && router.push(LOGIN_PATH)
 	}
 

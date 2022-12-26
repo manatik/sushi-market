@@ -37,11 +37,6 @@ export class SubCategory1667836657564 implements MigrationInterface {
             default: 1,
           },
           {
-            name: 'hidden',
-            type: 'boolean',
-            default: false,
-          },
-          {
             name: 'date_created',
             type: 'timestamp',
             default: 'NOW()',

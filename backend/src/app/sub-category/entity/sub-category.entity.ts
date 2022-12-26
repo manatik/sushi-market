@@ -14,9 +14,6 @@ export class SubCategoryEntity extends Base {
   @Column({ name: 'order_by' })
   orderBy: number;
 
-  @Column()
-  hidden: boolean;
-
   @DeleteDateColumn({ name: 'date_deleted' })
   dateDeleted: Date;
 

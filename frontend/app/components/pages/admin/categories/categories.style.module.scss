@@ -35,28 +35,3 @@
     }
   }
 }
-
-.contextMenu {
-  font-size: var(--secondary-font-size);
-  color: var(--primary-text-color);
-  padding: 10px;
-  background-color: #fff;
-  box-shadow: 0 2px 10px var(--shadow-color);
-  border-radius: var(--medium-border-radius);
-
-  &__item {
-    padding: .2rem .3rem;
-    margin-top: 5px;
-    border-radius: var(--small-border-radius);
-    outline: none;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:hover {
-      cursor: pointer;
-      background-color: #e5dad8;
-    }
-  }
-}

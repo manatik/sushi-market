@@ -17,9 +17,6 @@ export class ProductEntity extends Base {
   @Column()
   description: string;
 
-  @Column()
-  hidden: boolean;
-
   @Column({ name: 'order_by' })
   orderBy: number;
 

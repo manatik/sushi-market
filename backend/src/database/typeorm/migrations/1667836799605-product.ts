@@ -40,11 +40,6 @@ export class Product1667836799605 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'hidden',
-            type: 'boolean',
-            default: false,
-          },
-          {
             name: 'order_by',
             type: 'int',
             default: 1,

@@ -11,8 +11,8 @@ const URLS = {
 }
 
 export const CategoryService = {
-	async all() {
-		const { data } = await axiosInstance.get(URLS.all)
+	async all(onlyHidden?: boolean) {
+		const { data } = await axiosInstance.get(URLS.all, { params: { onlyHidden } })
 		return data
 	},
 
@@ -23,13 +23,15 @@ export const CategoryService = {
 		return data
 	},
 
-	async update(dto: IUpdateCategory) {
-		const { data } = await axiosInstance.patch<IDefaultResponse>(URLS.update, dto)
+	async update({ id, dto }: { id: string; dto: IUpdateCategory }) {
+		const { data } = await axiosInstance.patch<IDefaultResponse>(`${URLS.update}/${id}`, dto)
 		return data
 	},
 
-	async remove(id: string) {
-		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.remove}/${id}`)
+	async remove({ id, hard }: { id: string; hard: boolean }) {
+		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.remove}/${id}`, {
+			params: { hard: false }
+		})
 		return data
 	}
 }

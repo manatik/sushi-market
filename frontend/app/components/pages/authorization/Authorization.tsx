@@ -1,6 +1,7 @@
 import SignIn from '@components/pages/authorization/sign-in/Sign-in'
 import SignUp from '@components/pages/authorization/sign-up/Sign-up'
 import * as Tabs from '@radix-ui/react-tabs'
+import { HOME_PATH } from '@utils/pages-paths'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -26,7 +27,7 @@ const Authorization = () => {
 
 	return (
 		<div className={styles.main}>
-			<div className={styles.main__logo}>
+			<div className={styles.main__logo} onClick={() => router.replace(HOME_PATH)}>
 				<Image src={logo} width={25 * 16} height={100} alt={'logo'} />
 			</div>
 

@@ -6,15 +6,39 @@ export class CreatePromotionDto {
   @IsString()
   article: string;
 
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsEnum(TypePromotion)
+  typePromotion: TypePromotion;
+
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  oldPrice: number;
+
+  @IsNotEmpty()
+  @IsDate()
+  dateStart: Date;
+
+  @IsNotEmpty()
+  @IsDate()
+  dateEnd: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  hidden?: boolean;
+
   @IsOptional()
   @IsNumber()
   @Max(100)
   @Min(0)
   discount?: number;
-
-  @IsNotEmpty()
-  @IsString()
-  name: string;
 
   @IsOptional()
   @IsString()
@@ -24,22 +48,7 @@ export class CreatePromotionDto {
   @IsBoolean()
   isDisposable: boolean;
 
-  @IsNotEmpty()
-  @IsEnum(TypePromotion)
-  typePromotion: TypePromotion;
-
-  @IsNotEmpty()
-  price: number;
-
   @IsOptional()
   @IsString()
   description?: string;
-
-  @IsNotEmpty()
-  @IsDate()
-  dateStart: Date;
-
-  @IsNotEmpty()
-  @IsDate()
-  dateEnd: Date;
 }

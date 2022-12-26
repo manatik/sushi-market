@@ -1,5 +1,9 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
-import { ICreateIngredient, IIngredient, IIngredientResponse } from '@common-types/ingredient.types'
+import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type {
+	ICreateIngredient,
+	IIngredient,
+	IIngredientResponse
+} from '@common-types/ingredient.types'
 import { IngredientService } from '@services/ingredient.service'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -19,13 +23,21 @@ export const useIngredients = () =>
 export const useCreateIngredient = () => {
 	const queryClient = useQueryClient()
 
-	return useMutation<IDefaultResponse, AxiosError, ICreateIngredient>(
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, ICreateIngredient>(
 		['create-ingredient'],
 		IngredientService.create,
 		{
 			onSuccess(data) {
 				queryClient.invalidateQueries({ queryKey: ['ingredients'] })
 				toast.success(data.message)
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
 			}
 		}
 	)

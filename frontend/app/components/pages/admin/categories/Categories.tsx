@@ -4,7 +4,7 @@ import { useCategories } from '@query-hooks/useCategories'
 import styles from './categories.style.module.scss'
 
 const Categories = () => {
-	const { isLoading, data: categories } = useCategories()
+	const { isLoading, data: categories } = useCategories(false)
 
 	if (isLoading) {
 		return <div>loading...</div>
@@ -21,6 +21,7 @@ const Categories = () => {
 				<span>Создана</span>
 				<span>Обновлена</span>
 			</div>
+
 			{categories?.map(category => (
 				<CategoryItem key={category.id} category={category} />
 			))}

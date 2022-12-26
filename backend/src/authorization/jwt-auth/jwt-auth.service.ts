@@ -81,7 +81,7 @@ export class JwtAuthService {
       );
 
       if (!user || user.dateDeleted) {
-        throw this.errorService.badRequest('Пользователь удалён или заблокирован');
+        throw this.errorService.forbidden('Пользователь удалён или заблокирован', 'Ошибка валидации пользователя');
       }
 
       const payload = this.getPayload(user);
@@ -112,6 +112,12 @@ export class JwtAuthService {
       }
 
       const { isValid, info } = this.verifyToken(cookies[TOKENS.ACCESS]);
+
+      const { user } = await this.userService.getBy({ id: info.id }, { withRoles: true });
+
+      if (!user) {
+        throw this.errorService.unauthorized();
+      }
 
       if (isValid) {
         return { isAuth: isValid, roles: info.roles };

@@ -14,9 +14,6 @@ export class CategoryEntity extends Base {
   @Column()
   code: string;
 
-  @Column()
-  hidden: boolean;
-
   @Column({ name: 'order_by' })
   orderBy: number;
 

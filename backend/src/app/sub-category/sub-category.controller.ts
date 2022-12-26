@@ -1,8 +1,9 @@
 import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
 import { Public, Roles } from '@jwt-auth/decorators';
 import { Role } from '@jwt-auth/enum';
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateSubCategoryDto } from '@sub-category/dto/create-sub-category.dto';
+import { GetAllQuery } from '@sub-category/dto/get-all.query';
 import { UpdateSubCategoryDto } from '@sub-category/dto/update-sub-category.dto';
 import { SubCategoryService } from '@sub-category/sub-category.service';
 
@@ -13,8 +14,8 @@ export class SubCategoryController {
 
   @Public()
   @Get(ENDPOINTS.DEFAULT.ALL)
-  async all() {
-    return await this.subCategoryService.all();
+  async all(@Query() query: GetAllQuery) {
+    return await this.subCategoryService.all(query);
   }
 
   @Public()

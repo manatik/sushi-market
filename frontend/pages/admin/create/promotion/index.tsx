@@ -1,8 +1,8 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import React from 'react'
+import CreatePromotion from '@components/pages/admin/create/promotion/Promotion'
 
 const CreatePromotionPage: NextPageAuth = () => {
-	return <div>create promotion</div>
+	return <CreatePromotion />
 }
 
 CreatePromotionPage.isOnlyRoles = ['admin']

@@ -1,8 +1,8 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import React from 'react'
+import CreateDistrict from '@components/pages/admin/create/district/District'
 
 const CreateDistrictPage: NextPageAuth = () => {
-	return <div>create district</div>
+	return <CreateDistrict />
 }
 
 CreateDistrictPage.isOnlyRoles = ['admin']

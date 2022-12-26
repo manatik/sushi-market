@@ -29,20 +29,13 @@ const CreateIngredient = () => {
 			<Separator />
 
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-				<Input
-					{...register('name')}
-					label={'Название'}
-					error={errors.name?.message}
-					type='text'
-					id='name'
-				/>
+				<Input {...register('name')} label={'Название'} error={errors.name?.message} type='text' />
 
 				<Input
 					{...register('description')}
 					label={'Описание'}
 					error={errors.description?.message}
 					type='text'
-					id='name'
 				/>
 
 				<div className={styles.formField}>

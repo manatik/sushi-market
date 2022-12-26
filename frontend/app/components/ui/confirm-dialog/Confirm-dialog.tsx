@@ -6,7 +6,7 @@ import styles from './confirm-dialog.style.module.scss'
 interface Props {
 	open: boolean
 	title: string
-	message: string
+	message: string | JSX.Element
 	onConfirm: () => void
 	onCancel: () => void
 }

@@ -1,6 +1,6 @@
 import ConfirmDialog from '@components/ui/confirm-dialog/Confirm-dialog'
 import { useState } from 'react'
-const useConfirm = (title: string, message: string) => {
+const useConfirm = (title: string, message: string | JSX.Element) => {
 	const [promise, setPromise] = useState<null | any>(null)
 
 	const confirm = () =>

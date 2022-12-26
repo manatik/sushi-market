@@ -1,3 +1,4 @@
+import Loader from '@components/ui/loader/Loader'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import styles from './current-date.style.module.scss'
@@ -15,7 +16,11 @@ const CurrentDate = () => {
 	}, [])
 
 	if (!time || !date) {
-		return <div className={styles.currentDate} />
+		return (
+			<div className={styles.currentDate}>
+				<Loader size={'medium'} text={'Синхр.'} direction={'horizontal'} />
+			</div>
+		)
 	}
 
 	return (

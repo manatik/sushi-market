@@ -1,37 +1,37 @@
 import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
 import {
-	ICreateProduct,
-	IProduct,
-	IProductResponse,
-	IUpdateProduct
-} from '@common-types/product.types'
+	ICreatePromotion,
+	IPromotion,
+	IPromotionResponse,
+	IUpdatePromotion
+} from '@common-types/promotion.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {
-	all: 'product',
-	byId: 'product',
-	create: 'product',
-	update: 'product',
-	remove: 'product'
+	all: 'promotion',
+	byId: 'promotion',
+	create: 'promotion',
+	update: 'promotion',
+	remove: 'promotion'
 }
 
-export const ProductService = {
+export const PromotionService = {
 	async all() {
-		const { data } = await axiosInstance.get<IProductResponse>(URLS.all)
+		const { data } = await axiosInstance.get<IPromotionResponse>(URLS.all)
 		return data
 	},
 
 	async byId(id: string) {
-		const { data } = await axiosInstance.get<IProductResponse<IProduct>>(`${URLS.byId}/${id}`)
+		const { data } = await axiosInstance.get<IPromotionResponse<IPromotion>>(`${URLS.byId}/${id}`)
 		return data
 	},
 
-	async create(dto: ICreateProduct) {
+	async create(dto: ICreatePromotion) {
 		const { data } = await axiosInstance.post<IDefaultResponse>(URLS.create, dto)
 		return data
 	},
 
-	async update(dto: IUpdateProduct) {
+	async update(dto: IUpdatePromotion) {
 		const { data } = await axiosInstance.patch<IDefaultResponse>(URLS.update, dto)
 		return data
 	},

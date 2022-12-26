@@ -1,4 +1,3 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
 import { ICreateSubCategory } from '@common-types/sub-category.types'
 import { SubCategorySchema } from '@components/pages/admin/create/sub-category/sub-category.schema'
 import Input from '@components/ui/input/Input'
@@ -10,9 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCategories } from '@query-hooks/useCategories'
 import { useCreateSubCategory } from '@query-hooks/useSubCategories'
 import * as Label from '@radix-ui/react-label'
-import { SubCategoryService } from '@services/sub-category.service'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { Controller, useForm } from 'react-hook-form'
 import styles from './sub-category.style.module.scss'
@@ -49,20 +45,13 @@ const CreateSubCategory = () => {
 			<Separator />
 
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-				<Input
-					{...register('name')}
-					label={'Название'}
-					error={errors.name?.message}
-					type='text'
-					id='name'
-				/>
+				<Input {...register('name')} label={'Название'} error={errors.name?.message} type='text' />
 
 				<Input
 					{...register('article')}
 					label={'Артикул'}
 					error={errors.article?.message}
 					type='text'
-					id='name'
 				/>
 
 				<Controller
@@ -89,7 +78,6 @@ const CreateSubCategory = () => {
 					label={'Позиция'}
 					error={errors.orderBy?.message}
 					type='number'
-					id='name'
 				/>
 
 				<div className={styles.formField}>
@@ -101,7 +89,7 @@ const CreateSubCategory = () => {
 						control={control}
 						name={'hidden'}
 						render={({ field }) => (
-							<Switch id={'hidden'} onCheckedChange={e => field.onChange(e)} />
+							<Switch id={'hidden'} onCheckedChange={field.onChange} checked={field.value} />
 						)}
 					/>
 				</div>

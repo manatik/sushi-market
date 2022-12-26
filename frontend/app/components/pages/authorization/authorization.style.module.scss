@@ -8,6 +8,10 @@
   &__logo {
     position: absolute;
     margin-top: -600px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -46,13 +50,13 @@
 
 .form {
   color: var(--primary-text-color);
-  padding: 1rem 2rem;
+  padding: 2rem 2rem;
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .formItem {
-  margin-top: 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
