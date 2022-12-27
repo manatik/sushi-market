@@ -21,7 +21,9 @@ const UserAvatar: FC<IUserAvatarProps> = ({ firstname }) => {
 		<div onClick={() => setIsOpen(true)}>
 			<HoverCard
 				open={isOpen}
-				onOpenChange={open => setIsOpen(open)}
+				onOpenChange={open => {
+					setIsOpen(open)
+				}}
 				openDelay={200}
 				closeDelay={500}
 			>

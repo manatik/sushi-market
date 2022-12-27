@@ -36,7 +36,7 @@ function App(props: TypeAppProps) {
 	return (
 		<RecoilRoot>
 			<QueryClientProvider client={queryClient}>
-				<ToastContainer />
+				<ToastContainer position={'top-center'} autoClose={1500} />
 				<Hydrate state={props.pageProps.dehydratedState}>
 					<LayoutProvider nextProps={props} />
 				</Hydrate>

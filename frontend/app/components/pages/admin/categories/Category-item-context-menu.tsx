@@ -39,9 +39,9 @@ const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, categ
 
 	const onHide = (hidden: boolean) => {
 		if (hidden) {
-			updateCategory({ id: category.id, dto: { hidden: false, article: category.article } })
+			updateCategory({ id: category.id, dto: { ...category, hidden: false } })
 		} else {
-			removeCategory({ id: category.id, hard: false })
+			updateCategory({ id: category.id, dto: { ...category, hidden: true } })
 		}
 	}
 

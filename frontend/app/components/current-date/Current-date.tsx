@@ -8,11 +8,15 @@ const CurrentDate = () => {
 	const [time, setTime] = useState<string | null>(null)
 
 	useEffect(() => {
-		setInterval(() => {
+		const interval = setInterval(() => {
 			const genDate = dayjs()
 			setDate(genDate.format('DD.MM.YYYY'))
 			setTime(genDate.format('HH:mm:ss'))
 		}, 1000)
+
+		return () => {
+			clearInterval(interval)
+		}
 	}, [])
 
 	if (!time || !date) {

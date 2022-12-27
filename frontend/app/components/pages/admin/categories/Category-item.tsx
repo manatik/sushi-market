@@ -1,6 +1,6 @@
 import { ICategory } from '@common-types/category.types'
 import CategoryItemContextMenu from '@components/pages/admin/categories/Category-item-context-menu'
-import { booleanYesOrNot, dateToFormatDate } from '@utils/utils'
+import { dateToFormatDate } from '@utils/utils'
 import React, { FC } from 'react'
 import styles from './categories.style.module.scss'
 
@@ -15,12 +15,9 @@ const CategoryItem: FC<Props> = ({ category }) => {
 				<span className={styles.categoryRow__cell}>{category.name}</span>
 				<span className={styles.categoryRow__cell}>{category.article}</span>
 				<span className={styles.categoryRow__cell}>{category.code}</span>
-				<span className={styles.categoryRow__cell}>{booleanYesOrNot(!!category.dateDeleted)}</span>
 				<span className={styles.categoryRow__cell}>{category.orderBy}</span>
 				<span className={styles.categoryRow__cell}>{dateToFormatDate(category.dateCreated)}</span>
-				<span className={styles.categoryRow__cell}>
-					{category.dateUpdated ? dateToFormatDate(category.dateUpdated) : ''}
-				</span>
+				<span className={styles.categoryRow__cell}>{dateToFormatDate(category.dateUpdated)}</span>
 			</div>
 		</CategoryItemContextMenu>
 	)

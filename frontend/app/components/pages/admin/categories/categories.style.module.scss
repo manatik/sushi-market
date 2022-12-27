@@ -1,17 +1,112 @@
+@import "app/styles/mixins";
+
 .categories {
   width: 96%;
   max-height: 75vh;
   color: var(--primary-text-color);
   overflow: auto;
+
+  &__controls {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.hidden {
+  @include outside-container-style;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+
+  @include laptop-large-max() {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include laptop-small-max() {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  @include outside-container-style;
+
+  .cardHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1rem 1rem 0 1rem;
+
+    .cardTitles {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      &__title {
+        font-size: var(--primary-font-size);
+
+        &_small {
+          font-size: var(--small-font-size);
+        }
+      }
+
+      &__subTitle {
+        font-size: var(--small-font-size);
+        color: #b6b6b6;
+      }
+    }
+  }
+
+  .cardContent {
+    padding: .5rem 0;
+    display: flex;
+    flex-direction: column;
+
+    &__item {
+      font-size: var(--secondary-font-size);
+      padding: .5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .cardFooter {
+    min-height: 2rem;
+    padding: .5rem 0;
+
+      &__item {
+        display: flex;
+        justify-content: flex-start;
+        padding: .5rem 1rem;
+
+        &_alignEnd {
+          justify-content: flex-end;
+        }
+
+        &_small {
+          font-size: var(--small-font-size);
+          color: #b6b6b6;
+        }
+      }
+  }
 }
 
 .categoryRow {
+  @include outside-container-style-without-shadow;
+
   display: grid;
   grid-template-columns: 1.5fr 1.2fr 1fr .7fr .7fr 1fr 1fr;
-  background-color: #fff;
   margin-bottom: 10px;
   font-size: var(--secondary-font-size);
-  border-radius: var(--small-border-radius);
 
   &_header {
     position: sticky;

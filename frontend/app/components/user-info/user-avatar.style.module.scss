@@ -1,20 +1,19 @@
+@import "app/styles/mixins";
 
 .user {
+  @include outside-container-style;
+
   display: flex;
   align-items: center;
   gap: .5rem;
   padding: .8rem;
-  background-color: #fff;
-  border-radius: var(--medium-border-radius);
-  box-shadow: 0 2px 10px var(--shadow-color);
 
   &__label {
     font-size: var(--secondary-font-size);
   }
 
   &:hover {
-    cursor: pointer;
-    background-color: #e5dad8;
+    @include hover-on-item-admin;
   }
 }
 
@@ -30,6 +29,8 @@
 }
 
 .content {
+  @include outside-container-style;
+
   background: #fff;
   padding: .2rem;
   display: flex;
@@ -42,8 +43,8 @@
     padding: .5rem;
 
     &:hover {
-      cursor: pointer;
-      background-color: #e5dad8;
+      @include hover-on-item-admin;
+
       border-radius: var(--small-border-radius);
     }
   }

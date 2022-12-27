@@ -10,15 +10,15 @@ export interface ICategory {
 	hidden: boolean
 	id: string
 	name: string
-	orderBy: number | null
+	orderBy?: number | null
 	dateCreated: string
-	dateDeleted: string | null
-	dateUpdated: string | null
+	dateDeleted?: string | null
+	dateUpdated?: string | null
 }
 
 export interface ICreateCategory extends Pick<ICategory, 'name' | 'article' | 'code'> {
-	orderBy?: number
-	hidden?: boolean
+	orderBy?: number | null
+	hidden?: boolean | null
 }
 
 export interface IUpdateCategory extends Partial<ICreateCategory> {}

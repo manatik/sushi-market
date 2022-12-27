@@ -1,6 +1,8 @@
+@import "app/styles/mixins";
+
 .category {
-  background-color: #fff;
-  border-radius: var(--medium-border-radius);
+  @include outside-container-style-without-shadow;
+
   width: 20rem;
   padding: 2rem;
 

@@ -74,14 +74,14 @@ const CreatePromotion = () => {
 
 						<Input
 							{...register('oldPrice', { valueAsNumber: true })}
-							label={'Старая цена'}
+							label={'Старая цена, ₽'}
 							error={errors.oldPrice?.message}
 							type='number'
 						/>
 
 						<Input
 							{...register('price', { valueAsNumber: true })}
-							label={'Новая цена'}
+							label={'Новая цена, ₽'}
 							error={errors.price?.message}
 							type='number'
 						/>
@@ -106,7 +106,7 @@ const CreatePromotion = () => {
 
 						<Input
 							{...register('discount', { valueAsNumber: true })}
-							label={'Скидка'}
+							label={'Скидка, %'}
 							error={errors.discount?.message}
 							type='number'
 						/>
