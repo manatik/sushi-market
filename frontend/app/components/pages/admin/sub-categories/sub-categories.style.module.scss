@@ -21,18 +21,21 @@
       gap: 10px;
     }
 
-    .filters {
+    .controlsItem {
       display: flex;
-      gap: 1rem;
-      align-items: center;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 5px;
 
       &__label {
-        font-size: var(--secondary-font-size);
+        padding-left: 10px;
+        font-size: var(--small-font-size);
       }
     }
   }
 
   .cards {
+    margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1rem;

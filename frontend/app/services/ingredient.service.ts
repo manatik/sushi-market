@@ -1,5 +1,9 @@
 import { IDefaultResponse } from '@common-types/default-response.types'
-import { ICreateIngredient, IUpdateIngredient } from '@common-types/ingredient.types'
+import {
+	ICreateIngredient,
+	IIngredientFilters,
+	IUpdateIngredient
+} from '@common-types/ingredient.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {
@@ -10,8 +14,8 @@ const URLS = {
 }
 
 export const IngredientService = {
-	async all() {
-		const { data } = await axiosInstance.get(URLS.all)
+	async all(filters?: IIngredientFilters) {
+		const { data } = await axiosInstance.get(URLS.all, { params: { name: filters?.search } })
 		return data
 	},
 

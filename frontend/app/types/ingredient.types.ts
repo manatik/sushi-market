@@ -18,3 +18,7 @@ export interface ICreateIngredient extends Pick<IIngredient, 'name'> {
 }
 
 export interface IUpdateIngredient extends Partial<IIngredient> {}
+
+export interface IIngredientFilters {
+	search?: string
+}

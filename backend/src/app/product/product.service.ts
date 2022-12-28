@@ -12,7 +12,7 @@ import { ProductEntity } from '@product/entity/product.entity';
 import { FileManipulatorSingleton } from '@utils/file-manipulator';
 import { idsArrayToArrayOfObjects } from '@utils/utils';
 import * as path from 'path';
-import { FindManyOptions, FindOptionsWhere, IsNull, Not, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
 import * as uuid from 'uuid';
 
 @Injectable()
@@ -31,13 +31,26 @@ export class ProductService {
 
   async all(query: GetAllQuery) {
     try {
-      const whereExpression: FindManyOptions<ProductEntity> = query.onlyHidden
-        ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
-        : { where: { categoryId: query.fc, subCategoryId: query.fsc }, withDeleted: false };
+      const whereExpression: FindOptionsWhere<ProductEntity>[] = [
+        { name: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull() },
+        { article: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull() },
+      ];
+
+      for (const expression of whereExpression) {
+        expression.categoryId = query.fc;
+        expression.subCategoryId = query.fsc;
+      }
+
+      if (query.onlyHidden) {
+        for (const expression of whereExpression) {
+          expression.dateDeleted = Not(IsNull());
+        }
+      }
 
       const products = await this.productRepository.find({
-        ...whereExpression,
+        where: whereExpression,
         relations: { category: true, subCategory: true, ingredients: true },
+        withDeleted: true,
       });
 
       return this.errorService.success('Продукты успешно получены', { products });

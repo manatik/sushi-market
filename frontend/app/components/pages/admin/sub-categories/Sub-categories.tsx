@@ -3,7 +3,9 @@ import SubCategoryList from '@components/pages/admin/sub-categories/Sub-category
 import Input from '@components/ui/input/Input'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
+import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
+import { useDebounce } from '@hooks/useDebounce'
 import { useCategories } from '@query-hooks/useCategories'
 import { useSubCategories } from '@query-hooks/useSubCategories'
 import * as Label from '@radix-ui/react-label'
@@ -16,8 +18,12 @@ const SubCategories = () => {
 		onlyHidden: false,
 		search: ''
 	})
+	const debouncedSearch = useDebounce(filters.search, 500)
 
-	const { isLoading: isSubCategoriesLoading, data: subCategories } = useSubCategories(filters)
+	const { isLoading: isSubCategoriesLoading, data: subCategories } = useSubCategories({
+		...filters,
+		search: debouncedSearch
+	})
 	const { isLoading: isCategoriesLoading, data: categories } = useCategories()
 
 	const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -35,38 +41,37 @@ const SubCategories = () => {
 	return (
 		<div className={styles.subCategories}>
 			<div className={styles.controls}>
-				<div className={styles.filters}>
-					<div className={styles.filters}>
-						<Input label={'Поиск'} onChange={handleSearch} value={filters.search} />
-					</div>
+				<Input label={'Поиск'} color={'white'} onChange={handleSearch} value={filters.search} />
 
-					<Label.Root className={styles.filters__label} htmlFor='categories'>
-						Сортировать по
+				<div className={styles.controlsItem}>
+					<Label.Root className={styles.controlsItem__label} htmlFor='categories'>
+						Фильтр категорий
 					</Label.Root>
 
-					<div className={styles.filters}>
-						<Select
-							id='categories'
-							placeholder={'Категории'}
-							onChange={handleChangeCategory}
-							value={filters.categoryId}
-						>
-							<SelectItem value={''}>Не выбрано</SelectItem>
+					<Select
+						id='categories'
+						placeholder={'Категории'}
+						onChange={handleChangeCategory}
+						value={filters.categoryId}
+					>
+						<SelectItem value={''}>Не выбрано</SelectItem>
 
-							{categories?.map(category => (
-								<SelectItem key={category.id} value={category.id}>
-									{category.name}
-								</SelectItem>
-							))}
-						</Select>
-					</div>
+						{categories?.map(category => (
+							<SelectItem key={category.id} value={category.id}>
+								{category.name}
+							</SelectItem>
+						))}
+					</Select>
 				</div>
+
 				<div className={styles.controls__hidden}>
 					<Label.Root htmlFor='hidden'>Скрытые</Label.Root>
 
 					<Switch id='hidden' onCheckedChange={handleHidden} checked={filters.onlyHidden} />
 				</div>
 			</div>
+
+			<Separator />
 
 			<SubCategoryList
 				isLoading={isSubCategoriesLoading || isCategoriesLoading}

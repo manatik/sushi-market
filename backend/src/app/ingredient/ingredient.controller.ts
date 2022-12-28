@@ -1,10 +1,11 @@
 import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
 import { CreateIngredientDto } from '@ingredient/dto/create-ingredient.dto';
+import { GetAllQuery } from '@ingredient/dto/get-all.query';
 import { UpdateIngredientDto } from '@ingredient/dto/update-ingredient.dto';
 import { IngredientService } from '@ingredient/ingredient.service';
 import { Public, Roles } from '@jwt-auth/decorators';
 import { Role } from '@jwt-auth/enum';
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 
 @Roles(Role.Admin)
 @Controller(GLOBAL_PREFIXES.INGREDIENT)
@@ -13,8 +14,8 @@ export class IngredientController {
 
   @Public()
   @Get(ENDPOINTS.DEFAULT.ALL)
-  async all() {
-    return await this.ingredientService.all();
+  async all(@Query() query: GetAllQuery) {
+    return await this.ingredientService.all(query);
   }
 
   @Public()

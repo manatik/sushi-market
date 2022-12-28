@@ -6,15 +6,23 @@ interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
 	label: string
 	error?: string
 	mask?: 'phone' | 'date'
+	color?: 'white' | 'gray'
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(
-	({ className, label, error, mask, ...props }, ref) => {
+	({ className, label, error, mask, color = 'gray', ...props }, ref) => {
 		return (
 			<label className={styles.customField}>
 				<input
 					{...props}
-					className={classNames(styles.input, className)}
+					className={classNames(
+						styles.input,
+						{
+							[styles.input_gray]: color === 'gray',
+							[styles.input_white]: color === 'white'
+						},
+						className
+					)}
 					placeholder='&nbsp;'
 					ref={ref}
 				/>

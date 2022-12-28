@@ -22,3 +22,8 @@ export interface ICreateCategory extends Pick<ICategory, 'name' | 'article' | 'c
 }
 
 export interface IUpdateCategory extends Partial<ICategory> {}
+
+export interface ICategoryFilters {
+	onlyHidden?: boolean
+	search?: string
+}

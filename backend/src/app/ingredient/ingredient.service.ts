@@ -1,20 +1,26 @@
 import { ErrorService } from '@error/error.service';
 import { CreateIngredientDto } from '@ingredient/dto/create-ingredient.dto';
+import { GetAllQuery } from '@ingredient/dto/get-all.query';
 import { UpdateIngredientDto } from '@ingredient/dto/update-ingredient.dto';
 import { IngredientEntity } from '@ingredient/entity/ingredient.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 
 @Injectable()
 export class IngredientService {
   constructor(
     private readonly errorService: ErrorService,
-    @InjectRepository(IngredientEntity) private readonly ingredientRepository: Repository<IngredientEntity>,
+    @InjectRepository(IngredientEntity)
+    private readonly ingredientRepository: Repository<IngredientEntity>,
   ) {}
-  async all() {
+  async all(query: GetAllQuery) {
     try {
-      const ingredients = await this.ingredientRepository.find();
+      const whereExpression: FindOptionsWhere<IngredientEntity> = {
+        name: query.name ? ILike(`%${query.name}%`) : undefined,
+      };
+
+      const ingredients = await this.ingredientRepository.find({ where: whereExpression });
 
       return this.errorService.success('Ингредиенты успешно получены', { ingredients });
     } catch (e) {

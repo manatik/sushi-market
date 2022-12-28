@@ -5,7 +5,7 @@ import { CategoryEntity } from '@category/entity/category.entity';
 import { ErrorService } from '@error/error.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOptionsWhere, IsNull, Not, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class CategoryService {
@@ -23,11 +23,18 @@ export class CategoryService {
 
   async all(query: GetAllQuery) {
     try {
-      const whereExpression: FindManyOptions<CategoryEntity> = query.onlyHidden
-        ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
-        : { withDeleted: false };
+      const whereExpression: FindOptionsWhere<CategoryEntity>[] = [
+        { name: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull() },
+        { article: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull() },
+      ];
 
-      const categories = await this.categoryRepository.find(whereExpression);
+      if (query.onlyHidden) {
+        for (const expression of whereExpression) {
+          expression.dateDeleted = Not(IsNull());
+        }
+      }
+
+      const categories = await this.categoryRepository.find({ where: whereExpression, withDeleted: true });
 
       return this.errorService.success('Категории успешно получены', { categories });
     } catch (e) {

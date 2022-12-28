@@ -1,4 +1,5 @@
 import type { IDefaultResponse } from '@common-types/default-response.types'
+import { IIngredientFilters } from '@common-types/ingredient.types'
 import type {
 	ICreateIngredient,
 	IIngredient,
@@ -10,10 +11,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-export const useIngredients = () =>
+export const useIngredients = (filters?: IIngredientFilters) =>
 	useQuery<IIngredientResponse, AxiosError<any>, IIngredient[]>(
-		['ingredients'],
-		() => IngredientService.all(),
+		['ingredients', filters],
+		() => IngredientService.all(filters),
 		{
 			select: data => data.ingredients,
 			refetchInterval: 15000,

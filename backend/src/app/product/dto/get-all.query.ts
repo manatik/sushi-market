@@ -17,4 +17,9 @@ export class GetAllQuery {
   @IsString()
   @Transform(({ value }) => (!value ? undefined : value))
   fsc?: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => (!value ? undefined : value))
+  name?: string;
 }

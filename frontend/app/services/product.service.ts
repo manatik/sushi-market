@@ -21,6 +21,7 @@ export const ProductService = {
 		const { data } = await axiosInstance.get<IProductResponse>(URLS.all, {
 			params: {
 				onlyHidden: filters?.onlyHidden,
+				name: filters?.search,
 				fc: filters?.categoryId,
 				fsc: filters?.subCategoryId
 			}

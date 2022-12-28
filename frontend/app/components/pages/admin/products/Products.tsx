@@ -3,7 +3,9 @@ import ProductList from '@components/pages/admin/products/Product-list'
 import Input from '@components/ui/input/Input'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
+import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
+import { useDebounce } from '@hooks/useDebounce'
 import { useCategories } from '@query-hooks/useCategories'
 import { useProducts } from '@query-hooks/useProducts'
 import { useSubCategories } from '@query-hooks/useSubCategories'
@@ -19,7 +21,12 @@ const Products = () => {
 		subCategoryId: ''
 	})
 
-	const { isLoading: isProductsLoading, data: products } = useProducts(filters)
+	const debouncedSearch = useDebounce(filters.search, 500)
+
+	const { isLoading: isProductsLoading, data: products } = useProducts({
+		...filters,
+		search: debouncedSearch
+	})
 	const { isLoading: isCategoriesLoading, data: categories } = useCategories()
 	const { isLoading: isSubCategoriesLoading, data: subCategories } = useSubCategories()
 
@@ -42,46 +49,48 @@ const Products = () => {
 	return (
 		<div className={styles.products}>
 			<div className={styles.controls}>
-				<div className={styles.filters}>
-					<div className={styles.filters}>
-						<Input label={'Поиск'} onChange={handleSearch} value={filters.search} />
-					</div>
+				<Input label={'Поиск'} color={'white'} onChange={handleSearch} value={filters.search} />
 
-					<Label.Root className={styles.filters__label} htmlFor='categories'>
-						Сортировать по
+				<div className={styles.controlsItem}>
+					<Label.Root className={styles.controlsItem__label} htmlFor='categories'>
+						Фильтр категорий
 					</Label.Root>
 
-					<div className={styles.filters}>
-						<Select
-							id='categories'
-							placeholder={'Категории'}
-							onChange={handleChangeCategory}
-							value={filters.categoryId}
-						>
-							<SelectItem value={''}>Не выбрано</SelectItem>
+					<Select
+						id='categories'
+						placeholder={'Категории'}
+						onChange={handleChangeCategory}
+						value={filters.categoryId}
+					>
+						<SelectItem value={''}>Не выбрано</SelectItem>
 
-							{categories?.map(category => (
-								<SelectItem key={category.id} value={category.id}>
-									{category.name}
-								</SelectItem>
-							))}
-						</Select>
+						{categories?.map(category => (
+							<SelectItem key={category.id} value={category.id}>
+								{category.name}
+							</SelectItem>
+						))}
+					</Select>
+				</div>
 
-						<Select
-							id='subCategories'
-							placeholder='Подкатегории'
-							onChange={handleChangeSubCategory}
-							value={filters.subCategoryId}
-						>
-							<SelectItem value={''}>Не выбрано</SelectItem>
+				<div className={styles.controlsItem}>
+					<Label.Root className={styles.controlsItem__label} htmlFor='categories'>
+						Фильтр подкатегорий
+					</Label.Root>
 
-							{subCategories?.map(subCategory => (
-								<SelectItem key={subCategory.id} value={subCategory.id}>
-									{subCategory.name}
-								</SelectItem>
-							))}
-						</Select>
-					</div>
+					<Select
+						id='subCategories'
+						placeholder='Подкатегории'
+						onChange={handleChangeSubCategory}
+						value={filters.subCategoryId}
+					>
+						<SelectItem value={''}>Не выбрано</SelectItem>
+
+						{subCategories?.map(subCategory => (
+							<SelectItem key={subCategory.id} value={subCategory.id}>
+								{subCategory.name}
+							</SelectItem>
+						))}
+					</Select>
 				</div>
 
 				<div className={styles.controls__hidden}>
@@ -90,6 +99,8 @@ const Products = () => {
 					<Switch id='hidden' onCheckedChange={handleHidden} checked={filters.onlyHidden} />
 				</div>
 			</div>
+
+			<Separator />
 
 			<ProductList
 				isLoading={isProductsLoading || isCategoriesLoading || isSubCategoriesLoading}

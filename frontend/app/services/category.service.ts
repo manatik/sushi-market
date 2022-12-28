@@ -1,5 +1,5 @@
 import type { ICreateCategory } from '@common-types/category.types'
-import { IUpdateCategory } from '@common-types/category.types'
+import { ICategoryFilters, IUpdateCategory } from '@common-types/category.types'
 import { IDefaultResponse } from '@common-types/default-response.types'
 import { axiosInstance } from '../api/axios'
 
@@ -11,8 +11,10 @@ const URLS = {
 }
 
 export const CategoryService = {
-	async all(onlyHidden?: boolean) {
-		const { data } = await axiosInstance.get(URLS.all, { params: { onlyHidden } })
+	async all(filters?: ICategoryFilters) {
+		const { data } = await axiosInstance.get(URLS.all, {
+			params: { onlyHidden: filters?.onlyHidden, name: filters?.search }
+		})
 		return data
 	},
 

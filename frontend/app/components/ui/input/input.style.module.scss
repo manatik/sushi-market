@@ -2,90 +2,67 @@
   position: relative;
   font-size: var(--small-font-size);
   display: inline-block;
-}
 
-.customField input {
-  width: calc(100% - 17px);
-  border: none;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding-left: 12px;
-  padding-right: 5px;
-  background: #f2f2f2;
-  height: 2.5rem;
-  border-radius: var(--small-border-radius);
-  outline: none;
-  font-size: var(--small-font-size);
-}
+  .input {
+    width: calc(100% - 17px);
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-left: 12px;
+    padding-right: 5px;
+    height: 2.5rem;
+    border-radius: var(--small-border-radius);
+    outline: none;
+    font-size: var(--small-font-size);
 
-.customField .placeholder {
-  position: absolute;
-  left: 12px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  top: 22px;
-  line-height: 100%;
-  transform: translateY(-50%);
-  color: #aaa;
-  transition:
-          top 0.3s ease,
-          color 0.3s ease,
-          font-size 0.3s ease;
-}
+    &_gray {
+      background-color: #f2f2f2;
+    }
 
-.customField input.dirty + .placeholder,
-.customField input:focus + .placeholder,
-.customField input:not(:placeholder-shown) + .placeholder {
-  top: -10px;
-  font-size: 12px;
-  color: #222;
-}
+    &_white {
+      background-color: #fff;
+    }
 
-.customField .errorMessage {
-  width: calc(100% - 17px);
-  display: flex;
-  align-items: center;
-  padding-left: 12px;
-  padding-right: 5px;
-  margin-top: 5px;
-  font-size: 12px;
-  background: var(--red-color);
-  border-radius: var(--small-border-radius);
-  color: #fff;
-  height: 24px;
-}
+    &:focus + .placeholder,
+    &:not(:placeholder-shown) + .placeholder {
+      top: -10px;
+      font-size: 12px;
+      color: #222;
+    }
+  }
 
-.customField .errorMessage:empty {
-  opacity: 0;
-}
+  .placeholder {
+    position: absolute;
+    left: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    top: 22px;
+    line-height: 100%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition:
+            top 0.3s ease,
+            color 0.3s ease,
+            font-size 0.3s ease;
+  }
 
-.customField.one input {
-  background: none;
-  border: 2px solid #ddd;
-  transition: border-color 0.3s ease;
-}
+  .errorMessage {
+    width: calc(100% - 17px);
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    padding-right: 5px;
+    margin-top: 5px;
+    font-size: 12px;
+    background: var(--red-color);
+    border-radius: var(--small-border-radius);
+    color: #fff;
+    height: 24px;
 
-.customField.one input + .placeholder {
-  left: 8px;
-  padding: 0 5px;
-}
-
-.customField.one input.dirty,
-.customField.one input:not(:placeholder-shown),
-.customField.one input:focus {
-  border-color: #222;
-  transition-delay: 0.1s
-}
-
-.customField.one input.dirty + .placeholder,
-.customField.one input:not(:placeholder-shown) + .placeholder,
-.customField.one input:focus + .placeholder {
-  top: 0;
-  font-size: 10px;
-  color: #222;
-  background: #fff;
-  width: auto
+    &:empty {
+      opacity: 0;
+    }
+  }
 }

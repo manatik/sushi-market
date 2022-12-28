@@ -1,3 +1,4 @@
+import { ICategoryFilters } from '@common-types/category.types'
 import type {
 	ICategory,
 	ICategoryResponse,
@@ -10,10 +11,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-export const useCategories = (onlyHidden?: boolean) =>
+export const useCategories = (filters?: ICategoryFilters) =>
 	useQuery<ICategoryResponse, AxiosError<any>, ICategory[]>(
-		['categories', onlyHidden],
-		() => CategoryService.all(onlyHidden),
+		['categories', filters],
+		() => CategoryService.all(filters),
 		{
 			select: data => data.categories,
 			refetchInterval: 15000,

@@ -5,7 +5,7 @@ import { CreateSubCategoryDto } from '@sub-category/dto/create-sub-category.dto'
 import { GetAllQuery } from '@sub-category/dto/get-all.query';
 import { UpdateSubCategoryDto } from '@sub-category/dto/update-sub-category.dto';
 import { SubCategoryEntity } from '@sub-category/entity/sub-category.entity';
-import { FindManyOptions, FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class SubCategoryService {
@@ -22,16 +22,25 @@ export class SubCategoryService {
 
   async all(query: GetAllQuery) {
     try {
-      const whereExpression: FindManyOptions<SubCategoryEntity> = query.onlyHidden
-        ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
-        : {
-            where: { categoryId: query.fc, name: query.name ? ILike(`%${query.name}%`) : undefined },
-            withDeleted: false,
-          };
+      const whereExpression: FindOptionsWhere<SubCategoryEntity>[] = [
+        { name: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull() },
+        { article: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull() },
+      ];
+
+      for (const expression of whereExpression) {
+        expression.categoryId = query.fc;
+      }
+
+      if (query.onlyHidden) {
+        for (const expression of whereExpression) {
+          expression.dateDeleted = Not(IsNull());
+        }
+      }
 
       const subCategories = await this.subCategoryRepository.find({
-        ...whereExpression,
+        where: whereExpression,
         relations: { category: true },
+        withDeleted: true,
       });
 
       return this.errorService.success('Подкатегории успешно получены', { subCategories });

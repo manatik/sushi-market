@@ -3,6 +3,9 @@ const nextConfig = {
 	reactStrictMode: true,
 	swcMinify: true,
 	poweredByHeader: false,
+	publicRuntimeConfig: {
+		REACT_APP_ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT
+	},
 	env: {
 		API_URL: process.env.REACT_APP_API_URL
 	},

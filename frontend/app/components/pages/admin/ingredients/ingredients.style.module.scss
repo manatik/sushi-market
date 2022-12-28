@@ -9,19 +9,25 @@
   .controls {
     margin: 1rem 0;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-end;
+    gap: 1rem;
 
-    &__hidden {
-      @include outside-container-style;
-      padding: 10px;
+    .controlsItem {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 5px;
+
+      &__label {
+        padding-left: 10px;
+        font-size: var(--small-font-size);
+      }
     }
   }
 
   .cards {
+    margin-top: 1rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 1rem;
