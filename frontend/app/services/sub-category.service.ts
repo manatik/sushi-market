@@ -14,9 +14,9 @@ const URLS = {
 }
 
 export const SubCategoryService = {
-	async all(onlyHidden?: boolean, filters?: ISubCategoryFilters) {
+	async all(filters?: ISubCategoryFilters) {
 		const { data } = await axiosInstance.get(URLS.all, {
-			params: { onlyHidden, fc: filters?.categoryId, name: filters?.search }
+			params: { onlyHidden: filters?.onlyHidden, fc: filters?.categoryId, name: filters?.search }
 		})
 		return data
 	},

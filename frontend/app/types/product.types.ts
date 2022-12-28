@@ -45,4 +45,6 @@ export interface IUpdateProduct extends Partial<IProduct> {}
 export interface IProductFilters {
 	categoryId?: string
 	subCategoryId?: string
+	onlyHidden?: boolean
+	search?: string
 }

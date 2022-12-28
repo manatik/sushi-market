@@ -28,4 +28,5 @@ export interface IUpdateSubCategory extends Partial<ISubCategory> {}
 export interface ISubCategoryFilters {
 	categoryId?: string
 	search?: string
+	onlyHidden?: boolean
 }

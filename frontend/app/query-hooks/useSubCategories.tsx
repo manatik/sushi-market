@@ -11,10 +11,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-export const useSubCategories = (onlyHidden?: boolean, filters?: ISubCategoryFilters) =>
+export const useSubCategories = (filters?: ISubCategoryFilters) =>
 	useQuery<ISubCategoryResponse, AxiosError<any>, ISubCategory[]>(
-		['sub-categories', onlyHidden, filters],
-		() => SubCategoryService.all(onlyHidden, filters),
+		['sub-categories', filters],
+		() => SubCategoryService.all(filters),
 		{
 			select: data => data.subCategories,
 			staleTime: 15000,

@@ -11,10 +11,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
-export const useProducts = (onlyHidden: boolean, filters?: IProductFilters) =>
+export const useProducts = (filters?: IProductFilters) =>
 	useQuery<IProductResponse, AxiosError<any>, IProduct[]>(
-		['products', onlyHidden, filters],
-		() => ProductService.all(onlyHidden, filters),
+		['products', filters],
+		() => ProductService.all(filters),
 		{
 			select: data => data.products,
 			refetchInterval: 15000

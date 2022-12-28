@@ -17,9 +17,13 @@ const URLS = {
 }
 
 export const ProductService = {
-	async all(onlyHidden: boolean, filters?: IProductFilters) {
+	async all(filters?: IProductFilters) {
 		const { data } = await axiosInstance.get<IProductResponse>(URLS.all, {
-			params: { onlyHidden, fc: filters?.categoryId, fsc: filters?.subCategoryId }
+			params: {
+				onlyHidden: filters?.onlyHidden,
+				fc: filters?.categoryId,
+				fsc: filters?.subCategoryId
+			}
 		})
 		return data
 	},
