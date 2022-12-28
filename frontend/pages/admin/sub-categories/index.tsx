@@ -12,7 +12,7 @@ SubCategoriesPage.isOnlyRoles = ['admin']
 export async function getServerSideProps() {
 	const queryClient = new QueryClient()
 
-	await queryClient.prefetchQuery(['sub-categories'], SubCategoryService.all)
+	await queryClient.prefetchQuery(['sub-categories'], () => SubCategoryService.all())
 
 	return {
 		props: {

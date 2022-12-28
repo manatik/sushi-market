@@ -2,17 +2,22 @@ import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
 import { CreateIngredientDto } from '@ingredient/dto/create-ingredient.dto';
 import { UpdateIngredientDto } from '@ingredient/dto/update-ingredient.dto';
 import { IngredientService } from '@ingredient/ingredient.service';
+import { Public, Roles } from '@jwt-auth/decorators';
+import { Role } from '@jwt-auth/enum';
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
+@Roles(Role.Admin)
 @Controller(GLOBAL_PREFIXES.INGREDIENT)
 export class IngredientController {
   constructor(private readonly ingredientService: IngredientService) {}
 
+  @Public()
   @Get(ENDPOINTS.DEFAULT.ALL)
   async all() {
     return await this.ingredientService.all();
   }
 
+  @Public()
   @Get(ENDPOINTS.DEFAULT.BY_ID)
   async byId(@Param('id') id: string) {
     return await this.ingredientService.byId(id);

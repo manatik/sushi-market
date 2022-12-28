@@ -1,5 +1,9 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
-import { ICreateSubCategory, IUpdateSubCategory } from '@common-types/sub-category.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
+import {
+	ICreateSubCategory,
+	ISubCategoryFilters,
+	IUpdateSubCategory
+} from '@common-types/sub-category.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {
@@ -10,8 +14,10 @@ const URLS = {
 }
 
 export const SubCategoryService = {
-	async all() {
-		const { data } = await axiosInstance.get(URLS.all)
+	async all(onlyHidden?: boolean, filters?: ISubCategoryFilters) {
+		const { data } = await axiosInstance.get(URLS.all, {
+			params: { onlyHidden, fc: filters?.categoryId, name: filters?.search }
+		})
 		return data
 	},
 

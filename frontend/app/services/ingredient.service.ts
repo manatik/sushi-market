@@ -1,9 +1,5 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
-import {
-	ICreateIngredient,
-	IIngredientResponse,
-	IUpdateIngredient
-} from '@common-types/ingredient.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
+import { ICreateIngredient, IUpdateIngredient } from '@common-types/ingredient.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {

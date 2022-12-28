@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsDateString, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class UpdateSubCategoryDto {
   @IsOptional()
@@ -21,4 +21,8 @@ export class UpdateSubCategoryDto {
   @IsOptional()
   @IsBoolean()
   hidden?: boolean;
+
+  @IsOptional()
+  @IsDateString()
+  dateDeleted?: Date;
 }

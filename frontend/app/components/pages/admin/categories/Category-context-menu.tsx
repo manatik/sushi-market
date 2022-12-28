@@ -15,7 +15,7 @@ interface Props {
 	category: ICategory
 }
 
-const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, category }) => {
+const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category }) => {
 	const { Dialog, onConfirm } = useConfirm(
 		'Вы уверены?',
 		<div>
@@ -24,6 +24,7 @@ const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, categ
 			<p>Продукты затронуты не будут</p>
 		</div>
 	)
+
 	const { mutate: removeCategory } = useRemoveCategory()
 	const { mutate: updateCategory } = useUpdateCategory()
 
@@ -33,7 +34,7 @@ const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, categ
 		const isConfirmed = await onConfirm()
 
 		if (isConfirmed) {
-			removeCategory({ id: category.id, hard: true })
+			removeCategory(category.id)
 		}
 	}
 
@@ -88,4 +89,4 @@ const CategoryItemContextMenu: FC<PropsWithChildren<Props>> = ({ children, categ
 	)
 }
 
-export default CategoryItemContextMenu
+export default CategoryContextMenu

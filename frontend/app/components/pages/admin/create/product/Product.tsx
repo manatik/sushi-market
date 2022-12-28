@@ -17,7 +17,7 @@ import styles from './product.style.module.scss'
 const CreateProduct = () => {
 	const router = useRouter()
 
-	const { mutate } = useCreateProduct()
+	const { mutate: createProduct } = useCreateProduct()
 	const { isLoading: isCategoryLoading, data: categories } = useCategories()
 	const { isLoading: isSubCategoryLoading, data: subCategories } = useSubCategories()
 
@@ -35,7 +35,7 @@ const CreateProduct = () => {
 		}
 	})
 
-	const onSubmit = (formData: ICreateProduct) => mutate(formData)
+	const onSubmit = async (formData: ICreateProduct) => createProduct(formData)
 
 	if (isCategoryLoading || isSubCategoryLoading) {
 		return <div>loading...</div>
@@ -85,7 +85,8 @@ const CreateProduct = () => {
 									fullWidth
 									onChange={field.onChange}
 									value={field.value}
-									placeholder='Выберите категорию'
+									disabled={!categories?.length}
+									placeholder={categories?.length ? 'Выберите категорию' : 'Нет категорий'}
 								>
 									{categories?.map(category => (
 										<SelectItem key={category.id} value={category.id}>
@@ -104,7 +105,8 @@ const CreateProduct = () => {
 									fullWidth
 									onChange={field.onChange}
 									value={field.value}
-									placeholder='Выб. подкатегорию'
+									disabled={!subCategories?.length}
+									placeholder={subCategories?.length ? 'Выб. подкатегорию' : 'Нет подкатегорий'}
 								>
 									{subCategories?.map(subCategory => (
 										<SelectItem key={subCategory.id} value={subCategory.id}>

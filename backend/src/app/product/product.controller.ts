@@ -14,9 +14,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { AddIngredientsDto } from '@product/dto/add-ingredients.dto';
 import { AddPhotosDto } from '@product/dto/add-photos.dto';
 import { CreateProductDto } from '@product/dto/create-product.dto';
 import { GetAllQuery } from '@product/dto/get-all.query';
+import { RemoveIngredientQuery } from '@product/dto/remove-ingredient.query';
 import { RemoveProductPhotoQuery } from '@product/dto/remove-product-photo.query';
 import { UpdateProductDto } from '@product/dto/update-product.dto';
 import { ProductService } from '@product/product.service';
@@ -54,6 +56,11 @@ export class ProductController {
     return await this.productService.addPhotos(id, photos, dto);
   }
 
+  @Post(ENDPOINTS.PRODUCT.ADD_INGREDIENTS)
+  async addIngredients(@Param('id') id: string, @Body() dto: AddIngredientsDto) {
+    return await this.productService.addIngredients(id, dto);
+  }
+
   @Patch(ENDPOINTS.PRODUCT.UPDATE)
   async update(@Param('id') id: string, @Body() dto: UpdateProductDto) {
     return await this.productService.update(id, dto);
@@ -67,5 +74,10 @@ export class ProductController {
   @Delete(ENDPOINTS.PRODUCT.REMOVE_PHOTO)
   async removePhoto(@Param('id') id: string, @Query() query: RemoveProductPhotoQuery) {
     return await this.productService.removePhoto(id, query.photoId);
+  }
+
+  @Delete(ENDPOINTS.PRODUCT.REMOVE_INGREDIENT)
+  async removeRole(@Param('id') id: string, @Query() query: RemoveIngredientQuery) {
+    return await this.productService.removeIngredient(id, query.ingredientId);
   }
 }

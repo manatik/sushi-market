@@ -79,13 +79,13 @@ export class UserController {
   }
 
   @Roles(Role.Admin)
-  @Post()
+  @Post(ENDPOINTS.USER.ADD_ROLES)
   async addRoles(@Param('id') userId: string, @Body() dto: AddRolesDto) {
     return await this.userService.addRoles(userId, dto);
   }
 
   @Roles(Role.Admin)
-  @Delete()
+  @Delete(ENDPOINTS.USER.REMOVE_ROLE)
   async removeRole(@Param('id') userId: string, @Query() query: RemoveRoleQuery) {
     return await this.userService.removeRole(userId, query.roleId);
   }

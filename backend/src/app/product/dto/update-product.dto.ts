@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsDate, IsDateString, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class UpdateProductDto {
   @IsOptional()
@@ -47,6 +47,6 @@ export class UpdateProductDto {
   weight?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   dateDeleted?: Date;
 }

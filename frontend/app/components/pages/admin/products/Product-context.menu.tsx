@@ -1,47 +1,48 @@
-import { ISubCategory } from '@common-types/sub-category.types'
+import { IProduct } from '@common-types/product.types'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
 import useConfirm from '@hooks/useConfirm'
-import { useRemoveSubCategory, useUpdateSubCategory } from '@query-hooks/useSubCategories'
+import { useRemoveProduct, useUpdateProduct } from '@query-hooks/useProducts'
 import {
 	CREATE_CATEGORY_PATH,
+	CREATE_INGREDIENT_PATH,
 	CREATE_PRODUCT_PATH,
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
 import React, { FC, PropsWithChildren } from 'react'
 
 interface Props {
-	subCategory: ISubCategory
+	product: IProduct
 }
 
-const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCategory }) => {
+const ProductContextMenu: FC<PropsWithChildren<Props>> = ({ children, product }) => {
 	const { Dialog, onConfirm } = useConfirm(
 		'Вы уверены?',
 		<div>
-			<b>Удалить подкатегорию - {subCategory.name}?</b>
-			<p>Продукты и категории затронуты не будут</p>
+			<b>Удалить продукт - {product.name}?</b>
+			<p>Ингредиенты затронуты не будут</p>
 		</div>
 	)
 
-	const { mutate: removeSubCategory } = useRemoveSubCategory()
-	const { mutate: updateSubCategory } = useUpdateSubCategory()
+	const { mutate: removeProduct } = useRemoveProduct()
+	const { mutate: updateProduct } = useUpdateProduct()
 
-	const isHiddenSubCategory = !!subCategory.dateDeleted
+	const isHiddenProduct = !!product.dateDeleted
 
 	const onRemove = async () => {
 		const isConfirmed = await onConfirm()
 
 		if (isConfirmed) {
-			removeSubCategory(subCategory.id)
+			removeProduct(product.id)
 		}
 	}
 
 	const onHide = (hidden: boolean) => {
 		if (hidden) {
-			updateSubCategory({ id: subCategory.id, dto: { ...subCategory, hidden: false } })
+			updateProduct({ id: product.id, dto: { ...product, hidden: false } })
 		} else {
-			updateSubCategory({ id: subCategory.id, dto: { ...subCategory, hidden: true } })
+			updateProduct({ id: product.id, dto: { ...product, hidden: true } })
 		}
 	}
 
@@ -56,30 +57,41 @@ const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCat
 					<ContextMenu.Item>Подробнее</ContextMenu.Item>
 
 					<ContextMenu.Item>
-						<Link href={CREATE_SUB_CATEGORY_PATH}>Создать подкатегорию</Link>
-					</ContextMenu.Item>
-
-					<ContextMenu.Item>
 						<Link href={CREATE_CATEGORY_PATH}>Создать категорию</Link>
 					</ContextMenu.Item>
 
 					<ContextMenu.Item>
 						<Link
 							href={{
+								pathname: CREATE_SUB_CATEGORY_PATH,
+								query: { categoryId: product.categoryId }
+							}}
+						>
+							Добавить подкатегорию
+						</Link>
+					</ContextMenu.Item>
+
+					<ContextMenu.Item>
+						<Link
+							href={{
 								pathname: CREATE_PRODUCT_PATH,
-								query: { categoryId: subCategory.categoryId, subCategoryId: subCategory.id }
+								query: { categoryId: product.categoryId, subCategoryId: product.subCategoryId }
 							}}
 						>
 							Добавить продукт
 						</Link>
 					</ContextMenu.Item>
 
+					<ContextMenu.Item>
+						<Link href={CREATE_INGREDIENT_PATH}>Добавить ингредиент</Link>
+					</ContextMenu.Item>
+
 					<Separator />
 
 					<ContextMenu.Item>Редактировать</ContextMenu.Item>
 
-					<ContextMenu.Item onClick={() => onHide(isHiddenSubCategory)}>
-						{isHiddenSubCategory ? 'Вернуть' : 'Скрыть'}
+					<ContextMenu.Item onClick={() => onHide(isHiddenProduct)}>
+						{isHiddenProduct ? 'Вернуть' : 'Скрыть'}
 					</ContextMenu.Item>
 
 					<Separator />
@@ -91,4 +103,4 @@ const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCat
 	)
 }
 
-export default SubCategoryContextMenu
+export default ProductContextMenu

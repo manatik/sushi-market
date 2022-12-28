@@ -4,7 +4,7 @@ import type {
 	ICreateCategory,
 	IUpdateCategory
 } from '@common-types/category.types'
-import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { IDefaultResponse } from '@common-types/default-response.types'
 import { CategoryService } from '@services/category.service'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -70,7 +70,7 @@ export const useUpdateCategory = () => {
 export const useRemoveCategory = () => {
 	const queryClient = useQueryClient()
 
-	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; hard: boolean }>(
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, string>(
 		['remove-category'],
 		CategoryService.remove,
 		{

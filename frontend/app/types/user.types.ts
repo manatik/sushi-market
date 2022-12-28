@@ -1,10 +1,10 @@
-import { IDefaultResponse } from './IDefaultResponse.types'
+import { IDefaultResponse } from './default-response.types'
 
-export interface UserInfoResponse extends IDefaultResponse {
-	user: UserInfo
+export interface UserResponse extends IDefaultResponse {
+	user: IUser
 }
 
-export interface UserInfo {
+export interface IUser {
 	id: string
 	firstname: string
 	lastname: string | null
@@ -19,6 +19,8 @@ export interface UserInfo {
 	dateUpdated: string | null
 }
 
+export interface IUpdateUser extends Partial<IUser> {}
+
 export interface IUserAuth {
 	isAuth: boolean
 	roles: IRole[]
@@ -32,7 +34,7 @@ export interface IRole {
 	dateUpdated: string | null
 }
 
-export interface ISignIn extends Pick<UserInfo, 'phone'> {
+export interface ISignIn {
 	phone: string
 	password: string
 }

@@ -1,8 +1,8 @@
 import { ICategory } from '@common-types/category.types'
-import CategoryItemContextMenu from '@components/pages/admin/categories/Category-item-context-menu'
+import CategoryContextMenu from '@components/pages/admin/categories/Category-context-menu'
+import Card from '@components/ui/card/Card'
 import { dateToFormatDate } from '@utils/utils'
-import React, { FC } from 'react'
-import styles from './categories.style.module.scss'
+import { FC } from 'react'
 
 interface Props {
 	category: ICategory
@@ -10,16 +10,31 @@ interface Props {
 
 const CategoryItem: FC<Props> = ({ category }) => {
 	return (
-		<CategoryItemContextMenu category={category}>
-			<div className={styles.categoryRow}>
-				<span className={styles.categoryRow__cell}>{category.name}</span>
-				<span className={styles.categoryRow__cell}>{category.article}</span>
-				<span className={styles.categoryRow__cell}>{category.code}</span>
-				<span className={styles.categoryRow__cell}>{category.orderBy}</span>
-				<span className={styles.categoryRow__cell}>{dateToFormatDate(category.dateCreated)}</span>
-				<span className={styles.categoryRow__cell}>{dateToFormatDate(category.dateUpdated)}</span>
-			</div>
-		</CategoryItemContextMenu>
+		<CategoryContextMenu category={category}>
+			<Card>
+				<Card.Header>
+					<Card.Title title={category.name} subTitle={category.article} />
+				</Card.Header>
+
+				<Card.Content>
+					<Card.Item>
+						<span>Код</span>
+						<span>{category.code}</span>
+					</Card.Item>
+
+					<Card.Item>
+						<span>Позиция</span>
+						<span>{category.orderBy}</span>
+					</Card.Item>
+				</Card.Content>
+
+				<Card.Content>
+					<Card.Item justify={'end'} type={'secondary'}>
+						{category.dateUpdated ? dateToFormatDate(category.dateUpdated) : 'Не обновлялась'}
+					</Card.Item>
+				</Card.Content>
+			</Card>
+		</CategoryContextMenu>
 	)
 }
 

@@ -3,12 +3,14 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { PhotosService } from '@photos/photos.service';
+import { AddIngredientsDto } from '@product/dto/add-ingredients.dto';
 import { AddPhotosDto } from '@product/dto/add-photos.dto';
 import { CreateProductDto } from '@product/dto/create-product.dto';
 import { GetAllQuery } from '@product/dto/get-all.query';
 import { UpdateProductDto } from '@product/dto/update-product.dto';
 import { ProductEntity } from '@product/entity/product.entity';
 import { FileManipulatorSingleton } from '@utils/file-manipulator';
+import { idsArrayToArrayOfObjects } from '@utils/utils';
 import * as path from 'path';
 import { FindManyOptions, FindOptionsWhere, IsNull, Not, Repository } from 'typeorm';
 import * as uuid from 'uuid';
@@ -31,9 +33,12 @@ export class ProductService {
     try {
       const whereExpression: FindManyOptions<ProductEntity> = query.onlyHidden
         ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
-        : { withDeleted: false };
+        : { where: { categoryId: query.fc, subCategoryId: query.fsc }, withDeleted: false };
 
-      const products = await this.productRepository.find(whereExpression);
+      const products = await this.productRepository.find({
+        ...whereExpression,
+        relations: { category: true, subCategory: true, ingredients: true },
+      });
 
       return this.errorService.success('Продукты успешно получены', { products });
     } catch (e) {
@@ -82,7 +87,7 @@ export class ProductService {
       if (dto.hidden) {
         productEntity.dateDeleted = new Date();
       } else {
-        productEntity.dateDeleted = undefined;
+        productEntity.dateDeleted = null;
       }
 
       const product = await this.productRepository.update({ id }, productEntity);
@@ -180,6 +185,33 @@ export class ProductService {
 
         throw new Error(`Продукт с ${translate} уже существует`);
       }
+    }
+  }
+
+  async addIngredients(id: string, dto: AddIngredientsDto) {
+    try {
+      const product = await this.productRepository.findOne({ where: { id }, relations: { ingredients: true } });
+
+      await this.productRepository.save({ ...product, ingredients: idsArrayToArrayOfObjects(dto.ingredients) });
+
+      return this.errorService.success('Ингредиенты добавлены');
+    } catch (e) {
+      throw this.errorService.internal('Ошибка добавления ингредиентов', e.message);
+    }
+  }
+
+  async removeIngredient(id: string, ingredientId: string) {
+    try {
+      const product = await this.productRepository.findOne({ where: { id }, relations: { ingredients: true } });
+
+      await this.productRepository.save({
+        ...product,
+        ingredients: product.ingredients.filter((ingredient) => ingredient.id !== ingredientId),
+      });
+
+      return this.errorService.success('Ингредиент успешно удалён');
+    } catch (e) {
+      throw this.errorService.internal('Ошибка удаления ингредиента', e.message);
     }
   }
 }

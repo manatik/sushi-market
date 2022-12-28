@@ -1,6 +1,6 @@
 @import "app/styles/mixins";
 
-.categories {
+.products {
   width: 96%;
   max-height: 75vh;
   color: var(--primary-text-color);
@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 1rem;
 
     &__hidden {
       @include outside-container-style;
@@ -19,12 +20,22 @@
       align-items: center;
       gap: 10px;
     }
+
+    .filters {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      &__label {
+        font-size: var(--secondary-font-size);
+      }
+    }
   }
 
   .cards {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+    grid-gap: 1rem;
 
     @include laptop-large-max() {
       grid-template-columns: repeat(4, 1fr);

@@ -1,6 +1,6 @@
 import type { ICreateCategory } from '@common-types/category.types'
 import { IUpdateCategory } from '@common-types/category.types'
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {
@@ -28,10 +28,8 @@ export const CategoryService = {
 		return data
 	},
 
-	async remove({ id, hard }: { id: string; hard: boolean }) {
-		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.remove}/${id}`, {
-			params: { hard: false }
-		})
+	async remove(id: string) {
+		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.remove}/${id}`)
 		return data
 	}
 }

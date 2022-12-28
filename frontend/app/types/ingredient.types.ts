@@ -1,4 +1,4 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
 
 export interface IIngredientResponse extends IDefaultResponse {
 	ingredients: IIngredient[]
@@ -17,4 +17,4 @@ export interface ICreateIngredient extends Pick<IIngredient, 'name'> {
 	description?: string
 }
 
-export interface IUpdateIngredient extends Partial<ICreateIngredient> {}
+export interface IUpdateIngredient extends Partial<IIngredient> {}

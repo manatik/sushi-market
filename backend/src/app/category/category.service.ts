@@ -1,6 +1,5 @@
 import { CreateCategoryDto } from '@category/dto/create-category.dto';
 import { GetAllQuery } from '@category/dto/get-all.query';
-import { RemoveQuery } from '@category/dto/remove.query';
 import { UpdateCategoryDto } from '@category/dto/update-category.dto';
 import { CategoryEntity } from '@category/entity/category.entity';
 import { ErrorService } from '@error/error.service';
@@ -84,15 +83,10 @@ export class CategoryService {
     }
   }
 
-  async remove(id: string, query: RemoveQuery) {
+  async remove(id: string) {
     try {
-      if (query.hard) {
-        const category = await this.categoryRepository.delete({ id });
-        return this.errorService.success('Категория успешно удалена', { category });
-      }
-
-      const category = await this.categoryRepository.update({ id }, { dateDeleted: new Date() });
-      return this.errorService.success('Категория успешно скрыта', { category });
+      const category = await this.categoryRepository.delete({ id });
+      return this.errorService.success('Категория успешно удалена', { category });
     } catch (e) {
       throw this.errorService.internal('Ошибка удаления категории', e.message);
     }

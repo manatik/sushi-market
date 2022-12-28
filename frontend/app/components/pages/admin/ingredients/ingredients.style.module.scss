@@ -1,6 +1,6 @@
 @import "app/styles/mixins";
 
-.categories {
+.ingredients {
   width: 96%;
   max-height: 75vh;
   color: var(--primary-text-color);
@@ -24,7 +24,7 @@
   .cards {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+    grid-gap: 1rem;
 
     @include laptop-large-max() {
       grid-template-columns: repeat(4, 1fr);

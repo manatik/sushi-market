@@ -1,4 +1,4 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
 
 export interface IPromotionResponse<T = IPromotion[]> extends IDefaultResponse {
 	promotions: T
@@ -45,4 +45,4 @@ export interface ICreatePromotion
 	hidden: boolean
 }
 
-export interface IUpdatePromotion extends Partial<ICreatePromotion> {}
+export interface IUpdatePromotion extends Partial<IPromotion> {}

@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCategoryDto {
   @IsOptional()
@@ -20,4 +20,8 @@ export class UpdateCategoryDto {
   @IsOptional()
   @IsNumber()
   orderBy: number;
+
+  @IsOptional()
+  @IsDateString()
+  dateDeleted?: Date;
 }

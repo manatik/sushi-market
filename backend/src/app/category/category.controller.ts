@@ -1,7 +1,6 @@
 import { CategoryService } from '@category/category.service';
 import { CreateCategoryDto } from '@category/dto/create-category.dto';
 import { GetAllQuery } from '@category/dto/get-all.query';
-import { RemoveQuery } from '@category/dto/remove.query';
 import { UpdateCategoryDto } from '@category/dto/update-category.dto';
 import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
 import { Public, Roles } from '@jwt-auth/decorators';
@@ -36,7 +35,7 @@ export class CategoryController {
   }
 
   @Delete(ENDPOINTS.DEFAULT.REMOVE)
-  async remove(@Param('id') id: string, @Query() query: RemoveQuery) {
-    return await this.categoryService.remove(id, query);
+  async remove(@Param('id') id: string) {
+    return await this.categoryService.remove(id);
   }
 }

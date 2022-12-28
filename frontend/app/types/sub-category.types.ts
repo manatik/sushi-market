@@ -1,5 +1,5 @@
 import { ICategory } from '@common-types/category.types'
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
 
 export interface ISubCategoryResponse extends IDefaultResponse {
 	subCategories: ISubCategory[]
@@ -23,4 +23,9 @@ export interface ICreateSubCategory extends Pick<ISubCategory, 'name' | 'article
 	hidden?: boolean
 }
 
-export interface IUpdateSubCategory extends Partial<ICreateSubCategory> {}
+export interface IUpdateSubCategory extends Partial<ISubCategory> {}
+
+export interface ISubCategoryFilters {
+	categoryId?: string
+	search?: string
+}

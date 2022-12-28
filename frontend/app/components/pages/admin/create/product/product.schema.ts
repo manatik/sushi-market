@@ -20,5 +20,8 @@ export const ProductSchema = z.object({
 	proteins: z.string().optional(),
 	fats: z.string().optional(),
 	carbohydrates: z.string().optional(),
-	weight: z.string().optional()
+	weight: z.string().optional(),
+	ingredients: z
+		.array(z.object({ label: z.string().or(z.number()), value: z.string().or(z.number()) }))
+		.optional()
 })

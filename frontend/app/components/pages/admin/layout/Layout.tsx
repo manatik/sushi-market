@@ -1,6 +1,6 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
-import type { UserInfo, UserInfoResponse } from '@common-types/user.types'
-import CurrentDate from '@components/current-date/Current-date'
+import { IDefaultResponse } from '@common-types/default-response.types'
+import type { IUser, UserResponse } from '@common-types/user.types'
+import CurrentDate from '@components/common/current-date/Current-date'
 import Sidebar from '@components/ui/sidebar/Sidebar'
 import SidebarItem from '@components/ui/sidebar/Sidebar-item'
 import SidebarItemCollapsible from '@components/ui/sidebar/Sidebar-item-collapsible'
@@ -33,13 +33,13 @@ import React, { FC, PropsWithChildren } from 'react'
 import styles from './layout.module.scss'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
-	const { isLoading, data: user } = useQuery<
-		UserInfoResponse,
-		AxiosError<IDefaultResponse>,
-		UserInfo
-	>(['user'], UserService.getInfo, {
-		select: data => data.user
-	})
+	const { isLoading, data: user } = useQuery<UserResponse, AxiosError<IDefaultResponse>, IUser>(
+		['user'],
+		UserService.getInfo,
+		{
+			select: data => data.user
+		}
+	)
 
 	if (isLoading) {
 		return <div>loading...</div>
@@ -65,8 +65,8 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 						<SidebarItem path={CREATE_SUB_CATEGORY_PATH} Icon={GearIcon} label={'Подкатегория'} />
 						<SidebarItem path={CREATE_PRODUCT_PATH} Icon={GearIcon} label={'Продукт'} />
 						<SidebarItem path={CREATE_INGREDIENT_PATH} Icon={GearIcon} label={'Ингредиент'} />
-						<SidebarItem path={CREATE_DISTRICT_PATH} Icon={GearIcon} label={'Район'} />
 						<SidebarItem path={CREATE_PROMOTION_PATH} Icon={GearIcon} label={'Акция'} />
+						<SidebarItem path={CREATE_DISTRICT_PATH} Icon={GearIcon} label={'Район'} />
 						<SidebarItem path={CREATE_USER_PATH} Icon={GearIcon} label={'Пользователь'} />
 						<SidebarItem path={CREATE_ROLE_PATH} Icon={GearIcon} label={'Роль'} />
 					</SidebarItemCollapsible>

@@ -9,16 +9,17 @@ interface SelectProps {
 	onChange?: (value: string) => void
 	value?: string
 	fullWidth?: boolean
+	disabled?: boolean
 }
 
 const Select: ForwardRefExoticComponent<PropsWithChildren<SelectProps> & RefAttributes<any>> =
 	forwardRef<any, PropsWithChildren<SelectProps>>(
-		({ id, placeholder, children, onChange, value, fullWidth }, ref) => {
+		({ id, placeholder, children, onChange, value, fullWidth, disabled }, ref) => {
 			const width = fullWidth ? 'auto' : '200px'
 
 			return (
 				<div style={{ width }}>
-					<RadixSelect.Root onValueChange={onChange} value={value}>
+					<RadixSelect.Root onValueChange={onChange} value={value} disabled={disabled}>
 						<RadixSelect.Trigger ref={ref} id={id} className={styles.selectTrigger}>
 							<RadixSelect.Value placeholder={placeholder} />
 

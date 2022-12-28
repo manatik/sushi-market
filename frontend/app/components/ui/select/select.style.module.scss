@@ -21,6 +21,11 @@
     display: flex;
     align-items: center;
   }
+
+  &:disabled {
+    background-color: var(--gray-color);
+    color: var(--disabled-color);
+  }
 }
 
 .selectContent {

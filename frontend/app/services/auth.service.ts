@@ -1,4 +1,4 @@
-import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { IDefaultResponse } from '@common-types/default-response.types'
 import { IUserAuth } from '@common-types/user.types'
 import type { ISignIn, ISignUp } from '@common-types/user.types'
 import { axiosInstance } from '../api/axios'

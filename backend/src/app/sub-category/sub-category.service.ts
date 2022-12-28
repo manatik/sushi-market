@@ -5,7 +5,7 @@ import { CreateSubCategoryDto } from '@sub-category/dto/create-sub-category.dto'
 import { GetAllQuery } from '@sub-category/dto/get-all.query';
 import { UpdateSubCategoryDto } from '@sub-category/dto/update-sub-category.dto';
 import { SubCategoryEntity } from '@sub-category/entity/sub-category.entity';
-import { FindManyOptions, FindOptionsWhere, IsNull, Not, Repository } from 'typeorm';
+import { FindManyOptions, FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class SubCategoryService {
@@ -24,7 +24,10 @@ export class SubCategoryService {
     try {
       const whereExpression: FindManyOptions<SubCategoryEntity> = query.onlyHidden
         ? { where: { dateDeleted: Not(IsNull()) }, withDeleted: true }
-        : { withDeleted: false };
+        : {
+            where: { categoryId: query.fc, name: query.name ? ILike(`%${query.name}%`) : undefined },
+            withDeleted: false,
+          };
 
       const subCategories = await this.subCategoryRepository.find({
         ...whereExpression,
@@ -78,10 +81,10 @@ export class SubCategoryService {
       if (dto.hidden) {
         subCategoryEntity.dateDeleted = new Date();
       } else {
-        subCategoryEntity.dateDeleted = undefined;
+        subCategoryEntity.dateDeleted = null;
       }
 
-      const subCategory = await this.subCategoryRepository.update({ id }, dto);
+      const subCategory = await this.subCategoryRepository.update({ id }, subCategoryEntity);
 
       return this.errorService.success('Подкатегория обновлена', { subCategory });
     } catch (e) {

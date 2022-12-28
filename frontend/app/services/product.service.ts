@@ -1,7 +1,8 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
 import {
 	ICreateProduct,
 	IProduct,
+	IProductFilters,
 	IProductResponse,
 	IUpdateProduct
 } from '@common-types/product.types'
@@ -16,8 +17,10 @@ const URLS = {
 }
 
 export const ProductService = {
-	async all() {
-		const { data } = await axiosInstance.get<IProductResponse>(URLS.all)
+	async all(onlyHidden: boolean, filters?: IProductFilters) {
+		const { data } = await axiosInstance.get<IProductResponse>(URLS.all, {
+			params: { onlyHidden, fc: filters?.categoryId, fsc: filters?.subCategoryId }
+		})
 		return data
 	},
 
@@ -31,8 +34,8 @@ export const ProductService = {
 		return data
 	},
 
-	async update(dto: IUpdateProduct) {
-		const { data } = await axiosInstance.patch<IDefaultResponse>(URLS.update, dto)
+	async update({ id, dto }: { id: string; dto: IUpdateProduct }) {
+		const { data } = await axiosInstance.patch<IDefaultResponse>(`${URLS.update}/${id}`, dto)
 		return data
 	},
 

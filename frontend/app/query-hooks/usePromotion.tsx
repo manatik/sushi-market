@@ -1,4 +1,4 @@
-import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { IDefaultResponse } from '@common-types/default-response.types'
 import type {
 	ICreatePromotion,
 	IPromotion,

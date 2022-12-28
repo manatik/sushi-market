@@ -1,4 +1,4 @@
-import type { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import type { IDefaultResponse } from '@common-types/default-response.types'
 import type { ISignUp } from '@common-types/user.types'
 import { SignUpSchema } from '@components/pages/authorization/authorization.schema'
 import ButtonLoading from '@components/ui/button-loading/Button-loading'

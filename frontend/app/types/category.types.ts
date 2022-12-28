@@ -1,4 +1,4 @@
-import { IDefaultResponse } from '@common-types/IDefaultResponse.types'
+import { IDefaultResponse } from '@common-types/default-response.types'
 
 export interface ICategoryResponse extends IDefaultResponse {
 	categories: ICategory[]
@@ -17,8 +17,8 @@ export interface ICategory {
 }
 
 export interface ICreateCategory extends Pick<ICategory, 'name' | 'article' | 'code'> {
-	orderBy?: number | null
-	hidden?: boolean | null
+	orderBy?: number
+	hidden?: boolean
 }
 
-export interface IUpdateCategory extends Partial<ICreateCategory> {}
+export interface IUpdateCategory extends Partial<ICategory> {}

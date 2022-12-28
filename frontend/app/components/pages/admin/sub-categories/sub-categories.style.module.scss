@@ -5,35 +5,44 @@
   max-height: 75vh;
   color: var(--primary-text-color);
   overflow: auto;
-}
 
-.subCategoryRow {
-  display: grid;
-  grid-template-columns: 1.5fr 1.2fr 1fr .7fr .7fr 1fr 1fr;
-  background-color: #fff;
-  margin-bottom: 10px;
-  font-size: var(--secondary-font-size);
-  border-radius: var(--small-border-radius);
+  .controls {
+    margin: 1rem 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 1rem;
 
-  &_header {
-    position: sticky;
-    top: 0;
-    font-weight: 600;
-    background-color: #FBF7F4;
-    z-index: 2;
+    &__hidden {
+      @include outside-container-style;
+      padding: 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-    & span {
-      padding: .5rem;
+    .filters {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      &__label {
+        font-size: var(--secondary-font-size);
+      }
     }
   }
 
-  &__cell {
-    min-width: 4rem;
-    padding: .5rem;
-    border-left: 1px solid #dcdcdc;
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
 
-    &:first-child {
-      border: none;
+    @include laptop-large-max() {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include laptop-small-max() {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 }

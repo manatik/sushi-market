@@ -16,7 +16,7 @@ export class IngredientService {
     try {
       const ingredients = await this.ingredientRepository.find();
 
-      return this.errorService.success('Ингредиенты успешно получены', { data: ingredients });
+      return this.errorService.success('Ингредиенты успешно получены', { ingredients });
     } catch (e) {
       throw this.errorService.internal('Ошибка получения ингредиентов', e.message);
     }
@@ -26,7 +26,7 @@ export class IngredientService {
     try {
       const ingredient = await this.ingredientRepository.findOne({ where: { id } });
 
-      return this.errorService.success('Ингредиент успешно получен', { data: ingredient });
+      return this.errorService.success('Ингредиент успешно получен', { ingredient });
     } catch (e) {
       throw this.errorService.internal('Ошибка получения ингредиента', e.message);
     }
@@ -37,7 +37,7 @@ export class IngredientService {
       const entity = this.ingredientRepository.create(dto);
       const ingredient = await this.ingredientRepository.save(entity);
 
-      return this.errorService.success('Ингредиент успешно создан', { data: ingredient });
+      return this.errorService.success('Ингредиент успешно создан', { ingredient });
     } catch (e) {
       throw this.errorService.internal('Ошибка создания ингредиента', e.message);
     }
@@ -47,7 +47,7 @@ export class IngredientService {
     try {
       const ingredient = await this.ingredientRepository.update({ id }, dto);
 
-      return this.errorService.success('Ингредиент успешно обновлён', { data: ingredient });
+      return this.errorService.success('Ингредиент успешно обновлён', { ingredient });
     } catch (e) {
       throw this.errorService.internal('Ошибка обновления ингредиента', e.message);
     }

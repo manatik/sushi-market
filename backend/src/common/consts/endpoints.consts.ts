@@ -36,14 +36,18 @@ export const ENDPOINTS = {
     ACTIVE_ADDRESS: 'address/active',
     UPDATE_ADDRESS: 'address/:id',
     REMOVE_ADDRESS: 'address/:id',
+    ADD_ROLES: 'roles/:id',
+    REMOVE_ROLE: 'roles/:id',
   },
   PRODUCT: {
     ALL: '',
     CREATE: '',
     ADD_PHOTOS: 'photos/:id',
+    ADD_INGREDIENTS: 'ingredients/:id',
     BY_ID: ':id',
     UPDATE: ':id',
     REMOVE: ':id',
     REMOVE_PHOTO: 'photos/:id',
+    REMOVE_INGREDIENT: 'ingredients/:id',
   },
 };
