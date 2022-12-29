@@ -1,7 +1,7 @@
 @import "app/styles/mixins";
 
-.ingredients {
-  width: 96%;
+.adminPage {
+  width: 97%;
   max-height: 75vh;
   color: var(--primary-text-color);
   overflow: auto;
@@ -12,6 +12,14 @@
     align-items: flex-end;
     justify-content: flex-end;
     gap: 1rem;
+
+    &__hidden {
+      @include outside-container-style;
+      padding: 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
     .controlsItem {
       display: flex;
@@ -29,8 +37,12 @@
   .cards {
     margin-top: 1rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 1rem;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+
+    @include desktop-large-max() {
+      grid-template-columns: repeat(5, 1fr);
+    }
 
     @include laptop-large-max() {
       grid-template-columns: repeat(4, 1fr);

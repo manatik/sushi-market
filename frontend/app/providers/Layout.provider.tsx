@@ -1,5 +1,5 @@
 import { TypeComponentAuthFields } from '@common-types/private-route.types'
-import Layout from '@components/pages/admin/layout/Layout'
+import Layout from '@components/admin/layout/Layout'
 import AuthProvider from '@providers/Auth.provider'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'

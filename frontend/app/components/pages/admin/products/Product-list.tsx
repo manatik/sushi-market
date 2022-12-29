@@ -1,6 +1,6 @@
 import { IProduct } from '@common-types/product.types'
 import ProductItem from '@components/pages/admin/products/Product-item'
-import styles from './products.style.module.scss'
+import styles from '@styles/admin/admin-page.style.module.scss'
 import { FC } from 'react'
 
 interface Props {

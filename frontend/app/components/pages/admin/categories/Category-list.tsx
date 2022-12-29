@@ -1,6 +1,6 @@
 import { ICategory } from '@common-types/category.types'
 import { FC } from 'react'
-import styles from './categories.style.module.scss'
+import styles from '@styles/admin/admin-page.style.module.scss'
 import CategoryItem from '@components/pages/admin/categories/Category-item'
 
 interface Props {

@@ -6,15 +6,16 @@ import styles from './select.style.module.scss'
 interface SelectProps {
 	id?: string
 	placeholder: string
-	onChange?: (value: string) => void
+	onChange?: (value?: string) => void
 	value?: string
 	fullWidth?: boolean
 	disabled?: boolean
+	error?: string
 }
 
 const Select: ForwardRefExoticComponent<PropsWithChildren<SelectProps> & RefAttributes<any>> =
 	forwardRef<any, PropsWithChildren<SelectProps>>(
-		({ id, placeholder, children, onChange, value, fullWidth, disabled }, ref) => {
+		({ id, placeholder, children, onChange, value, fullWidth, disabled, error }, ref) => {
 			const width = fullWidth ? 'auto' : '200px'
 
 			return (
@@ -33,13 +34,17 @@ const Select: ForwardRefExoticComponent<PropsWithChildren<SelectProps> & RefAttr
 								<RadixSelect.ScrollUpButton className={styles.selectContent__scrollButton}>
 									<ChevronUpIcon />
 								</RadixSelect.ScrollUpButton>
+
 								<RadixSelect.Viewport>{children}</RadixSelect.Viewport>
+
 								<RadixSelect.ScrollDownButton className={styles.selectContent__scrollButton}>
 									<ChevronDownIcon />
 								</RadixSelect.ScrollDownButton>
 							</RadixSelect.Content>
 						</RadixSelect.Portal>
 					</RadixSelect.Root>
+
+					{error && <span className={styles.error}>{error}</span>}
 				</div>
 			)
 		}

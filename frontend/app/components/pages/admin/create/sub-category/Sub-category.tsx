@@ -16,23 +16,30 @@ import styles from './sub-category.style.module.scss'
 const CreateSubCategory = () => {
 	const router = useRouter()
 
-	const { mutate } = useCreateSubCategory()
+	const { mutate: createSubCategory } = useCreateSubCategory()
 	const { isLoading: isCategoriesLoading, data: categories } = useCategories()
 
 	const {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty }
+		formState: { errors, isDirty },
+		reset
 	} = useForm<ICreateSubCategory>({
 		resolver: zodResolver(SubCategorySchema),
 		defaultValues: {
 			orderBy: 1,
-			categoryId: router.query.categoryId as string
+			categoryId: (router.query.categoryId as string) || ''
 		}
 	})
 
-	const onSubmit = (formData: ICreateSubCategory) => mutate(formData)
+	const onSubmit = (formData: ICreateSubCategory) => {
+		createSubCategory(formData, {
+			onSuccess() {
+				reset()
+			}
+		})
+	}
 
 	if (isCategoriesLoading) {
 		return <div>loading...</div>
@@ -62,6 +69,7 @@ const CreateSubCategory = () => {
 							onChange={field.onChange}
 							value={field.value}
 							placeholder='Выберите категорию'
+							error={errors.categoryId?.message}
 							fullWidth
 						>
 							{categories?.map(category => (

@@ -1,35 +1,21 @@
 import { IIngredientFilters } from '@common-types/ingredient.types'
+import Filters from '@components/admin/filters/Filters'
 import IngredientList from '@components/pages/admin/ingredients/Ingredient-list'
-import Input from '@components/ui/input/Input'
 import Separator from '@components/ui/separator/Separator'
-import Switch from '@components/ui/switch/Switch'
-import { useDebounce } from '@hooks/useDebounce'
 import { useIngredients } from '@query-hooks/useIngredients'
-import * as Label from '@radix-ui/react-label'
-import { ChangeEvent, useState } from 'react'
-import styles from './ingredients.style.module.scss'
+import styles from '@styles/admin/admin-page.style.module.scss'
+import { useState } from 'react'
 
 const Ingredients = () => {
-	const [filters, setFilters] = useState<IIngredientFilters>({
-		search: ''
-	})
-	const debouncedSearch = useDebounce(filters.search, 500)
+	const [filters, setFilters] = useState<IIngredientFilters>({})
 
-	const { isLoading: isIngredientsLoading, data: ingredients } = useIngredients({
-		search: debouncedSearch
-	})
-
-	const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-		setFilters(prev => ({ ...prev, search: event.target.value }))
-	}
+	const { isLoading: isIngredientsLoading, data: ingredients } = useIngredients(filters)
 
 	return (
-		<div className={styles.ingredients}>
-			<div className={styles.controls}>
-				<div className={styles.controlsItem}>
-					<Input label={'Поиск'} color={'white'} onChange={handleSearch} value={filters.search} />
-				</div>
-			</div>
+		<div className={styles.adminPage}>
+			<Filters onChange={filters => setFilters(filters)}>
+				<Filters.Search />
+			</Filters>
 
 			<Separator />
 

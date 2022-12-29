@@ -1,5 +1,5 @@
 import { ISubCategory } from '@common-types/sub-category.types'
-import styles from './sub-categories.style.module.scss'
+import styles from '@styles/admin/admin-page.style.module.scss'
 import SubCategoryItem from '@components/pages/admin/sub-categories/Sub-category-item'
 import { FC } from 'react'
 

@@ -1,6 +1,6 @@
 import { IIngredient } from '@common-types/ingredient.types'
 import IngredientItem from '@components/pages/admin/ingredients/Ingredient-item'
-import styles from './ingredients.style.module.scss'
+import styles from '@styles/admin/admin-page.style.module.scss'
 import React, { FC } from 'react'
 
 interface Props {

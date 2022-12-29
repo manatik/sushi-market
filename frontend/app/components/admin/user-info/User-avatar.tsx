@@ -1,6 +1,6 @@
 import HoverCard from '@components/ui/hover-card/Hover-card'
 import Link from '@components/ui/link/Link'
-import { IUserAvatarProps } from '@components/user-info/user-avatar.types'
+import { useGetUser } from '@query-hooks/useUser'
 import { ChevronDownIcon, PersonIcon } from '@radix-ui/react-icons'
 import { AuthService } from '@services/auth.service'
 import { HOME_PATH, USER_PROFILE_EDIT_PATH, USER_PROFILE_PATH } from '@utils/pages-paths'
@@ -8,9 +8,13 @@ import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import styles from './user-avatar.style.module.scss'
 
-const UserAvatar: FC<IUserAvatarProps> = ({ firstname }) => {
+const UserAvatar: FC = () => {
 	const router = useRouter()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+
+	const { isLoading, data: user } = useGetUser()
+
+	const firstname = isLoading ? 'Загрузка...' : user?.firstname
 
 	const onLogout = async () => {
 		await AuthService.logout()

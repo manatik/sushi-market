@@ -1,4 +1,5 @@
 import { ICategory } from '@common-types/category.types'
+import UpdateCategory from '@components/admin/update-popups/category/category'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
@@ -9,7 +10,7 @@ import {
 	CREATE_PRODUCT_PATH,
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
-import { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren, useState } from 'react'
 
 interface Props {
 	category: ICategory
@@ -24,6 +25,8 @@ const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category 
 			<p>Продукты затронуты не будут</p>
 		</div>
 	)
+
+	const [selectedCategory, setSelectedCategory] = useState<ICategory | undefined>(undefined)
 
 	const { mutate: removeCategory } = useRemoveCategory()
 	const { mutate: updateCategory } = useUpdateCategory()
@@ -50,11 +53,23 @@ const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category 
 		<>
 			<Dialog />
 
+			{selectedCategory && (
+				<UpdateCategory
+					category={selectedCategory}
+					isOpen={!!selectedCategory}
+					onClose={() => {
+						setSelectedCategory(undefined)
+					}}
+				/>
+			)}
+
 			<ContextMenu>
 				<ContextMenu.Title>{children}</ContextMenu.Title>
 
 				<ContextMenu.Content>
-					<ContextMenu.Item>Подробнее</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => setSelectedCategory(category)}>
+						Подробнее
+					</ContextMenu.Item>
 
 					<ContextMenu.Item>
 						<Link href={CREATE_CATEGORY_PATH}>Создать категорию</Link>

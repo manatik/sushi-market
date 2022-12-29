@@ -10,19 +10,26 @@ import { CategorySchema } from './category.schema'
 import styles from './category.style.module.scss'
 
 const CreateCategory = () => {
-	const { mutate } = useCreateCategory()
+	const { mutate: createCategory } = useCreateCategory()
 
 	const {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty }
+		formState: { errors, isDirty },
+		reset
 	} = useForm<ICreateCategory>({
 		defaultValues: { orderBy: 1 },
 		resolver: zodResolver(CategorySchema)
 	})
 
-	const onSubmit = (formData: ICreateCategory) => mutate(formData)
+	const onSubmit = (formData: ICreateCategory) => {
+		createCategory(formData, {
+			onSuccess() {
+				reset()
+			}
+		})
+	}
 
 	return (
 		<div className={styles.category}>

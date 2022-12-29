@@ -8,17 +8,24 @@ import { useForm } from 'react-hook-form'
 import styles from './ingredient.style.module.scss'
 
 const CreateIngredient = () => {
-	const { mutate } = useCreateIngredient()
+	const { mutate: createIngredient } = useCreateIngredient()
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty }
+		formState: { errors, isDirty },
+		reset
 	} = useForm<ICreateIngredient>({
 		resolver: zodResolver(IngredientSchema)
 	})
 
-	const onSubmit = (formData: ICreateIngredient) => mutate(formData)
+	const onSubmit = (formData: ICreateIngredient) => {
+		createIngredient(formData, {
+			onSuccess() {
+				reset()
+			}
+		})
+	}
 
 	return (
 		<div className={styles.ingredient}>

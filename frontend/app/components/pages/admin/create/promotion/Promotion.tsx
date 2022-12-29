@@ -18,7 +18,8 @@ const CreatePromotion = () => {
 		handleSubmit,
 		register,
 		control,
-		formState: { isDirty, errors }
+		formState: { isDirty, errors },
+		reset
 	} = useForm<ICreatePromotion>({
 		resolver: zodResolver(PromotionSchema),
 		defaultValues: {
@@ -29,7 +30,13 @@ const CreatePromotion = () => {
 		}
 	})
 
-	const onSubmit = (formData: ICreatePromotion) => createPromotion(formData)
+	const onSubmit = (formData: ICreatePromotion) => {
+		createPromotion(formData, {
+			onSuccess() {
+				reset()
+			}
+		})
+	}
 
 	return (
 		<div className={styles.promotion}>
@@ -65,6 +72,7 @@ const CreatePromotion = () => {
 									onChange={field.onChange}
 									value={field.value}
 									placeholder='Выберите тип Акции'
+									error={errors.typePromotion?.message}
 								>
 									<SelectItem value={TypePromotion.COMBO}>Комбо-акция</SelectItem>
 									<SelectItem value={TypePromotion.PROMOTION}>Акция</SelectItem>

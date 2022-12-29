@@ -74,3 +74,15 @@
     justify-content: center;
   }
 }
+
+.error {
+  width: calc(100% - 17px);
+  display: flex;
+  align-items: center;
+  padding: 5px 5px 5px 12px;
+  margin-top: 5px;
+  font-size: var(--small-font-size);
+  background: var(--red-color);
+  border-radius: var(--small-border-radius);
+  color: #fff;
+}

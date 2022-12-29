@@ -25,7 +25,8 @@ const CreateProduct = () => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty }
+		formState: { errors, isDirty },
+		reset
 	} = useForm<ICreateProduct>({
 		resolver: zodResolver(ProductSchema),
 		defaultValues: {
@@ -35,7 +36,13 @@ const CreateProduct = () => {
 		}
 	})
 
-	const onSubmit = async (formData: ICreateProduct) => createProduct(formData)
+	const onSubmit = async (formData: ICreateProduct) => {
+		createProduct(formData, {
+			onSuccess() {
+				reset()
+			}
+		})
+	}
 
 	if (isCategoryLoading || isSubCategoryLoading) {
 		return <div>loading...</div>
@@ -87,6 +94,7 @@ const CreateProduct = () => {
 									value={field.value}
 									disabled={!categories?.length}
 									placeholder={categories?.length ? 'Выберите категорию' : 'Нет категорий'}
+									error={errors.categoryId?.message}
 								>
 									{categories?.map(category => (
 										<SelectItem key={category.id} value={category.id}>
@@ -107,6 +115,7 @@ const CreateProduct = () => {
 									value={field.value}
 									disabled={!subCategories?.length}
 									placeholder={subCategories?.length ? 'Выб. подкатегорию' : 'Нет подкатегорий'}
+									error={errors.subCategoryId?.message}
 								>
 									{subCategories?.map(subCategory => (
 										<SelectItem key={subCategory.id} value={subCategory.id}>

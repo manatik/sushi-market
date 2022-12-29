@@ -1,4 +1,4 @@
-@import "../../styles/mixins";
+@import "../../../styles/mixins";
 
 .user {
   @include outside-container-style;
@@ -15,16 +15,16 @@
   &:hover {
     @include hover-on-item-admin;
   }
-}
 
-.avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  &__icon {
-    width: 20px;
-    height: 20px;
+    &__icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
