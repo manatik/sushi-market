@@ -2,7 +2,7 @@ import { ISubCategory } from '@common-types/sub-category.types'
 import SubCategoryContextMenu from '@components/pages/admin/sub-categories/Sub-category-context-menu'
 import Card from '@components/ui/card/Card'
 import { dateToFormatDate } from '@utils/utils'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
 interface Props {
 	subCategory: ISubCategory

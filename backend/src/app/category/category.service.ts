@@ -34,7 +34,11 @@ export class CategoryService {
         }
       }
 
-      const categories = await this.categoryRepository.find({ where: whereExpression, withDeleted: true });
+      const categories = await this.categoryRepository.find({
+        where: whereExpression,
+        order: { orderBy: 'ASC' },
+        withDeleted: true,
+      });
 
       return this.errorService.success('Категории успешно получены', { categories });
     } catch (e) {

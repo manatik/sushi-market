@@ -1,9 +1,5 @@
 import { IDefaultResponse } from '@common-types/default-response.types'
-import {
-	ICreateIngredient,
-	IIngredientFilters,
-	IUpdateIngredient
-} from '@common-types/ingredient.types'
+import { ICreateIngredient, IIngredientFilters, IUpdateIngredient } from '@common-types/ingredient.types'
 import { axiosInstance } from '../api/axios'
 
 const URLS = {
@@ -26,8 +22,8 @@ export const IngredientService = {
 		return data
 	},
 
-	async update(dto: IUpdateIngredient) {
-		const { data } = await axiosInstance.patch<IDefaultResponse>(URLS.update, dto)
+	async update({ id, dto }: { id: string; dto: IUpdateIngredient }) {
+		const { data } = await axiosInstance.patch<IDefaultResponse>(`${URLS.update}/${id}`, dto)
 		return data
 	},
 

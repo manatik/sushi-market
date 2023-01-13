@@ -113,17 +113,17 @@ export class JwtAuthService {
 
       const { isValid, info } = this.verifyToken(cookies[TOKENS.ACCESS]);
 
+      if (!isValid) {
+        return { isAuth: isValid, roles: [] };
+      }
+
       const { user } = await this.userService.getBy({ id: info.id }, { withRoles: true });
 
       if (!user) {
         throw this.errorService.unauthorized();
       }
 
-      if (isValid) {
-        return { isAuth: isValid, roles: info.roles };
-      }
-
-      return { isAuth: isValid, roles: [] };
+      return { isAuth: isValid, roles: info.roles };
     } catch (e) {
       if (e instanceof HttpException) {
         throw e;

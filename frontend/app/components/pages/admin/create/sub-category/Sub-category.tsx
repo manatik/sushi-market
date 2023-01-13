@@ -67,7 +67,6 @@ const CreateSubCategory = () => {
 					render={({ field }) => (
 						<Select
 							onChange={field.onChange}
-							value={field.value}
 							placeholder='Выберите категорию'
 							error={errors.categoryId?.message}
 							fullWidth

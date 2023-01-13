@@ -52,4 +52,10 @@
       grid-template-columns: repeat(3, 1fr);
     }
   }
+
+  .card {
+    &__notSetField {
+      color: #b6b6b6;
+    }
+  }
 }

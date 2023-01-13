@@ -41,12 +41,12 @@ const Content: FC<PropsWithChildren> = ({ children }) => {
 	return <div className={styles.cardContent}>{children}</div>
 }
 
-interface IItemProps {
+interface IItemProps extends PropsWithChildren {
 	justify?: 'start' | 'between' | 'end'
 	type?: 'primary' | 'secondary'
 }
 
-const Item: FC<PropsWithChildren<IItemProps>> = ({ children, justify, type }) => {
+const Item: FC<IItemProps> = ({ children, justify, type }) => {
 	return (
 		<div
 			className={classNames(styles.cardContent__item, {

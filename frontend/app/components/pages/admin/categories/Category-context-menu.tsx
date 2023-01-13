@@ -1,22 +1,19 @@
 import { ICategory } from '@common-types/category.types'
-import UpdateCategory from '@components/admin/update-popups/category/category'
+import UpdateCategory from '@components/pages/admin/update-popups/category/Category'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
 import useConfirm from '@hooks/useConfirm'
+import { useContextMenu } from '@hooks/useContextMenu'
 import { useRemoveCategory, useUpdateCategory } from '@query-hooks/useCategories'
-import {
-	CREATE_CATEGORY_PATH,
-	CREATE_PRODUCT_PATH,
-	CREATE_SUB_CATEGORY_PATH
-} from '@utils/pages-paths'
-import { FC, PropsWithChildren, useState } from 'react'
+import { CREATE_CATEGORY_PATH, CREATE_PRODUCT_PATH, CREATE_SUB_CATEGORY_PATH } from '@utils/pages-paths'
+import { FC, PropsWithChildren } from 'react'
 
-interface Props {
+interface Props extends PropsWithChildren {
 	category: ICategory
 }
 
-const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category }) => {
+const CategoryContextMenu: FC<Props> = ({ children, category }) => {
 	const { Dialog, onConfirm } = useConfirm(
 		'Вы уверены?',
 		<div>
@@ -26,8 +23,7 @@ const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category 
 		</div>
 	)
 
-	const [selectedCategory, setSelectedCategory] = useState<ICategory | undefined>(undefined)
-
+	const { ContextActions, action, handleAction, selectedItem } = useContextMenu<ICategory>()
 	const { mutate: removeCategory } = useRemoveCategory()
 	const { mutate: updateCategory } = useUpdateCategory()
 
@@ -53,23 +49,15 @@ const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category 
 		<>
 			<Dialog />
 
-			{selectedCategory && (
-				<UpdateCategory
-					category={selectedCategory}
-					isOpen={!!selectedCategory}
-					onClose={() => {
-						setSelectedCategory(undefined)
-					}}
-				/>
+			{selectedItem && action === ContextActions.EDIT && (
+				<UpdateCategory category={selectedItem} isOpen={!!selectedItem} onClose={handleAction} />
 			)}
 
 			<ContextMenu>
 				<ContextMenu.Title>{children}</ContextMenu.Title>
 
 				<ContextMenu.Content>
-					<ContextMenu.Item onClick={() => setSelectedCategory(category)}>
-						Подробнее
-					</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(category, ContextActions.DETAILS)}>Подробнее</ContextMenu.Item>
 
 					<ContextMenu.Item>
 						<Link href={CREATE_CATEGORY_PATH}>Создать категорию</Link>
@@ -82,14 +70,12 @@ const CategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, category 
 					</ContextMenu.Item>
 
 					<ContextMenu.Item>
-						<Link href={{ pathname: CREATE_PRODUCT_PATH, query: { categoryId: category.id } }}>
-							Добавить продукт
-						</Link>
+						<Link href={{ pathname: CREATE_PRODUCT_PATH, query: { categoryId: category.id } }}>Добавить продукт</Link>
 					</ContextMenu.Item>
 
 					<Separator />
 
-					<ContextMenu.Item>Редактировать</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(category, ContextActions.EDIT)}>Редактировать</ContextMenu.Item>
 
 					<ContextMenu.Item onClick={() => onHide(isHiddenCategory)}>
 						{isHiddenCategory ? 'Вернуть' : 'Скрыть'}

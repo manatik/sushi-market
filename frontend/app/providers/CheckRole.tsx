@@ -8,10 +8,7 @@ import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import React, { FC, PropsWithChildren } from 'react'
 
-const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
-	children,
-	Component: { isOnlyRoles }
-}) => {
+const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({ children, Component: { isOnlyRoles } }) => {
 	const router = useRouter()
 	const {
 		isLoading: authIsLoading,
@@ -29,6 +26,7 @@ const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
 		router.pathname !== HOME_PATH && router.push(LOGIN_PATH)
 	}
 
+	console.log(authData)
 	if (isOnlyRoles?.length && !authData?.roles.some(role => isOnlyRoles.includes(role.name))) {
 		router.pathname !== HOME_PATH && router.replace(HOME_PATH)
 	}

@@ -49,6 +49,7 @@ export class ProductService {
 
       const products = await this.productRepository.find({
         where: whereExpression,
+        order: { orderBy: 'ASC' },
         relations: { category: true, subCategory: true, ingredients: true },
         withDeleted: true,
       });

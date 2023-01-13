@@ -1,21 +1,19 @@
 import { ISubCategory } from '@common-types/sub-category.types'
+import UpdateSubCategory from '@components/pages/admin/update-popups/sub-category/Sub-category'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
 import useConfirm from '@hooks/useConfirm'
+import { useContextMenu } from '@hooks/useContextMenu'
 import { useRemoveSubCategory, useUpdateSubCategory } from '@query-hooks/useSubCategories'
-import {
-	CREATE_CATEGORY_PATH,
-	CREATE_PRODUCT_PATH,
-	CREATE_SUB_CATEGORY_PATH
-} from '@utils/pages-paths'
-import React, { FC, PropsWithChildren } from 'react'
+import { CREATE_CATEGORY_PATH, CREATE_PRODUCT_PATH, CREATE_SUB_CATEGORY_PATH } from '@utils/pages-paths'
+import { FC, PropsWithChildren } from 'react'
 
-interface Props {
+interface Props extends PropsWithChildren {
 	subCategory: ISubCategory
 }
 
-const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCategory }) => {
+const SubCategoryContextMenu: FC<Props> = ({ children, subCategory }) => {
 	const { Dialog, onConfirm } = useConfirm(
 		'Вы уверены?',
 		<div>
@@ -24,6 +22,7 @@ const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCat
 		</div>
 	)
 
+	const { ContextActions, action, handleAction, selectedItem } = useContextMenu<ISubCategory>()
 	const { mutate: removeSubCategory } = useRemoveSubCategory()
 	const { mutate: updateSubCategory } = useUpdateSubCategory()
 
@@ -49,11 +48,17 @@ const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCat
 		<>
 			<Dialog />
 
+			{selectedItem && action === ContextActions.EDIT && (
+				<UpdateSubCategory subCategory={selectedItem} isOpen={!!selectedItem} onClose={handleAction} />
+			)}
+
 			<ContextMenu>
 				<ContextMenu.Title>{children}</ContextMenu.Title>
 
 				<ContextMenu.Content>
-					<ContextMenu.Item>Подробнее</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(subCategory, ContextActions.DETAILS)}>
+						Подробнее
+					</ContextMenu.Item>
 
 					<ContextMenu.Item>
 						<Link href={CREATE_SUB_CATEGORY_PATH}>Создать подкатегорию</Link>
@@ -76,7 +81,9 @@ const SubCategoryContextMenu: FC<PropsWithChildren<Props>> = ({ children, subCat
 
 					<Separator />
 
-					<ContextMenu.Item>Редактировать</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(subCategory, ContextActions.EDIT)}>
+						Редактировать
+					</ContextMenu.Item>
 
 					<ContextMenu.Item onClick={() => onHide(isHiddenSubCategory)}>
 						{isHiddenSubCategory ? 'Вернуть' : 'Скрыть'}

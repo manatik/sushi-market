@@ -39,6 +39,7 @@ export class SubCategoryService {
 
       const subCategories = await this.subCategoryRepository.find({
         where: whereExpression,
+        order: { orderBy: 'ASC' },
         relations: { category: true },
         withDeleted: true,
       });

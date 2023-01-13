@@ -1,17 +1,19 @@
 import { IIngredient } from '@common-types/ingredient.types'
+import UpdateIngredient from '@components/pages/admin/update-popups/ingredient/ingredient'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
 import useConfirm from '@hooks/useConfirm'
+import { useContextMenu } from '@hooks/useContextMenu'
 import { useRemoveIngredient } from '@query-hooks/useIngredients'
 import { CREATE_INGREDIENT_PATH, CREATE_PRODUCT_PATH } from '@utils/pages-paths'
-import React, { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren } from 'react'
 
-interface Props {
+interface Props extends PropsWithChildren {
 	ingredient: IIngredient
 }
 
-const IngredientContextMenu: FC<PropsWithChildren<Props>> = ({ children, ingredient }) => {
+const IngredientContextMenu: FC<Props> = ({ children, ingredient }) => {
 	const { Dialog, onConfirm } = useConfirm(
 		'Вы уверены?',
 		<div>
@@ -19,6 +21,7 @@ const IngredientContextMenu: FC<PropsWithChildren<Props>> = ({ children, ingredi
 		</div>
 	)
 
+	const { ContextActions, action, handleAction, selectedItem } = useContextMenu<IIngredient>()
 	const { mutate: removeIngredient } = useRemoveIngredient()
 
 	const onRemove = async () => {
@@ -33,11 +36,17 @@ const IngredientContextMenu: FC<PropsWithChildren<Props>> = ({ children, ingredi
 		<>
 			<Dialog />
 
+			{selectedItem && action === ContextActions.EDIT && (
+				<UpdateIngredient ingredient={selectedItem} isOpen={!!selectedItem} onClose={handleAction} />
+			)}
+
 			<ContextMenu>
 				<ContextMenu.Title>{children}</ContextMenu.Title>
 
 				<ContextMenu.Content>
-					<ContextMenu.Item>Подробнее</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(ingredient, ContextActions.DETAILS)}>
+						Подробнее
+					</ContextMenu.Item>
 
 					<ContextMenu.Item>
 						<Link href={CREATE_PRODUCT_PATH}>Добавить продукт</Link>
@@ -49,7 +58,9 @@ const IngredientContextMenu: FC<PropsWithChildren<Props>> = ({ children, ingredi
 
 					<Separator />
 
-					<ContextMenu.Item>Редактировать</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(ingredient, ContextActions.EDIT)}>
+						Редактировать
+					</ContextMenu.Item>
 
 					<Separator />
 

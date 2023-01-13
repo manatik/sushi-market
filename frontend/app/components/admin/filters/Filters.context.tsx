@@ -4,7 +4,7 @@ export type FiltersObject = {
 	search?: string
 	categoryId?: string
 	subCategoryId?: string
-	hidden?: boolean
+	onlyHidden?: boolean
 }
 
 interface IFilterContext {

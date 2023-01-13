@@ -6,7 +6,7 @@ import styles from './select.style.module.scss'
 interface SelectProps {
 	id?: string
 	placeholder: string
-	onChange?: (value?: string) => void
+	onChange?: (value: string) => void
 	value?: string
 	fullWidth?: boolean
 	disabled?: boolean

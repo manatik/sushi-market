@@ -2,7 +2,9 @@ import { IProduct } from '@common-types/product.types'
 import ProductContextMenu from '@components/pages/admin/products/Product-context.menu'
 import Card from '@components/ui/card/Card'
 import { dateToFormatDate } from '@utils/utils'
-import React, { FC } from 'react'
+import classNames from 'classnames'
+import { FC } from 'react'
+import styles from '@styles/admin/admin-page.style.module.scss'
 
 interface Props {
 	product: IProduct
@@ -19,12 +21,24 @@ const ProductItem: FC<Props> = ({ product }) => {
 				<Card.Content>
 					<Card.Item>
 						<span>Категория</span>
-						<span>{product.category.name}</span>
+						<span
+							className={classNames({
+								[styles.card__notSetField]: !product.category?.name
+							})}
+						>
+							{product.category?.name || 'не задана'}
+						</span>
 					</Card.Item>
 
 					<Card.Item>
 						<span>Подкатегория</span>
-						<span>{product.subCategory.name}</span>
+						<span
+							className={classNames({
+								[styles.card__notSetField]: !product.subCategory?.name
+							})}
+						>
+							{product.subCategory?.name || 'не задана'}
+						</span>
 					</Card.Item>
 
 					<Card.Item>

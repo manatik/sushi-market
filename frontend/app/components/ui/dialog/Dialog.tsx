@@ -3,18 +3,14 @@ import classNames from 'classnames'
 import { FC, PropsWithChildren } from 'react'
 import styles from './dialog.style.module.scss'
 
-interface Props {
+interface Props extends PropsWithChildren {
+	classname?: string
 	isOpen: boolean
 	onClose: () => void
 	position?: 'left' | 'right' | 'center'
 }
 
-const Dialog: FC<PropsWithChildren<Props>> = ({
-	children,
-	isOpen,
-	onClose,
-	position = 'center'
-}) => {
+const Dialog: FC<Props> = ({ children, classname, isOpen, onClose, position = 'center' }) => {
 	const dialogPositionsStyle = {
 		center: styles.dialogContent__center,
 		left: styles.dialogContent__left,
@@ -27,20 +23,8 @@ const Dialog: FC<PropsWithChildren<Props>> = ({
 			<RadixDialog.Portal>
 				<RadixDialog.Overlay className={styles.overlay} onClick={onClose} />
 
-				<RadixDialog.Content className={classNames(styles.dialogContent, positionStyle)}>
-					<RadixDialog.Title>Edit profile</RadixDialog.Title>
-
-					<RadixDialog.Description>
-						Make changes to your profile here. Click save when done.
-					</RadixDialog.Description>
-
-					<RadixDialog.Close asChild>
-						<button onClick={onClose}>Save changes</button>
-					</RadixDialog.Close>
-
-					<RadixDialog.Close asChild>
-						<button>lol</button>
-					</RadixDialog.Close>
+				<RadixDialog.Content className={classNames(styles.dialogContent, positionStyle, classname)}>
+					{children}
 				</RadixDialog.Content>
 			</RadixDialog.Portal>
 		</RadixDialog.Root>

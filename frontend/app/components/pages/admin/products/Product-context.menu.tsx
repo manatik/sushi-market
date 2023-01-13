@@ -1,8 +1,10 @@
 import { IProduct } from '@common-types/product.types'
+import UpdateProduct from '@components/pages/admin/update-popups/product/product'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
 import useConfirm from '@hooks/useConfirm'
+import { useContextMenu } from '@hooks/useContextMenu'
 import { useRemoveProduct, useUpdateProduct } from '@query-hooks/useProducts'
 import {
 	CREATE_CATEGORY_PATH,
@@ -10,13 +12,13 @@ import {
 	CREATE_PRODUCT_PATH,
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
-import React, { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren } from 'react'
 
-interface Props {
+interface Props extends PropsWithChildren {
 	product: IProduct
 }
 
-const ProductContextMenu: FC<PropsWithChildren<Props>> = ({ children, product }) => {
+const ProductContextMenu: FC<Props> = ({ children, product }) => {
 	const { Dialog, onConfirm } = useConfirm(
 		'Вы уверены?',
 		<div>
@@ -25,6 +27,7 @@ const ProductContextMenu: FC<PropsWithChildren<Props>> = ({ children, product })
 		</div>
 	)
 
+	const { ContextActions, action, handleAction, selectedItem } = useContextMenu<IProduct>()
 	const { mutate: removeProduct } = useRemoveProduct()
 	const { mutate: updateProduct } = useUpdateProduct()
 
@@ -50,11 +53,15 @@ const ProductContextMenu: FC<PropsWithChildren<Props>> = ({ children, product })
 		<>
 			<Dialog />
 
+			{selectedItem && action === ContextActions.EDIT && (
+				<UpdateProduct product={selectedItem} isOpen={!!selectedItem} onClose={handleAction} />
+			)}
+
 			<ContextMenu>
 				<ContextMenu.Title>{children}</ContextMenu.Title>
 
 				<ContextMenu.Content>
-					<ContextMenu.Item>Подробнее</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(product, ContextActions.DETAILS)}>Подробнее</ContextMenu.Item>
 
 					<ContextMenu.Item>
 						<Link href={CREATE_CATEGORY_PATH}>Создать категорию</Link>
@@ -88,7 +95,7 @@ const ProductContextMenu: FC<PropsWithChildren<Props>> = ({ children, product })
 
 					<Separator />
 
-					<ContextMenu.Item>Редактировать</ContextMenu.Item>
+					<ContextMenu.Item onClick={() => handleAction(product, ContextActions.EDIT)}>Редактировать</ContextMenu.Item>
 
 					<ContextMenu.Item onClick={() => onHide(isHiddenProduct)}>
 						{isHiddenProduct ? 'Вернуть' : 'Скрыть'}
