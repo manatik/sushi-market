@@ -26,7 +26,6 @@ const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({ children, C
 		router.pathname !== HOME_PATH && router.push(LOGIN_PATH)
 	}
 
-	console.log(authData)
 	if (isOnlyRoles?.length && !authData?.roles.some(role => isOnlyRoles.includes(role.name))) {
 		router.pathname !== HOME_PATH && router.replace(HOME_PATH)
 	}

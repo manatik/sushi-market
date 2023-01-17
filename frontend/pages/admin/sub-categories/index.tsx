@@ -1,5 +1,5 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import SubCategories from '@components/pages/admin/sub-categories/Sub-categories'
+import SubCategories from '@components/pages/admin/sub-category/list/Sub-categories'
 import { SubCategoryService } from '@services/sub-category.service'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 

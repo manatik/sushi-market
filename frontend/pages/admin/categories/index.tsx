@@ -1,5 +1,5 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import Categories from '@components/pages/admin/categories/Categories'
+import Categories from '@components/pages/admin/category/list/Categories'
 import { CategoryService } from '@services/category.service'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 

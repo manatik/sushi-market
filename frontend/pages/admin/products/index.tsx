@@ -1,5 +1,5 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import Products from '@components/pages/admin/products/Products'
+import Products from '@components/pages/admin/product/list/Products'
 import React from 'react'
 
 const ProductsPage: NextPageAuth = () => {

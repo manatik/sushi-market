@@ -1,5 +1,5 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import Ingredients from '@components/pages/admin/ingredients/Ingredients'
+import Ingredients from '@components/pages/admin/ingredient/list/Ingredients'
 import { IngredientService } from '@services/ingredient.service'
 import { dehydrate, QueryClient } from '@tanstack/react-query'
 

@@ -1,5 +1,5 @@
 import { NextPageAuth } from '@common-types/private-route.types'
-import CreateCategory from '@components/pages/admin/create/category/Category'
+import CreateCategory from '@components/pages/admin/category/create/Category'
 import React from 'react'
 
 const CreateCategoryPage: NextPageAuth = () => {
