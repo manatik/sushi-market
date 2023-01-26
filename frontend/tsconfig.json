@@ -16,6 +16,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@api/*": [
+        "app/api/*"
+      ],
       "@components/*": [
         "app/components/*"
       ],

@@ -1,5 +1,5 @@
 import { UserResponse } from '@common-types/user.types'
-import { axiosInstance } from '../api/axios'
+import { axiosInstance } from '@api/axios'
 
 export const UserService = {
 	async getInfo() {

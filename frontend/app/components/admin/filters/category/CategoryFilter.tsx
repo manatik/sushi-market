@@ -1,10 +1,10 @@
+import { FC } from 'react'
 import { useFilterContext } from '@components/admin/filters/Filters.context'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import { useCategories } from '@query-hooks/useCategories'
 import * as Label from '@radix-ui/react-label'
 import styles from '@styles/admin/admin-page.style.module.scss'
-import { FC } from 'react'
 
 const CategoryFilter: FC = () => {
 	const { isLoading: isCategoriesLoading, data: categories } = useCategories()
@@ -24,12 +24,7 @@ const CategoryFilter: FC = () => {
 				Фильтр категорий
 			</Label.Root>
 
-			<Select
-				id='categories'
-				placeholder={'Категории'}
-				onChange={handleChangeCategory}
-				value={filters.categoryId}
-			>
+			<Select id='categories' placeholder={'Категории'} onChange={handleChangeCategory} value={filters.categoryId}>
 				{categories?.map(category => (
 					<SelectItem key={category.id} value={category.id}>
 						{category.name}

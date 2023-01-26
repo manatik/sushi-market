@@ -23,6 +23,7 @@ export class PointsOfSale1667837268446 implements MigrationInterface {
           {
             name: 'fp_api_code',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'city',

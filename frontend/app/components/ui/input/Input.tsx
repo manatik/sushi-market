@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import React, { DetailedHTMLProps, forwardRef, InputHTMLAttributes } from 'react'
+import React, { DetailedHTMLProps, forwardRef, InputHTMLAttributes, Ref } from 'react'
 import styles from './input.style.module.scss'
 
 interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -9,32 +9,32 @@ interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
 	color?: 'white' | 'gray'
 }
 
-const Input = forwardRef<HTMLInputElement, Props>(
-	({ className, label, error, mask, color = 'gray', ...props }, ref) => {
-		return (
-			<label className={styles.customField}>
-				<input
-					{...props}
-					className={classNames(
-						styles.input,
-						{
-							[styles.input_gray]: color === 'gray',
-							[styles.input_white]: color === 'white'
-						},
-						className
-					)}
-					placeholder='&nbsp;'
-					ref={ref}
-				/>
+function InputRef(props: Props, ref: Ref<HTMLInputElement>) {
+	const { className, label, error, mask, color = 'gray', ...otherProps } = props
+	return (
+		<label className={styles.customField}>
+			<input
+				{...otherProps}
+				className={classNames(
+					styles.input,
+					{
+						[styles.input_gray]: color === 'gray',
+						[styles.input_white]: color === 'white'
+					},
+					className
+				)}
+				placeholder='&nbsp;'
+				ref={ref}
+			/>
 
-				<span className={styles.placeholder}>{label}</span>
+			<span className={styles.placeholder}>{label}</span>
 
-				{error && <span className={styles.errorMessage}>{error}</span>}
-			</label>
-		)
-	}
-)
+			{error && <span className={styles.errorMessage}>{error}</span>}
+		</label>
+	)
+}
 
+const Input = forwardRef(InputRef)
 Input.displayName = 'Input'
 
 export default Input

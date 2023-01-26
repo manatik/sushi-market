@@ -7,6 +7,8 @@ export const GLOBAL_PREFIXES = {
   PRODUCT: 'product',
   PROMOTION: 'promotion',
   INGREDIENT: 'ingredient',
+  POINT_OF_SALE: 'point-of-sale',
+  DISTRICT: 'district',
 };
 
 export const ENDPOINTS = {

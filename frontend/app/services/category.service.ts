@@ -1,7 +1,7 @@
 import type { ICreateCategory } from '@common-types/category.types'
 import { ICategoryFilters, IUpdateCategory } from '@common-types/category.types'
 import { IDefaultResponse } from '@common-types/default-response.types'
-import { axiosInstance } from '../api/axios'
+import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'category',

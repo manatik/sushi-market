@@ -6,7 +6,7 @@ import {
 	IProductResponse,
 	IUpdateProduct
 } from '@common-types/product.types'
-import { axiosInstance } from '../api/axios'
+import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'product',

@@ -1,5 +1,5 @@
 import { AuthService } from '@services/auth.service'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { InternalAxiosRequestConfig } from 'axios'
 
 export const API_URL = `${process.env.API_URL}`
 
@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.request.use(
-	(config: AxiosRequestConfig) => {
+	(config: InternalAxiosRequestConfig) => {
 		return config
 	},
 	error => {

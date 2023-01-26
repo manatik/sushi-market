@@ -3,15 +3,15 @@ import { IsBoolean, IsDateString, IsNumber, IsOptional, IsString } from 'class-v
 export class UpdateCategoryDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
-  article: string;
+  article?: string;
 
   @IsOptional()
   @IsString()
-  code: string;
+  code?: string;
 
   @IsOptional()
   @IsBoolean()
@@ -19,7 +19,7 @@ export class UpdateCategoryDto {
 
   @IsOptional()
   @IsNumber()
-  orderBy: number;
+  orderBy?: number;
 
   @IsOptional()
   @IsDateString()

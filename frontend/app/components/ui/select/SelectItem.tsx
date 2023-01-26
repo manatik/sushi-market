@@ -1,8 +1,8 @@
+import { forwardRef, PropsWithChildren } from 'react'
+import classNames from 'classnames'
 import styles from '@components/ui/select/select.style.module.scss'
 import { CheckIcon } from '@radix-ui/react-icons'
 import * as RadixSelect from '@radix-ui/react-select'
-import classNames from 'classnames'
-import { forwardRef, PropsWithChildren } from 'react'
 
 interface SelectItemProps {
 	className?: string
@@ -12,11 +12,7 @@ interface SelectItemProps {
 const SelectItem = forwardRef<any, PropsWithChildren<SelectItemProps>>(
 	({ children, className, ...props }, forwardedRef) => {
 		return (
-			<RadixSelect.Item
-				{...props}
-				ref={forwardedRef}
-				className={classNames(styles.selectItem, className)}
-			>
+			<RadixSelect.Item {...props} ref={forwardedRef} className={classNames(styles.selectItem, className)}>
 				<RadixSelect.ItemText>{children}</RadixSelect.ItemText>
 
 				<RadixSelect.ItemIndicator className={styles.selectItem__indicator}>
