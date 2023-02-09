@@ -1,7 +1,10 @@
-import { ISubCategory } from '@common-types/sub-category.types'
-import styles from '@styles/admin/admin-page.style.module.scss'
-import SubCategoryItem from '@components/pages/admin/sub-category/list/Sub-category-item'
 import { FC } from 'react'
+
+import SubCategoryItem from '@components/pages/admin/sub-category/list/Sub-category-item'
+
+import { ISubCategory } from '@common-types/sub-category.types'
+
+import styles from '@styles/admin/admin-page.style.module.scss'
 
 interface Props {
 	subCategories?: ISubCategory[]

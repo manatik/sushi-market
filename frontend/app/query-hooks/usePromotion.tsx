@@ -1,13 +1,11 @@
-import type { IDefaultResponse } from '@common-types/default-response.types'
-import type {
-	ICreatePromotion,
-	IPromotion,
-	IPromotionResponse
-} from '@common-types/promotion.types'
-import { PromotionService } from '@services/promotion.service'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
+
+import { PromotionService } from '@services/promotion.service'
+
+import type { IDefaultResponse } from '@common-types/default-response.types'
+import type { ICreatePromotion, IPromotion, IPromotionResponse } from '@common-types/promotion.types'
 
 export const usePromotions = () =>
 	useQuery<IPromotionResponse, AxiosError, IPromotion[]>(['promotions'], PromotionService.all, {

@@ -1,16 +1,20 @@
-import { IProduct, IUpdateProduct } from '@common-types/product.types'
+import * as Label from '@radix-ui/react-label'
+import { FC } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
+
 import { useCategories } from '@query-hooks/useCategories'
 import { useUpdateProduct } from '@query-hooks/useProducts'
 import { useSubCategories } from '@query-hooks/useSubCategories'
-import * as Label from '@radix-ui/react-label'
-import { FC } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+
+import { IProduct, IUpdateProduct } from '@common-types/product.types'
+
 import styles from './product.style.module.scss'
 
 interface Props {

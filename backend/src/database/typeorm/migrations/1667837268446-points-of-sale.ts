@@ -18,6 +18,7 @@ export class PointsOfSale1667837268446 implements MigrationInterface {
           {
             name: 'address_point_sale',
             type: 'varchar',
+            isUnique: true,
             isNullable: false,
           },
           {

@@ -1,14 +1,21 @@
-import HoverCard from '@components/ui/hover-card/Hover-card'
-import Link from '@components/ui/link/Link'
-import { useGetUser } from '@query-hooks/useUser'
 import { ChevronDownIcon, PersonIcon } from '@radix-ui/react-icons'
-import { AuthService } from '@services/auth.service'
-import { HOME_PATH, USER_PROFILE_EDIT_PATH, USER_PROFILE_PATH } from '@utils/pages-paths'
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
+
+import HoverCard from '@components/ui/hover-card/Hover-card'
+import Link from '@components/ui/link/Link'
+
+import { AuthService } from '@services/auth.service'
+
+import { useGetUser } from '@query-hooks/useUser'
+
+import { HOME_PATH, USER_PROFILE_EDIT_PATH, USER_PROFILE_PATH } from '@utils/pages-paths'
+
 import styles from './user-avatar.style.module.scss'
 
 const UserAvatar: FC = () => {
+	const queryClient = useQueryClient()
 	const router = useRouter()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -18,6 +25,7 @@ const UserAvatar: FC = () => {
 
 	const onLogout = async () => {
 		await AuthService.logout()
+		queryClient.clear()
 		await router.replace(HOME_PATH)
 	}
 

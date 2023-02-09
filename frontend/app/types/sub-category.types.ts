@@ -12,7 +12,7 @@ export interface ISubCategory {
 	hidden: boolean
 	id: string
 	name: string
-	orderBy: number | null
+	orderBy: number
 	dateCreated: string
 	dateDeleted: string | null
 	dateUpdated: string | null

@@ -1,19 +1,38 @@
-import { ISubCategory } from '@common-types/sub-category.types'
+import { FC } from 'react'
+
+import OrderButtons from '@components/admin/card-order-buttons/Order-buttons'
 import SubCategoryContextMenu from '@components/pages/admin/sub-category/list/Sub-category-context-menu'
 import Card from '@components/ui/card/Card'
+
+import { useUpdateSubCategory } from '@query-hooks/useSubCategories'
+
+import { ISubCategory } from '@common-types/sub-category.types'
+
 import { dateToFormatDate } from '@utils/utils'
-import { FC } from 'react'
 
 interface Props {
 	subCategory: ISubCategory
 }
 
 const SubCategoryItem: FC<Props> = ({ subCategory }) => {
+	const { mutate: updateSubCategory } = useUpdateSubCategory({ isShowToast: false })
+
+	const onPrevOrder = () => {
+		if (subCategory.orderBy > 1) {
+			updateSubCategory({ id: subCategory.id, dto: { orderBy: subCategory?.orderBy - 1 } })
+		}
+	}
+
+	const onNextOrder = () => {
+		updateSubCategory({ id: subCategory.id, dto: { orderBy: subCategory?.orderBy + 1 } })
+	}
+
 	return (
 		<SubCategoryContextMenu subCategory={subCategory}>
 			<Card>
 				<Card.Header>
 					<Card.Title title={subCategory.name} subTitle={subCategory.article} />
+					<OrderButtons onLeftArrow={onPrevOrder} onRightArrow={onNextOrder} />
 				</Card.Header>
 
 				<Card.Content>

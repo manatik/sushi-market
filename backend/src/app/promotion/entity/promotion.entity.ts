@@ -1,7 +1,7 @@
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { ProductEntity } from '@product/entity/product.entity';
 import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 export enum TypePromotion {
   COMBO = 'combo',
@@ -39,9 +39,6 @@ export class PromotionEntity extends Base {
 
   @Column({ name: 'date_end' })
   dateEnd: Date;
-
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted: Date;
 
   @ManyToMany(() => ProductEntity, (product) => product.promotions)
   @JoinTable({

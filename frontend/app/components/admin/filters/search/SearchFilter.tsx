@@ -1,7 +1,9 @@
+import { ChangeEvent, FC, useEffect, useState } from 'react'
+
 import { useFilterContext } from '@components/admin/filters/Filters.context'
 import Input from '@components/ui/input/Input'
+
 import { useDebounce } from '@hooks/useDebounce'
-import { ChangeEvent, FC, useEffect, useState } from 'react'
 
 const SearchFilter: FC = () => {
 	const [search, setSearch] = useState<string>('')

@@ -1,7 +1,10 @@
-import { ICategory } from '@common-types/category.types'
 import { FC } from 'react'
-import styles from '@styles/admin/admin-page.style.module.scss'
+
 import CategoryItem from '@components/pages/admin/category/list/Category-item'
+
+import { ICategory } from '@common-types/category.types'
+
+import styles from '@styles/admin/admin-page.style.module.scss'
 
 interface Props {
 	categories?: ICategory[]

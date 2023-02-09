@@ -1,7 +1,10 @@
-import { IProduct } from '@common-types/product.types'
-import ProductItem from '@components/pages/admin/product/list/Product-item'
-import styles from '@styles/admin/admin-page.style.module.scss'
 import { FC } from 'react'
+
+import ProductItem from '@components/pages/admin/product/list/Product-item'
+
+import { IProduct } from '@common-types/product.types'
+
+import styles from '@styles/admin/admin-page.style.module.scss'
 
 interface Props {
 	products?: IProduct[]

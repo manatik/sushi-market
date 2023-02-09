@@ -1,15 +1,18 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
+
+import { DistrictService } from '@services/district.service'
+
+import type { UpdateQueryHook } from '@common-types/common.types'
 import type { IDefaultResponse } from '@common-types/default-response.types'
-import {
+import type {
 	ICreateDistrict,
 	IDistrict,
 	IDistrictFilters,
 	IDistrictResponse,
 	IUpdateDistrict
 } from '@common-types/district.types'
-import { DistrictService } from '@services/district.service'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 
 export const useDistricts = (filters?: IDistrictFilters) =>
 	useQuery<IDistrictResponse, AxiosError<any>, IDistrict[]>(
@@ -45,7 +48,7 @@ export const useCreateDistrict = () => {
 	)
 }
 
-export const useUpdateDistrict = () => {
+export const useUpdateDistrict = ({ isShowToast }: UpdateQueryHook = { isShowToast: true }) => {
 	const queryClient = useQueryClient()
 
 	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; dto: IUpdateDistrict }>(
@@ -54,7 +57,9 @@ export const useUpdateDistrict = () => {
 		{
 			onSuccess(data) {
 				queryClient.invalidateQueries({ queryKey: ['districts'] })
-				toast.success(data.message)
+				if (isShowToast) {
+					toast.success(data.message)
+				}
 			},
 			onError(error) {
 				toast.error(

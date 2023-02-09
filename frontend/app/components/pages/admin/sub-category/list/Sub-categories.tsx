@@ -1,10 +1,14 @@
-import { ISubCategoryFilters } from '@common-types/sub-category.types'
+import { useState } from 'react'
+
 import Filters from '@components/admin/filters/Filters'
 import SubCategoryList from '@components/pages/admin/sub-category/list/Sub-category-list'
 import Separator from '@components/ui/separator/Separator'
+
 import { useSubCategories } from '@query-hooks/useSubCategories'
+
+import { ISubCategoryFilters } from '@common-types/sub-category.types'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
-import { useState } from 'react'
 
 const SubCategories = () => {
 	const [filters, setFilters] = useState<ISubCategoryFilters>({})

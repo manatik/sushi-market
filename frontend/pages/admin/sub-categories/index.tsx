@@ -1,7 +1,10 @@
-import { NextPageAuth } from '@common-types/private-route.types'
+import { QueryClient, dehydrate } from '@tanstack/react-query'
+
 import SubCategories from '@components/pages/admin/sub-category/list/Sub-categories'
+
 import { SubCategoryService } from '@services/sub-category.service'
-import { dehydrate, QueryClient } from '@tanstack/react-query'
+
+import { NextPageAuth } from '@common-types/private-route.types'
 
 const SubCategoriesPage: NextPageAuth = () => {
 	return <SubCategories />

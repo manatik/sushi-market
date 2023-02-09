@@ -1,8 +1,9 @@
 import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
 import { Public, Roles } from '@jwt-auth/decorators';
 import { Role } from '@jwt-auth/enum';
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreatePointOfSaleDto } from './dto/create-point-of-sale.dto';
+import { GetAllQuery } from './dto/get-all.query';
 import { UpdatePointOfSaleDto } from './dto/update-point-of-sale.dto';
 import { PointOfSaleService } from './point-of-sale.service';
 
@@ -13,8 +14,8 @@ export class PointOfSaleController {
 
   @Public()
   @Get(ENDPOINTS.DEFAULT.ALL)
-  async all() {
-    return await this.pointOfSaleService.all();
+  async all(@Query() query: GetAllQuery) {
+    return await this.pointOfSaleService.all(query);
   }
 
   @Public()

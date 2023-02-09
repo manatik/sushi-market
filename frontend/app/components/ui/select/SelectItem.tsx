@@ -1,8 +1,9 @@
-import { forwardRef, PropsWithChildren } from 'react'
-import classNames from 'classnames'
-import styles from '@components/ui/select/select.style.module.scss'
 import { CheckIcon } from '@radix-ui/react-icons'
 import * as RadixSelect from '@radix-ui/react-select'
+import classNames from 'classnames'
+import { PropsWithChildren, forwardRef } from 'react'
+
+import styles from '@components/ui/select/select.style.module.scss'
 
 interface SelectItemProps {
 	className?: string

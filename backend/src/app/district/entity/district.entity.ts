@@ -1,6 +1,6 @@
-import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, JoinColumn, OneToMany } from 'typeorm';
 import { PointOfSaleEntity } from '@point-of-sale/entity/point-of-sale.entity';
+import { Base } from '@typeorm/Base';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('district')
 export class DistrictEntity extends Base {
@@ -19,10 +19,7 @@ export class DistrictEntity extends Base {
   @Column({ name: 'price_free_delivery' })
   priceFreeDelivery: number;
 
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted?: Date;
-
-  @OneToMany(() => PointOfSaleEntity, (ps) => ps.districts)
-  @JoinColumn({ name: 'point_sale_id', referencedColumnName: 'id' })
+  @ManyToOne(() => PointOfSaleEntity, (ps) => ps.districts)
+  @JoinColumn({ name: 'point_sale_id' })
   pointOfSale: PointOfSaleEntity;
 }

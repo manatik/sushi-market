@@ -1,7 +1,8 @@
+import { axiosInstance } from '@api/axios'
+
 import type { IDefaultResponse } from '@common-types/default-response.types'
 import { IUserAuth } from '@common-types/user.types'
 import type { ISignIn, ISignUp } from '@common-types/user.types'
-import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	singIn: 'auth/login',

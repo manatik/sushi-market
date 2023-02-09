@@ -1,10 +1,12 @@
-import CategoryFilter from '@components/admin/filters/category/CategoryFilter'
+import { FC, PropsWithChildren, useEffect, useState } from 'react'
+
 import { FiltersContext, FiltersObject } from '@components/admin/filters/Filters.context'
+import CategoryFilter from '@components/admin/filters/category/CategoryFilter'
 import HiddenFilter from '@components/admin/filters/hidden/HiddenFilter'
 import SearchFilter from '@components/admin/filters/search/SearchFilter'
 import SubCategoryFilter from '@components/admin/filters/sub-category/SubCategoryFilter'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
 
 interface DotNotation {
 	Category: typeof CategoryFilter

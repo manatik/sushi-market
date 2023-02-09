@@ -19,6 +19,9 @@
       "@api/*": [
         "app/api/*"
       ],
+      "@assets/*": [
+        "assets/*"
+      ],
       "@components/*": [
         "app/components/*"
       ],

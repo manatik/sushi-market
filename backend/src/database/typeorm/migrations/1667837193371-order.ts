@@ -18,6 +18,7 @@ export class Order1667837193370 implements MigrationInterface {
           {
             name: 'user_id',
             type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'payment_id',
@@ -37,6 +38,7 @@ export class Order1667837193370 implements MigrationInterface {
           {
             name: 'order_number',
             type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'phone',
@@ -51,6 +53,7 @@ export class Order1667837193370 implements MigrationInterface {
           {
             name: 'email',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'address',
@@ -60,16 +63,18 @@ export class Order1667837193370 implements MigrationInterface {
           {
             name: 'comment',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'date_order',
-            type: 'varchar',
+            type: 'timestamp',
             isNullable: false,
           },
           {
             name: 'date_created',
             type: 'timestamp',
             default: 'NOW()',
+            isNullable: false,
           },
           {
             name: 'date_updated',
@@ -88,7 +93,7 @@ export class Order1667837193370 implements MigrationInterface {
             referencedTableName: 'user',
             referencedColumnNames: ['id'],
             columnNames: ['user_id'],
-            onDelete: 'CASCADE',
+            onDelete: 'SET NULL',
           },
           {
             name: 'fk_order_order-status',

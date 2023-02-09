@@ -1,10 +1,14 @@
-import { IIngredientFilters } from '@common-types/ingredient.types'
+import { useState } from 'react'
+
 import Filters from '@components/admin/filters/Filters'
 import IngredientList from '@components/pages/admin/ingredient/list/Ingredient-list'
 import Separator from '@components/ui/separator/Separator'
+
 import { useIngredients } from '@query-hooks/useIngredients'
+
+import { IIngredientFilters } from '@common-types/ingredient.types'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
-import { useState } from 'react'
 
 const Ingredients = () => {
 	const [filters, setFilters] = useState<IIngredientFilters>({})

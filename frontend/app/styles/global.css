@@ -1,51 +1,51 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Montserrat, sans-serif;
+	margin: 0;
+	padding: 0;
+	font-family: Montserrat, sans-serif;
 }
 
 a,
 button,
 h3 {
-    all: unset;
+	all: unset;
 }
 
 span {
-    position: relative;
+	position: relative;
 }
 
 span[data-title]:hover::after {
-    opacity: 1;
-    transition: all 0.1s ease 0.5s;
-    visibility: visible;
+	opacity: 1;
+	transition: all 0.1s ease 0.5s;
+	visibility: visible;
 }
 
 span[data-title]:after {
-    content: attr(data-title);
-    background-color: #fff;
-    border-radius: var(--small-border-radius);
-    font-size: var(--small-font-size);
-    position: absolute;
-    padding: 5px;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    opacity: 0;
-    left: 10px;
-    top: -30px;
-    visibility: hidden;
+	content: attr(data-title);
+	background-color: #fff;
+	border-radius: var(--small-border-radius);
+	font-size: var(--small-font-size);
+	position: absolute;
+	padding: 5px;
+	box-shadow: 0 2px 10px var(--shadow-color);
+	opacity: 0;
+	left: 10px;
+	top: -30px;
+	visibility: hidden;
 }
 
 :root {
-    --shadow-color: #e3e3e3;
-    --red-color: #ee5b62;
-    --gray-color: #f2f2f2;
-    --disabled-color: #aaa;
-    --primary-text-color: #3E3836;
-    --large-font-size: 18px;
-    --small-font-size: 13px;
-    --primary-font-size: 16px;
-    --secondary-font-size: 14px;
-    --small-border-radius: 5px;
-    --medium-border-radius: 10px;
+	--shadow-color: #e3e3e3;
+	--red-color: #ee5b62;
+	--gray-color: #f2f2f2;
+	--disabled-color: #aaa;
+	--primary-text-color: #3e3836;
+	--large-font-size: 18px;
+	--small-font-size: 13px;
+	--primary-font-size: 16px;
+	--secondary-font-size: 14px;
+	--small-border-radius: 5px;
+	--medium-border-radius: 10px;
 }

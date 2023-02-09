@@ -1,7 +1,7 @@
 import { ProductEntity } from '@product/entity/product.entity';
 import { PromotionEntity } from '@promotion/entity/promotion.entity';
 import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity('photo')
 export class PhotosEntity extends Base {
@@ -19,9 +19,6 @@ export class PhotosEntity extends Base {
 
   @Column()
   description: string;
-
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted: Date;
 
   @ManyToMany(() => ProductEntity, (product) => product.photos)
   @JoinTable({

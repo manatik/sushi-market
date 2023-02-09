@@ -1,80 +1,80 @@
 .main {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-  &__logo {
-    position: absolute;
-    margin-top: -600px;
+	&__logo {
+		position: absolute;
+		margin-top: -600px;
 
-    &:hover {
-      cursor: pointer;
-    }
-  }
+		&:hover {
+			cursor: pointer;
+		}
+	}
 }
 
 .tabs {
-  position: absolute;
-  top: 50%;
-  margin-top: -215px;
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-  box-shadow: 0 2px 10px var(--shadow-color);
-  border-radius: var(--medium-border-radius);
+	position: absolute;
+	top: 50%;
+	margin-top: -215px;
+	display: flex;
+	flex-direction: column;
+	width: 25rem;
+	box-shadow: 0 2px 10px var(--shadow-color);
+	border-radius: var(--medium-border-radius);
 }
 
 .tabsList {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--gray-color);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--gray-color);
 
-  &__item {
-    padding: 1rem;
-    text-align: center;
-    width: 100%;
+	&__item {
+		padding: 1rem;
+		text-align: center;
+		width: 100%;
 
-    &:hover {
-      color: var(--primary-text-color);
-    }
-  }
+		&:hover {
+			color: var(--primary-text-color);
+		}
+	}
 
-  &__item[data-state='active'] {
-    color: var(--primary-text-color);
-    box-shadow: inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor;
-  }
+	&__item[data-state='active'] {
+		color: var(--primary-text-color);
+		box-shadow: inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor;
+	}
 }
 
 .form {
-  color: var(--primary-text-color);
-  padding: 2rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+	color: var(--primary-text-color);
+	padding: 2rem 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 }
 
 .formItem {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
 
-  &__checkbox {
-    background-color: var(--gray-color);
-  }
+	&__checkbox {
+		background-color: var(--gray-color);
+	}
 
-  &__button {
-    border-radius: var(--small-border-radius);
-    text-align: center;
-    height: 2rem;
-    width: 100%;
-    color: #fff;
-    background-color: #e73c01;
+	&__button {
+		border-radius: var(--small-border-radius);
+		text-align: center;
+		height: 2rem;
+		width: 100%;
+		color: #fff;
+		background-color: #e73c01;
 
-    &:hover {
-      background-color: #d33800;
-    }
-  }
+		&:hover {
+			background-color: #d33800;
+		}
+	}
 }

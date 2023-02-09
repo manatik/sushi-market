@@ -1,16 +1,20 @@
-import { ICreateSubCategory } from '@common-types/sub-category.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as Label from '@radix-ui/react-label'
+import { useRouter } from 'next/router'
+import { Controller, useForm } from 'react-hook-form'
+
 import { SubCategorySchema } from '@components/pages/admin/sub-category/create/sub-category.schema'
 import Input from '@components/ui/input/Input'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useCategories } from '@query-hooks/useCategories'
 import { useCreateSubCategory } from '@query-hooks/useSubCategories'
-import * as Label from '@radix-ui/react-label'
-import { useRouter } from 'next/router'
-import { Controller, useForm } from 'react-hook-form'
+
+import { ICreateSubCategory } from '@common-types/sub-category.types'
+
 import styles from './sub-category.style.module.scss'
 
 const CreateSubCategory = () => {
@@ -23,7 +27,7 @@ const CreateSubCategory = () => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty },
+		formState: { errors, isValid },
 		reset
 	} = useForm<ICreateSubCategory>({
 		resolver: zodResolver(SubCategorySchema),
@@ -95,7 +99,7 @@ const CreateSubCategory = () => {
 				</div>
 
 				<div className={styles.formField}>
-					<button className={styles.formField__button} disabled={!isDirty || !!Object.keys(errors).length}>
+					<button className={styles.formField__button} disabled={!isValid || !!Object.keys(errors).length}>
 						Создать
 					</button>
 				</div>

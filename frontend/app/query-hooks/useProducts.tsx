@@ -1,25 +1,24 @@
-import type { IDefaultResponse } from '@common-types/default-response.types'
-import { IProductFilters } from '@common-types/product.types'
-import type {
-	ICreateProduct,
-	IProduct,
-	IProductResponse,
-	IUpdateProduct
-} from '@common-types/product.types'
-import { ProductService } from '@services/product.service'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 
+import { ProductService } from '@services/product.service'
+
+import type { UpdateQueryHook } from '@common-types/common.types'
+import type { IDefaultResponse } from '@common-types/default-response.types'
+import type {
+	ICreateProduct,
+	IProduct,
+	IProductFilters,
+	IProductResponse,
+	IUpdateProduct
+} from '@common-types/product.types'
+
 export const useProducts = (filters?: IProductFilters) =>
-	useQuery<IProductResponse, AxiosError<any>, IProduct[]>(
-		['products', filters],
-		() => ProductService.all(filters),
-		{
-			select: data => data.products,
-			refetchInterval: 15000
-		}
-	)
+	useQuery<IProductResponse, AxiosError<any>, IProduct[]>(['products', filters], () => ProductService.all(filters), {
+		select: data => data.products,
+		refetchInterval: 15000
+	})
 
 export const useCreateProduct = () => {
 	const queryClient = useQueryClient()
@@ -44,27 +43,29 @@ export const useCreateProduct = () => {
 	)
 }
 
-export const useUpdateProduct = () => {
+export const useUpdateProduct = ({ isShowToast }: UpdateQueryHook = { isShowToast: true }) => {
 	const queryClient = useQueryClient()
 
-	return useMutation<
-		IDefaultResponse,
-		AxiosError<IDefaultResponse>,
-		{ id: string; dto: IUpdateProduct }
-	>(['update-product'], ProductService.update, {
-		onSuccess(data) {
-			queryClient.invalidateQueries({ queryKey: ['products'] })
-			toast.success(data.message)
-		},
-		onError(error) {
-			toast.error(
-				<div>
-					<p>{error.response?.data.message}</p>
-					<p>{error.response?.data.error}</p>
-				</div>
-			)
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; dto: IUpdateProduct }>(
+		['update-product'],
+		ProductService.update,
+		{
+			onSuccess(data) {
+				queryClient.invalidateQueries({ queryKey: ['products'] })
+				if (isShowToast) {
+					toast.success(data.message)
+				}
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
+			}
 		}
-	})
+	)
 }
 
 export const useRemoveProduct = () => {

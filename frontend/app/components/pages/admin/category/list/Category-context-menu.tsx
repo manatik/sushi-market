@@ -1,13 +1,18 @@
-import { ICategory } from '@common-types/category.types'
+import { FC, PropsWithChildren } from 'react'
+
 import UpdateCategory from '@components/pages/admin/category/update/Category'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
+
+import { useRemoveCategory, useUpdateCategory } from '@query-hooks/useCategories'
+
+import { ICategory } from '@common-types/category.types'
+
 import useConfirm from '@hooks/useConfirm'
 import { useContextMenu } from '@hooks/useContextMenu'
-import { useRemoveCategory, useUpdateCategory } from '@query-hooks/useCategories'
+
 import { CREATE_CATEGORY_PATH, CREATE_PRODUCT_PATH, CREATE_SUB_CATEGORY_PATH } from '@utils/pages-paths'
-import { FC, PropsWithChildren } from 'react'
 
 interface Props extends PropsWithChildren {
 	category: ICategory

@@ -1,10 +1,14 @@
-import { IProductFilters } from '@common-types/product.types'
+import { useState } from 'react'
+
 import Filters from '@components/admin/filters/Filters'
 import ProductList from '@components/pages/admin/product/list/Product-list'
 import Separator from '@components/ui/separator/Separator'
+
 import { useProducts } from '@query-hooks/useProducts'
+
+import { IProductFilters } from '@common-types/product.types'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
-import { useState } from 'react'
 
 const Products = () => {
 	const [filters, setFilters] = useState<IProductFilters>({})

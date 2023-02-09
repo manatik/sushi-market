@@ -1,7 +1,8 @@
 import classNames from 'classnames'
-import { useRouter } from 'next/router'
 import NextLink, { LinkProps } from 'next/link'
-import { PropsWithChildren, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { PropsWithChildren, useEffect, useState } from 'react'
+
 import styles from './link.style.module.scss'
 
 type ActiveLinkProps = LinkProps & {
@@ -9,12 +10,7 @@ type ActiveLinkProps = LinkProps & {
 	activeClassName?: string
 }
 
-const Link = ({
-	children,
-	activeClassName,
-	className,
-	...props
-}: PropsWithChildren<ActiveLinkProps>) => {
+const Link = ({ children, activeClassName, className, ...props }: PropsWithChildren<ActiveLinkProps>) => {
 	const { asPath, isReady } = useRouter()
 	const [computedClassName, setComputedClassName] = useState(className)
 
@@ -28,8 +24,7 @@ const Link = ({
 			// Using URL().pathname to get rid of query and hash
 			const activePathname = new URL(asPath, location.href).pathname
 
-			const newClassName =
-				linkPathname === activePathname ? `${className} ${activeClassName}`.trim() : className
+			const newClassName = linkPathname === activePathname ? `${className} ${activeClassName}`.trim() : className
 
 			if (newClassName !== computedClassName) {
 				setComputedClassName(newClassName)

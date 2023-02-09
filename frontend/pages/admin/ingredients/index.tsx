@@ -1,7 +1,10 @@
-import { NextPageAuth } from '@common-types/private-route.types'
+import { QueryClient, dehydrate } from '@tanstack/react-query'
+
 import Ingredients from '@components/pages/admin/ingredient/list/Ingredients'
+
 import { IngredientService } from '@services/ingredient.service'
-import { dehydrate, QueryClient } from '@tanstack/react-query'
+
+import { NextPageAuth } from '@common-types/private-route.types'
 
 const IngredientsPage: NextPageAuth = () => {
 	return <Ingredients />

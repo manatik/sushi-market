@@ -1,25 +1,25 @@
-@import "app/styles/mixins";
+@import 'app/styles/mixins';
 
 .contextMenu {
-  @include outside-container-style;
+	@include outside-container-style;
 
-  font-size: var(--secondary-font-size);
-  color: var(--primary-text-color);
-  padding: 10px;
-  border-radius: var(--medium-border-radius);
+	font-size: var(--secondary-font-size);
+	color: var(--primary-text-color);
+	padding: 10px;
+	border-radius: var(--medium-border-radius);
 
-  &__item {
-    padding: .2rem .3rem;
-    margin-top: 5px;
-    border-radius: var(--small-border-radius);
-    outline: none;
+	&__item {
+		padding: 0.2rem 0.3rem;
+		margin-top: 5px;
+		border-radius: var(--small-border-radius);
+		outline: none;
 
-    &:first-child {
-      margin-top: 0;
-    }
+		&:first-child {
+			margin-top: 0;
+		}
 
-    &:hover {
-      @include hover-on-item-admin;
-    }
-  }
+		&:hover {
+			@include hover-on-item-admin;
+		}
+	}
 }

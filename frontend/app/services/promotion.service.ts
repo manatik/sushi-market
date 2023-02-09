@@ -1,6 +1,7 @@
+import { axiosInstance } from '@api/axios'
+
 import { IDefaultResponse } from '@common-types/default-response.types'
 import { ICreatePromotion, IPromotion, IPromotionResponse, IUpdatePromotion } from '@common-types/promotion.types'
-import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'promotion',

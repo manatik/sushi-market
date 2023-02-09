@@ -1,11 +1,8 @@
-import {
-	HoverCardContentProps,
-	HoverCardProps,
-	HoverCardTriggerProps
-} from '@radix-ui/react-hover-card'
+import { HoverCardContentProps, HoverCardProps, HoverCardTriggerProps } from '@radix-ui/react-hover-card'
 import * as RadixHoverCard from '@radix-ui/react-hover-card'
 import classNames from 'classnames'
 import { FC, PropsWithChildren, RefAttributes } from 'react'
+
 import styles from './hover-card.style.module.scss'
 
 interface DotNotation {
@@ -32,11 +29,7 @@ const Content: FC<PropsWithChildren<HoverCardContentProps & RefAttributes<HTMLDi
 }) => {
 	return (
 		<RadixHoverCard.Portal>
-			<RadixHoverCard.Content
-				sideOffset={5}
-				className={classNames(styles.hoverCard__content, className)}
-				{...props}
-			>
+			<RadixHoverCard.Content sideOffset={5} className={classNames(styles.hoverCard__content, className)} {...props}>
 				{children}
 			</RadixHoverCard.Content>
 		</RadixHoverCard.Portal>

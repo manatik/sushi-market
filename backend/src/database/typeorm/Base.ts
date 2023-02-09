@@ -1,4 +1,4 @@
-import { BeforeUpdate, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BeforeUpdate, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export class Base {
   @PrimaryGeneratedColumn('uuid')
@@ -9,6 +9,9 @@ export class Base {
 
   @UpdateDateColumn({ name: 'date_updated' })
   dateUpdated: Date;
+
+  @DeleteDateColumn({ name: 'date_deleted' })
+  dateDeleted: Date;
 
   @BeforeUpdate()
   async update() {

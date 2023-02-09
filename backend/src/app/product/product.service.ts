@@ -3,17 +3,17 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { PhotosService } from '@photos/photos.service';
-import { AddIngredientsDto } from '@product/dto/add-ingredients.dto';
-import { AddPhotosDto } from '@product/dto/add-photos.dto';
-import { CreateProductDto } from '@product/dto/create-product.dto';
-import { GetAllQuery } from '@product/dto/get-all.query';
-import { UpdateProductDto } from '@product/dto/update-product.dto';
-import { ProductEntity } from '@product/entity/product.entity';
 import { FileManipulatorSingleton } from '@utils/file-manipulator';
 import { idsArrayToArrayOfObjects } from '@utils/utils';
 import * as path from 'path';
 import { FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
 import * as uuid from 'uuid';
+import { AddIngredientsDto } from './dto/add-ingredients.dto';
+import { AddPhotosDto } from './dto/add-photos.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { GetAllQuery } from './dto/get-all.query';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductEntity } from './entity/product.entity';
 
 @Injectable()
 export class ProductService {
@@ -106,9 +106,9 @@ export class ProductService {
 
       const product = await this.productRepository.update({ id }, productEntity);
 
-      return this.errorService.success('Продукт успешно создан', { product });
+      return this.errorService.success('Продукт успешно обновлён', { product });
     } catch (e) {
-      throw this.errorService.internal('Ошибка создания продукта', e.message);
+      throw this.errorService.internal('Ошибка обновления продукта', e.message);
     }
   }
 
@@ -179,14 +179,14 @@ export class ProductService {
 
   private async checkDuplicateAndThrow(dto: ProductEntity) {
     for (const uniqKey of this.UNIQ_KEYS) {
+      if (!dto[uniqKey]) {
+        continue;
+      }
+
       const expression: FindOptionsWhere<ProductEntity> = { [uniqKey]: dto[uniqKey] };
 
       if (dto.id) {
         expression.id = Not(dto.id);
-      }
-
-      if (!expression) {
-        continue;
       }
 
       const productExists = await this.productRepository.findOne({

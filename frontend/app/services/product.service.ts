@@ -1,3 +1,5 @@
+import { axiosInstance } from '@api/axios'
+
 import { IDefaultResponse } from '@common-types/default-response.types'
 import {
 	ICreateProduct,
@@ -6,7 +8,6 @@ import {
 	IProductResponse,
 	IUpdateProduct
 } from '@common-types/product.types'
-import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'product',

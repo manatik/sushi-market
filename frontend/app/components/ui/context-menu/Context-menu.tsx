@@ -1,6 +1,7 @@
 import { ContextMenuItemProps } from '@radix-ui/react-context-menu'
-import { FC, PropsWithChildren } from 'react'
 import * as RadixContextMenu from '@radix-ui/react-context-menu'
+import { FC, PropsWithChildren } from 'react'
+
 import styles from './context-menu.style.module.scss'
 
 interface DotNotation {

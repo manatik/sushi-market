@@ -1,6 +1,6 @@
 import { DistrictEntity } from '@district/entity/district.entity';
 import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('points_of_sale')
 export class PointOfSaleEntity extends Base {
@@ -19,9 +19,6 @@ export class PointOfSaleEntity extends Base {
   @Column({ name: 'operating_mode_delivery' })
   operatingModeDelivery: string;
 
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted?: Date;
-
-  @ManyToOne(() => DistrictEntity, (district) => district.pointOfSale)
+  @OneToMany(() => DistrictEntity, (district) => district.pointOfSale)
   districts: DistrictEntity[];
 }

@@ -1,7 +1,7 @@
 import { CategoryEntity } from '@category/entity/category.entity';
 import { ProductEntity } from '@product/entity/product.entity';
 import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('sub_category')
 export class SubCategoryEntity extends Base {
@@ -13,9 +13,6 @@ export class SubCategoryEntity extends Base {
 
   @Column({ name: 'order_by' })
   orderBy: number;
-
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted: Date;
 
   @Column({ name: 'category_id' })
   categoryId: string;

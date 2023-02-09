@@ -1,6 +1,6 @@
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Base } from '@typeorm/Base';
 import { UserEntity } from '@user/enitity/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('user_addresses')
 export class AddressEntity extends Base {
@@ -12,9 +12,6 @@ export class AddressEntity extends Base {
 
   @Column()
   comment: string;
-
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.addresses)
   @JoinColumn({ name: 'user_id' })

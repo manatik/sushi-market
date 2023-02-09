@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { Role } from '@jwt-auth/enum';
-import { Public, Roles } from '@jwt-auth/decorators';
 import { ENDPOINTS, GLOBAL_PREFIXES } from '@consts/endpoints.consts';
+import { Public, Roles } from '@jwt-auth/decorators';
+import { Role } from '@jwt-auth/enum';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { DistrictService } from './district.service';
 import { CreateDistrictDto } from './dto/create-district.dto';
+import { GetAllQuery } from './dto/get-all.query';
 import { UpdateDistrictDto } from './dto/update-district.dto';
 
 @Roles(Role.Admin)
@@ -13,8 +14,8 @@ export class DistrictController {
 
   @Public()
   @Get(ENDPOINTS.DEFAULT.ALL)
-  async all() {
-    return await this.districtService.all();
+  async all(@Query() query: GetAllQuery) {
+    return await this.districtService.all(query);
   }
 
   @Public()

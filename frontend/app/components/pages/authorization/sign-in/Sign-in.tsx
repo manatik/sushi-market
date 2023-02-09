@@ -1,35 +1,39 @@
-import type { IDefaultResponse } from '@common-types/default-response.types'
-import type { ISignIn } from '@common-types/user.types'
-import { SignInSchema } from '@components/pages/authorization/authorization.schema'
-import ButtonLoading from '@components/ui/button-loading/Button-loading'
-import Checkbox from '@components/ui/checkbox/Checkbox'
-import Input from '@components/ui/input/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
-import { AuthService } from '@services/auth.service'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+
+import { SignInSchema } from '@components/pages/authorization/authorization.schema'
+import ButtonLoading from '@components/ui/button-loading/Button-loading'
+import Checkbox from '@components/ui/checkbox/Checkbox'
+import Input from '@components/ui/input/Input'
+
+import { AuthService } from '@services/auth.service'
+
+import type { IDefaultResponse } from '@common-types/default-response.types'
+import type { ISignIn } from '@common-types/user.types'
+
 import styles from '../authorization.style.module.scss'
 import type { ISignProps } from '../authorization.types'
 
 const SignIn: FC<ISignProps> = ({ onSuccessSign }) => {
 	const [isShowPassword, setIsShowPassword] = useState(false)
 
-	const { mutate: signIn, isLoading } = useMutation<
-		IDefaultResponse,
-		AxiosError<IDefaultResponse>,
-		ISignIn
-	>(['sign-in'], AuthService.signIn, {
-		onSuccess() {
-			onSuccessSign()
-		},
-		onError(error) {
-			toast.error(error.response?.data.message)
+	const { mutate: signIn, isLoading } = useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, ISignIn>(
+		['sign-in'],
+		AuthService.signIn,
+		{
+			onSuccess() {
+				onSuccessSign()
+			},
+			onError(error) {
+				toast.error(error.response?.data.message)
+			}
 		}
-	})
+	)
 
 	const {
 		register,
@@ -48,12 +52,7 @@ const SignIn: FC<ISignProps> = ({ onSuccessSign }) => {
 
 	return (
 		<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-			<Input
-				{...register('phone')}
-				type={'tel'}
-				label={'Номер телефона'}
-				error={errors.phone?.message}
-			/>
+			<Input {...register('phone')} type={'tel'} label={'Номер телефона'} error={errors.phone?.message} />
 
 			<Input
 				{...register('password')}

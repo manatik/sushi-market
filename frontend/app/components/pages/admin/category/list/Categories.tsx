@@ -1,10 +1,14 @@
-import { ICategoryFilters } from '@common-types/category.types'
+import { useState } from 'react'
+
 import Filters from '@components/admin/filters/Filters'
 import CategoryList from '@components/pages/admin/category/list/Category-list'
 import Separator from '@components/ui/separator/Separator'
+
 import { useCategories } from '@query-hooks/useCategories'
+
+import { ICategoryFilters } from '@common-types/category.types'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
-import { useState } from 'react'
 
 const Categories = () => {
 	const [filters, setFilters] = useState<ICategoryFilters>({})

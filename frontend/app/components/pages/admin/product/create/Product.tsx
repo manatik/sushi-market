@@ -1,17 +1,22 @@
-import { ICreateProduct } from '@common-types/product.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as Label from '@radix-ui/react-label'
+import { useRouter } from 'next/router'
+import { Controller, useForm } from 'react-hook-form'
+
 import { ProductSchema } from '@components/pages/admin/product/create/product.schema'
 import Input from '@components/ui/input/Input'
+import Loader from '@components/ui/loader/Loader'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useCategories } from '@query-hooks/useCategories'
 import { useCreateProduct } from '@query-hooks/useProducts'
 import { useSubCategories } from '@query-hooks/useSubCategories'
-import * as Label from '@radix-ui/react-label'
-import { useRouter } from 'next/router'
-import { Controller, useForm } from 'react-hook-form'
+
+import { ICreateProduct } from '@common-types/product.types'
+
 import styles from './product.style.module.scss'
 
 const CreateProduct = () => {
@@ -25,7 +30,7 @@ const CreateProduct = () => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty },
+		formState: { errors, isValid },
 		reset
 	} = useForm<ICreateProduct>({
 		resolver: zodResolver(ProductSchema),
@@ -36,7 +41,7 @@ const CreateProduct = () => {
 		}
 	})
 
-	const onSubmit = async (formData: ICreateProduct) => {
+	const onSubmit = (formData: ICreateProduct) => {
 		createProduct(formData, {
 			onSuccess() {
 				reset()
@@ -45,7 +50,7 @@ const CreateProduct = () => {
 	}
 
 	if (isCategoryLoading || isSubCategoryLoading) {
-		return <div>loading...</div>
+		return <Loader />
 	}
 
 	return (
@@ -159,7 +164,7 @@ const CreateProduct = () => {
 				</section>
 
 				<div className={styles.formFooter}>
-					<button className={styles.formFooter__button} disabled={!isDirty || !!Object.keys(errors).length}>
+					<button className={styles.formFooter__button} disabled={!isValid || !!Object.keys(errors).length}>
 						Создать
 					</button>
 				</div>

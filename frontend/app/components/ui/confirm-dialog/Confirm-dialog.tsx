@@ -1,6 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { FC, PropsWithChildren } from 'react'
+
 import styles from './confirm-dialog.style.module.scss'
 
 interface Props {
@@ -11,14 +12,7 @@ interface Props {
 	onCancel: () => void
 }
 
-const ConfirmDialog: FC<PropsWithChildren<Props>> = ({
-	children,
-	open,
-	title,
-	message,
-	onConfirm,
-	onCancel
-}) => {
+const ConfirmDialog: FC<PropsWithChildren<Props>> = ({ children, open, title, message, onConfirm, onCancel }) => {
 	return (
 		<Dialog.Root open={open}>
 			<Dialog.Portal>

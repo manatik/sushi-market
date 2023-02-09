@@ -1,5 +1,6 @@
-import { NextPageAuth } from '@common-types/private-route.types'
 import React from 'react'
+
+import { NextPageAuth } from '@common-types/private-route.types'
 
 const DistrictsPage: NextPageAuth = () => {
 	return <div>Districts page</div>

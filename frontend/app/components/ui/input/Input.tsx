@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import React, { DetailedHTMLProps, forwardRef, InputHTMLAttributes, Ref } from 'react'
+import React, { DetailedHTMLProps, InputHTMLAttributes, Ref, forwardRef } from 'react'
+
 import styles from './input.style.module.scss'
 
 interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {

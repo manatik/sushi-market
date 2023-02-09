@@ -1,14 +1,18 @@
-import { ICreatePromotion, TypePromotion } from '@common-types/promotion.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as Label from '@radix-ui/react-label'
+import { Controller, useForm } from 'react-hook-form'
+
 import { PromotionSchema } from '@components/pages/admin/promotion/create/promotion.schema'
 import Input from '@components/ui/input/Input'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useCreatePromotion } from '@query-hooks/usePromotion'
-import * as Label from '@radix-ui/react-label'
-import { Controller, useForm } from 'react-hook-form'
+
+import { ICreatePromotion, TypePromotion } from '@common-types/promotion.types'
+
 import styles from './promotion.style.module.scss'
 
 const CreatePromotion = () => {
@@ -18,7 +22,7 @@ const CreatePromotion = () => {
 		handleSubmit,
 		register,
 		control,
-		formState: { isDirty, errors },
+		formState: { isValid, errors },
 		reset
 	} = useForm<ICreatePromotion>({
 		resolver: zodResolver(PromotionSchema),
@@ -132,7 +136,7 @@ const CreatePromotion = () => {
 				</section>
 
 				<div className={styles.formFooter}>
-					<button className={styles.formFooter__button} disabled={!isDirty || !!Object.keys(errors).length}>
+					<button className={styles.formFooter__button} disabled={!isValid || !!Object.keys(errors).length}>
 						Создать
 					</button>
 				</div>

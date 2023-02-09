@@ -4,7 +4,7 @@ import { PhotosEntity } from '@photos/entity/photos.entity';
 import { PromotionEntity } from '@promotion/entity/promotion.entity';
 import { SubCategoryEntity } from '@sub-category/entity/sub-category.entity';
 import { Base } from '@typeorm/Base';
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
 
 @Entity('product')
 export class ProductEntity extends Base {
@@ -37,9 +37,6 @@ export class ProductEntity extends Base {
 
   @Column()
   weight: string;
-
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted: Date;
 
   @Column({ name: 'category_id' })
   categoryId: string;

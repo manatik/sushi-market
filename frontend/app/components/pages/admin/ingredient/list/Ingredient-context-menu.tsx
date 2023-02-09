@@ -1,13 +1,18 @@
-import { IIngredient } from '@common-types/ingredient.types'
+import { FC, PropsWithChildren } from 'react'
+
 import UpdateIngredient from '@components/pages/admin/ingredient/update/ingredient'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
+
+import { useRemoveIngredient } from '@query-hooks/useIngredients'
+
+import { IIngredient } from '@common-types/ingredient.types'
+
 import useConfirm from '@hooks/useConfirm'
 import { useContextMenu } from '@hooks/useContextMenu'
-import { useRemoveIngredient } from '@query-hooks/useIngredients'
+
 import { CREATE_INGREDIENT_PATH, CREATE_PRODUCT_PATH } from '@utils/pages-paths'
-import { FC, PropsWithChildren } from 'react'
 
 interface Props extends PropsWithChildren {
 	ingredient: IIngredient

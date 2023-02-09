@@ -1,13 +1,18 @@
-import { ISubCategory } from '@common-types/sub-category.types'
+import { FC, PropsWithChildren } from 'react'
+
 import UpdateSubCategory from '@components/pages/admin/sub-category/update/Sub-category'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
+
+import { useRemoveSubCategory, useUpdateSubCategory } from '@query-hooks/useSubCategories'
+
+import { ISubCategory } from '@common-types/sub-category.types'
+
 import useConfirm from '@hooks/useConfirm'
 import { useContextMenu } from '@hooks/useContextMenu'
-import { useRemoveSubCategory, useUpdateSubCategory } from '@query-hooks/useSubCategories'
+
 import { CREATE_CATEGORY_PATH, CREATE_PRODUCT_PATH, CREATE_SUB_CATEGORY_PATH } from '@utils/pages-paths'
-import { FC, PropsWithChildren } from 'react'
 
 interface Props extends PropsWithChildren {
 	subCategory: ISubCategory

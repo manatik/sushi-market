@@ -1,5 +1,6 @@
 import { UpdateIcon } from '@radix-ui/react-icons'
 import { CSSProperties, FC } from 'react'
+
 import styles from './loader.style.module.scss'
 
 type Size = 'small' | 'medium' | 'large'
@@ -20,8 +21,7 @@ const Loader: FC<Props> = ({ size = 'small', text, direction = 'vertical' }) => 
 
 	const currentSize = sizes[size]
 	const currentFontSize = sizes[size] - 5
-	const currentDirection: CSSProperties =
-		direction === 'vertical' ? { flexDirection: 'column' } : {}
+	const currentDirection: CSSProperties = direction === 'vertical' ? { flexDirection: 'column' } : {}
 
 	return (
 		<div className={styles.loader} style={currentDirection}>
@@ -31,10 +31,7 @@ const Loader: FC<Props> = ({ size = 'small', text, direction = 'vertical' }) => 
 				</span>
 			)}
 
-			<UpdateIcon
-				style={{ width: currentSize, height: currentSize }}
-				className={styles.loader__icon}
-			/>
+			<UpdateIcon style={{ width: currentSize, height: currentSize }} className={styles.loader__icon} />
 		</div>
 	)
 }

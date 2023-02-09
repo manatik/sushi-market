@@ -52,16 +52,6 @@ export class OrderProduct1667837257584 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'hidden',
-            type: 'boolean',
-            default: false,
-          },
-          {
-            name: 'order_by',
-            type: 'int',
-            default: 1,
-          },
-          {
             name: 'price',
             type: 'int',
             isNullable: false,

@@ -1,6 +1,7 @@
+import { axiosInstance } from '@api/axios'
+
 import { IDefaultResponse } from '@common-types/default-response.types'
 import { ICreateDistrict, IDistrictFilters, IUpdateDistrict } from '@common-types/district.types'
-import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'district',

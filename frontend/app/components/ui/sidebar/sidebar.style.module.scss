@@ -1,88 +1,86 @@
 .sidebar {
-  max-width: 15rem;
-  padding: 1rem 0;
+	max-width: 15rem;
+	padding: 1rem 0;
 
-  &__logo {
-    position: sticky;
-    top: 0;
-    background-color: #FBF7F4;
-    padding-top: 1rem;
-    padding-left: 2rem;
-    padding-bottom: 1rem;
-    display: flex;
-    align-items: center;
+	&__logo {
+		position: sticky;
+		top: 0;
+		background-color: #fbf7f4;
+		padding-top: 1rem;
+		padding-left: 2rem;
+		padding-bottom: 1rem;
+		display: flex;
+		align-items: center;
 
-    &:hover {
-      cursor: pointer;
-    }
-  }
+		&:hover {
+			cursor: pointer;
+		}
+	}
 
-  &__items {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+	&__items {
+		margin-left: 1rem;
+		margin-right: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
 }
 
 .sidebarItem {
-  border-radius: var(--small-border-radius);
-  padding: 0 10px;
-  display: flex;
-  align-items: center;
-  font-size: var(--primary-font-size);
+	border-radius: var(--small-border-radius);
+	padding: 0 10px;
+	display: flex;
+	align-items: center;
+	font-size: var(--primary-font-size);
 
-  &__link {
-    display: flex;
-    align-items: center;
-    height: 30px;
-    font-weight: 600;
-    width: 100%;
-    text-decoration: none;
-    color: var(--primary-text-color)
-  }
+	&__link {
+		display: flex;
+		align-items: center;
+		height: 30px;
+		font-weight: 600;
+		width: 100%;
+		text-decoration: none;
+		color: var(--primary-text-color);
+	}
 
-  &__icon {
-    margin-right: .5rem;
-    width: var(--primary-font-size);
-    height: var(--primary-font-size);
-    color: var(--primary-text-color)
-  }
+	&__icon {
+		margin-right: 0.5rem;
+		width: var(--primary-font-size);
+		height: var(--primary-font-size);
+		color: var(--primary-text-color);
+	}
 
-  &_active {
-    background-color: #EFE5E3;
-  }
+	&_active {
+		background-color: #efe5e3;
+	}
 
-  &:hover {
-    cursor: pointer;
-    background-color: #e5dad8;
-  }
+	&:hover {
+		cursor: pointer;
+		background-color: #e5dad8;
+	}
 }
 
 .sidebarItemCollapsible {
+	&__title[data-state='open'] > &__icon {
+		transform: rotate(90deg);
+	}
 
+	&__title[data-state='open'] + &__collapse {
+		max-height: 30rem;
+	}
 
-  &__title[data-state="open"] > &__icon {
-    transform: rotate(90deg);
-  }
+	&__icon {
+		transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+	}
 
-  &__title[data-state="open"] + &__collapse {
-    max-height: 15rem;
-  }
-
-  &__icon {
-    transition: transform 200ms cubic-bezier(0.87, 0, 0.13, 1);
-  }
-
-  &__collapse {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: 5px;
-    margin-left: 15px;
-    overflow: hidden;
-    transition: max-height 0.2s ease;
-    max-height: 0;
-  }
+	&__collapse {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		margin-top: 5px;
+		margin-left: 15px;
+		overflow: hidden;
+		transition: max-height 0.3s ease;
+		max-height: 0;
+	}
 }

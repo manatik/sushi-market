@@ -1,7 +1,9 @@
-import AdminSidebar from '@components/admin/sidebar/Sidebar'
-import CurrentDate from '@components/ui/current-date/Current-date'
-import UserAvatar from '@components/admin/user-info/User-avatar'
 import { FC, PropsWithChildren } from 'react'
+
+import AdminSidebar from '@components/admin/sidebar/Sidebar'
+import UserAvatar from '@components/admin/user-info/User-avatar'
+import CurrentDate from '@components/ui/current-date/Current-date'
+
 import styles from './layout.module.scss'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {

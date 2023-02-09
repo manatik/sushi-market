@@ -1,9 +1,12 @@
+import * as Label from '@radix-ui/react-label'
 import { FC } from 'react'
+
 import { useFilterContext } from '@components/admin/filters/Filters.context'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
+
 import { useCategories } from '@query-hooks/useCategories'
-import * as Label from '@radix-ui/react-label'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
 
 const CategoryFilter: FC = () => {

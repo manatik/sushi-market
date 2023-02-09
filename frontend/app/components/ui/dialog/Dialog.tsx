@@ -1,6 +1,7 @@
 import * as RadixDialog from '@radix-ui/react-dialog'
 import classNames from 'classnames'
 import { FC, PropsWithChildren } from 'react'
+
 import styles from './dialog.style.module.scss'
 
 interface Props extends PropsWithChildren {

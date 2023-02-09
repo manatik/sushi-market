@@ -1,12 +1,16 @@
-import { ICategory, IUpdateCategory } from '@common-types/category.types'
+import * as Label from '@radix-ui/react-label'
+import { FC } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
+
 import { useUpdateCategory } from '@query-hooks/useCategories'
-import * as Label from '@radix-ui/react-label'
-import { FC } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+
+import { ICategory, IUpdateCategory } from '@common-types/category.types'
+
 import styles from './category.style.module.scss'
 
 interface Props {

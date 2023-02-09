@@ -114,14 +114,14 @@ export class SubCategoryService {
 
   private async checkDuplicateAndThrow(dto: SubCategoryEntity) {
     for (const uniqKey of this.UNIQ_KEYS) {
+      if (!dto[uniqKey]) {
+        continue;
+      }
+
       const expression: FindOptionsWhere<SubCategoryEntity> = { [uniqKey]: dto[uniqKey] };
 
       if (dto.id) {
         expression.id = Not(dto.id);
-      }
-
-      if (!expression) {
-        continue;
       }
 
       const subCategoryExists = await this.subCategoryRepository.findOne({

@@ -1,10 +1,14 @@
-import { ICreateIngredient, IIngredient } from '@common-types/ingredient.types'
+import { FC } from 'react'
+import { useForm } from 'react-hook-form'
+
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
 import Separator from '@components/ui/separator/Separator'
+
 import { useUpdateIngredient } from '@query-hooks/useIngredients'
-import { FC } from 'react'
-import { useForm } from 'react-hook-form'
+
+import { ICreateIngredient, IIngredient } from '@common-types/ingredient.types'
+
 import styles from './ingredient.style.module.scss'
 
 interface Props {

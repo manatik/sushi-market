@@ -1,6 +1,8 @@
-import Loader from '@components/ui/loader/Loader'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
+
+import Loader from '@components/ui/loader/Loader'
+
 import styles from './current-date.style.module.scss'
 
 const CurrentDate = () => {

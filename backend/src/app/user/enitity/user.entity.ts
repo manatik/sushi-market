@@ -1,8 +1,9 @@
-import { BeforeInsert, Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { Base } from '@typeorm/Base';
-import * as bcrypt from 'bcrypt';
+import { OrderEntity } from '@order/entity/order.entity';
 import { RoleEntity } from '@role/entity/role.entity';
+import { Base } from '@typeorm/Base';
 import { AddressEntity } from '@user/enitity/address.entity';
+import * as bcrypt from 'bcrypt';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 @Entity('user')
 export class UserEntity extends Base {
@@ -27,9 +28,6 @@ export class UserEntity extends Base {
   @Column({ select: false })
   password: string;
 
-  @DeleteDateColumn({ name: 'date_deleted' })
-  dateDeleted: Date;
-
   @ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
   @JoinTable({
     name: 'user_role',
@@ -40,6 +38,9 @@ export class UserEntity extends Base {
 
   @OneToMany(() => AddressEntity, (address) => address.user)
   addresses: AddressEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  orders: OrderEntity[];
 
   @BeforeInsert()
   async hashPassword() {

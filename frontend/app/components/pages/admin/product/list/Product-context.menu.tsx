@@ -1,18 +1,23 @@
-import { IProduct } from '@common-types/product.types'
+import { FC, PropsWithChildren } from 'react'
+
 import UpdateProduct from '@components/pages/admin/product/update/product'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
+
+import { useRemoveProduct, useUpdateProduct } from '@query-hooks/useProducts'
+
+import { IProduct } from '@common-types/product.types'
+
 import useConfirm from '@hooks/useConfirm'
 import { useContextMenu } from '@hooks/useContextMenu'
-import { useRemoveProduct, useUpdateProduct } from '@query-hooks/useProducts'
+
 import {
 	CREATE_CATEGORY_PATH,
 	CREATE_INGREDIENT_PATH,
 	CREATE_PRODUCT_PATH,
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
-import { FC, PropsWithChildren } from 'react'
 
 interface Props extends PropsWithChildren {
 	product: IProduct

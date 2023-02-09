@@ -24,6 +24,7 @@ export interface IUpdateUser extends Partial<IUser> {}
 export interface IUserAuth {
 	isAuth: boolean
 	roles: IRole[]
+	error: boolean
 }
 
 export interface IRole {

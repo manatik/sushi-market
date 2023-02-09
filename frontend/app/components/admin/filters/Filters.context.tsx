@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useContext } from 'react'
+import { Dispatch, SetStateAction, createContext, useContext } from 'react'
 
 export type FiltersObject = {
 	search?: string

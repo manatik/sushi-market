@@ -1,10 +1,14 @@
-import { ICreateIngredient } from '@common-types/ingredient.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+
 import { IngredientSchema } from '@components/pages/admin/ingredient/create/ingredient.schema'
 import Input from '@components/ui/input/Input'
 import Separator from '@components/ui/separator/Separator'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useCreateIngredient } from '@query-hooks/useIngredients'
-import { useForm } from 'react-hook-form'
+
+import { ICreateIngredient } from '@common-types/ingredient.types'
+
 import styles from './ingredient.style.module.scss'
 
 const CreateIngredient = () => {
@@ -13,7 +17,7 @@ const CreateIngredient = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty },
+		formState: { errors, isValid },
 		reset
 	} = useForm<ICreateIngredient>({
 		resolver: zodResolver(IngredientSchema)
@@ -41,7 +45,7 @@ const CreateIngredient = () => {
 				<Input {...register('description')} label={'Описание'} error={errors.description?.message} type='text' />
 
 				<div className={styles.formField}>
-					<button className={styles.formField__button} disabled={!isDirty || !!Object.keys(errors).length}>
+					<button className={styles.formField__button} disabled={!isValid || !!Object.keys(errors).length}>
 						Создать
 					</button>
 				</div>

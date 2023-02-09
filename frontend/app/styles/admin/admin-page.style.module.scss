@@ -1,61 +1,61 @@
-@import "app/styles/mixins";
+@import 'app/styles/mixins';
 
 .adminPage {
-  width: 97%;
-  max-height: 75vh;
-  color: var(--primary-text-color);
-  overflow: auto;
+	width: 97%;
+	max-height: 75vh;
+	color: var(--primary-text-color);
+	overflow: auto;
 
-  .controls {
-    margin: 1rem 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    gap: 1rem;
+	.controls {
+		margin: 1rem 0;
+		display: flex;
+		align-items: flex-end;
+		justify-content: flex-end;
+		gap: 1rem;
 
-    &__hidden {
-      @include outside-container-style;
-      padding: 11px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+		&__hidden {
+			@include outside-container-style;
+			padding: 11px;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
 
-    .controlsItem {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 5px;
+		.controlsItem {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			gap: 5px;
 
-      &__label {
-        padding-left: 10px;
-        font-size: var(--small-font-size);
-      }
-    }
-  }
+			&__label {
+				padding-left: 10px;
+				font-size: var(--small-font-size);
+			}
+		}
+	}
 
-  .cards {
-    margin-top: 1rem;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1rem;
+	.cards {
+		margin-top: 1rem;
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		gap: 1rem;
 
-    @include desktop-large-max() {
-      grid-template-columns: repeat(5, 1fr);
-    }
+		@include desktop-large-max() {
+			grid-template-columns: repeat(5, 1fr);
+		}
 
-    @include laptop-large-max() {
-      grid-template-columns: repeat(4, 1fr);
-    }
+		@include laptop-large-max() {
+			grid-template-columns: repeat(4, 1fr);
+		}
 
-    @include laptop-small-max() {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
+		@include laptop-small-max() {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
 
-  .card {
-    &__notSetField {
-      color: #b6b6b6;
-    }
-  }
+	.card {
+		&__emptyField {
+			color: #b6b6b6;
+		}
+	}
 }

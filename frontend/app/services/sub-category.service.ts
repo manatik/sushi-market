@@ -1,6 +1,7 @@
+import { axiosInstance } from '@api/axios'
+
 import { IDefaultResponse } from '@common-types/default-response.types'
 import { ICreateSubCategory, ISubCategoryFilters, IUpdateSubCategory } from '@common-types/sub-category.types'
-import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'sub-category',

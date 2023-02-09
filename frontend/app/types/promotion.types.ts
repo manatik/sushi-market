@@ -30,13 +30,7 @@ export enum TypePromotion {
 export interface ICreatePromotion
 	extends Omit<
 		IPromotion,
-		| 'dateCreated'
-		| 'dateDeleted'
-		| 'dateUpdated'
-		| 'discount'
-		| 'description'
-		| 'promocode'
-		| 'isDisposable'
+		'dateCreated' | 'dateDeleted' | 'dateUpdated' | 'discount' | 'description' | 'promocode' | 'isDisposable'
 	> {
 	discount?: number
 	description?: string

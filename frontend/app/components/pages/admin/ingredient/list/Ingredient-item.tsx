@@ -1,8 +1,11 @@
-import { IIngredient } from '@common-types/ingredient.types'
+import { FC } from 'react'
+
 import IngredientContextMenu from '@components/pages/admin/ingredient/list/Ingredient-context-menu'
 import Card from '@components/ui/card/Card'
+
+import { IIngredient } from '@common-types/ingredient.types'
+
 import { dateToFormatDate } from '@utils/utils'
-import { FC } from 'react'
 
 interface Props {
 	ingredient: IIngredient

@@ -1,51 +1,51 @@
-@import "../../../styles/mixins";
+@import '../../../styles/mixins';
 
 .user {
-  @include outside-container-style;
+	@include outside-container-style;
 
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  padding: .8rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.8rem;
 
-  &__label {
-    font-size: var(--secondary-font-size);
-  }
+	&__label {
+		font-size: var(--secondary-font-size);
+	}
 
-  &:hover {
-    @include hover-on-item-admin;
-  }
+	&:hover {
+		@include hover-on-item-admin;
+	}
 
-  .avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	.avatar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-    &__icon {
-      width: 20px;
-      height: 20px;
-    }
-  }
+		&__icon {
+			width: 20px;
+			height: 20px;
+		}
+	}
 }
 
 .content {
-  @include outside-container-style;
+	@include outside-container-style;
 
-  background: #fff;
-  padding: .2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 13rem;
-  width: 100%;
+	background: #fff;
+	padding: 0.2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	min-width: 13rem;
+	width: 100%;
 
-  &__item {
-    padding: .5rem;
+	&__item {
+		padding: 0.5rem;
 
-    &:hover {
-      @include hover-on-item-admin;
+		&:hover {
+			@include hover-on-item-admin;
 
-      border-radius: var(--small-border-radius);
-    }
-  }
+			border-radius: var(--small-border-radius);
+		}
+	}
 }

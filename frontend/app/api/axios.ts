@@ -1,5 +1,6 @@
-import { AuthService } from '@services/auth.service'
 import axios, { InternalAxiosRequestConfig } from 'axios'
+
+import { AuthService } from '@services/auth.service'
 
 export const API_URL = `${process.env.API_URL}`
 

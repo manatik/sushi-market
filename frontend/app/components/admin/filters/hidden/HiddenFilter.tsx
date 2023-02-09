@@ -1,8 +1,10 @@
+import * as Label from '@radix-ui/react-label'
+import React from 'react'
+
 import { useFilterContext } from '@components/admin/filters/Filters.context'
 import Switch from '@components/ui/switch/Switch'
-import * as Label from '@radix-ui/react-label'
+
 import styles from '@styles/admin/admin-page.style.module.scss'
-import React from 'react'
 
 const HiddenFilter = () => {
 	const { filters, setFilters } = useFilterContext()

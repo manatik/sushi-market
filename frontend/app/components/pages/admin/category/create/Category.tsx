@@ -1,11 +1,15 @@
-import type { ICreateCategory } from '@common-types/category.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as Label from '@radix-ui/react-label'
+import { Controller, useForm } from 'react-hook-form'
+
 import Input from '@components/ui/input/Input'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import { useCreateCategory } from '@query-hooks/useCategories'
-import * as Label from '@radix-ui/react-label'
-import { Controller, useForm } from 'react-hook-form'
+
+import type { ICreateCategory } from '@common-types/category.types'
+
 import { CategorySchema } from './category.schema'
 import styles from './category.style.module.scss'
 
@@ -16,7 +20,7 @@ const CreateCategory = () => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty },
+		formState: { errors, isValid },
 		reset
 	} = useForm<ICreateCategory>({
 		defaultValues: { orderBy: 1 },
@@ -40,12 +44,7 @@ const CreateCategory = () => {
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 				<Input {...register('name')} label={'Название'} error={errors.name?.message} type='text' />
 
-				<Input
-					{...register('article')}
-					label={'Артикул'}
-					error={errors.article?.message}
-					type='text'
-				/>
+				<Input {...register('article')} label={'Артикул'} error={errors.article?.message} type='text' />
 
 				<Input {...register('code')} label={'Код'} error={errors.code?.message} type='text' />
 
@@ -64,17 +63,12 @@ const CreateCategory = () => {
 					<Controller
 						control={control}
 						name={'hidden'}
-						render={({ field }) => (
-							<Switch id={'hidden'} onCheckedChange={field.onChange} checked={field.value} />
-						)}
+						render={({ field }) => <Switch id={'hidden'} onCheckedChange={field.onChange} checked={field.value} />}
 					/>
 				</div>
 
 				<div className={styles.formField}>
-					<button
-						className={styles.formField__button}
-						disabled={!isDirty || !!Object.keys(errors).length}
-					>
+					<button className={styles.formField__button} disabled={!isValid || !!Object.keys(errors).length}>
 						Создать
 					</button>
 				</div>

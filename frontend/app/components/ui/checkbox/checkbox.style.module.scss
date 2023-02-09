@@ -1,21 +1,21 @@
 .CheckboxRoot {
-  background-color: #d0d0d0;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	background-color: #d0d0d0;
+	width: 20px;
+	height: 20px;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .CheckboxRoot:hover {
-  background-color: #dedede;
+	background-color: #dedede;
 }
 
 .CheckboxRoot:focus {
-  box-shadow: 0 0 0 1px #383838;
+	box-shadow: 0 0 0 1px #383838;
 }
 
 .CheckboxIndicator {
-  color: #000;
+	color: #000;
 }

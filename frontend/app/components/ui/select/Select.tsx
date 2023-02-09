@@ -1,7 +1,9 @@
-import SelectItem from '@components/ui/select/SelectItem'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import * as RadixSelect from '@radix-ui/react-select'
-import { forwardRef, PropsWithChildren, Ref } from 'react'
+import { PropsWithChildren, Ref, forwardRef } from 'react'
+
+import SelectItem from '@components/ui/select/SelectItem'
+
 import styles from './select.style.module.scss'
 
 interface SelectProps extends PropsWithChildren {

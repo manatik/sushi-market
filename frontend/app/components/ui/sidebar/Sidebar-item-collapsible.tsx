@@ -2,6 +2,7 @@ import { ChevronRightIcon } from '@radix-ui/react-icons'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import React, { FC, PropsWithChildren, useEffect, useState } from 'react'
+
 import styles from './sidebar.style.module.scss'
 
 interface Props {
@@ -15,12 +16,7 @@ enum CollapseState {
 	Open = 'open'
 }
 
-const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({
-	title,
-	children,
-	className,
-	onClick
-}) => {
+const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({ title, children, className, onClick }) => {
 	const router = useRouter()
 	const [collapse, setCollapse] = useState<CollapseState>(CollapseState.Closed)
 
@@ -51,9 +47,7 @@ const SidebarItemCollapsible: FC<PropsWithChildren<Props>> = ({
 				data-state={collapse}
 				onClick={handleClick}
 			>
-				<ChevronRightIcon
-					className={classNames(styles.sidebarItem__icon, styles.sidebarItemCollapsible__icon)}
-				/>
+				<ChevronRightIcon className={classNames(styles.sidebarItem__icon, styles.sidebarItemCollapsible__icon)} />
 				<span className={styles.sidebarItem__link}>{title}</span>
 			</div>
 

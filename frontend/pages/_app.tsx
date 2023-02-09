@@ -1,16 +1,17 @@
-import { TypeComponentAuthFields } from '@common-types/private-route.types'
-import LayoutProvider from '@providers/Layout.provider'
-
+import '@styles/global.css'
 import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { isDev } from '@utils/env'
 import type { AppProps } from 'next/app'
 import { useState } from 'react'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { RecoilRoot } from 'recoil'
 
-import '@styles/global.css'
-import 'react-toastify/dist/ReactToastify.css'
+import LayoutProvider from '@providers/Layout.provider'
+
+import { TypeComponentAuthFields } from '@common-types/private-route.types'
+
+import { isDev } from '@utils/env'
 
 type TypeAppProps = AppProps<{ dehydratedState: DehydratedState }> & TypeComponentAuthFields
 

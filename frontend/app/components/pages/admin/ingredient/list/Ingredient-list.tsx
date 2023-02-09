@@ -1,7 +1,10 @@
-import { IIngredient } from '@common-types/ingredient.types'
-import IngredientItem from '@components/pages/admin/ingredient/list/Ingredient-item'
-import styles from '@styles/admin/admin-page.style.module.scss'
 import React, { FC } from 'react'
+
+import IngredientItem from '@components/pages/admin/ingredient/list/Ingredient-item'
+
+import { IIngredient } from '@common-types/ingredient.types'
+
+import styles from '@styles/admin/admin-page.style.module.scss'
 
 interface Props {
 	ingredients?: IIngredient[]

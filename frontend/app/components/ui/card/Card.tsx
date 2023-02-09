@@ -1,6 +1,8 @@
-import Separator from '@components/ui/separator/Separator'
 import classNames from 'classnames'
 import { FC, PropsWithChildren } from 'react'
+
+import Separator from '@components/ui/separator/Separator'
+
 import styles from './card.style.module.scss'
 
 interface DotNotation {

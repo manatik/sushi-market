@@ -1,9 +1,10 @@
-import Link from '@components/ui/link/Link'
-import styles from '@components/ui/sidebar/sidebar.style.module.scss'
 import { IconProps } from '@radix-ui/react-icons/dist/types'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import React, { ComponentType, FC, useEffect, useState } from 'react'
+
+import Link from '@components/ui/link/Link'
+import styles from '@components/ui/sidebar/sidebar.style.module.scss'
 
 interface Props {
 	path: string

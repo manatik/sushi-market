@@ -1,6 +1,7 @@
+import { axiosInstance } from '@api/axios'
+
 import { IDefaultResponse } from '@common-types/default-response.types'
 import { ICreatePointOfSale, IPointOfSaleFilters, IUpdatePointOfSale } from '@common-types/point-of-sale.types'
-import { axiosInstance } from '@api/axios'
 
 const URLS = {
 	all: 'point-of-sale',

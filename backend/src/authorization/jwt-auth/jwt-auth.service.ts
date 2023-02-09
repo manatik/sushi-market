@@ -1,15 +1,16 @@
 import { User } from '@common-types/User.type';
-import { HttpException, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { LoginDto } from './dto/login.dto';
-import * as bcrypt from 'bcrypt';
-import * as dayjs from 'dayjs';
-import { ConfigService } from '@nestjs/config';
 import { ErrorService } from '@error/error.service';
-import { UserService } from '@user/user.service';
+import { TOKENS } from '@jwt-auth/enum';
+import { VerifyToken } from '@jwt-auth/types';
+import { HttpException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { UserEntity } from '@user/enitity/user.entity';
-import { TOKENS } from '@jwt-auth/enum';
+import { UserService } from '@user/user.service';
+import * as bcrypt from 'bcrypt';
+import * as dayjs from 'dayjs';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class JwtAuthService {
@@ -64,21 +65,14 @@ export class JwtAuthService {
   async refresh(cookies) {
     try {
       if (!cookies[TOKENS.REFRESH]) {
-        throw this.errorService.forbidden('Невалидный токен', '');
+        throw this.errorService.forbidden('Невалидный токен!', 'Unauthorized!');
       }
 
       const refreshToken = cookies[TOKENS.REFRESH];
 
-      const { info: refreshTokenInfo } = this.verifyToken(refreshToken);
+      const { info: refreshTokenInfo, expireIn: expireInRefresh } = this.verifyToken(refreshToken);
 
-      const expireIn = dayjs.unix(refreshTokenInfo.exp).toISOString();
-
-      const { user } = await this.userService.getBy(
-        {
-          id: refreshTokenInfo.id,
-        },
-        { withRoles: true },
-      );
+      const { user } = await this.userService.getBy({ id: refreshTokenInfo.id }, { withRoles: true });
 
       if (!user || user.dateDeleted) {
         throw this.errorService.forbidden('Пользователь удалён или заблокирован', 'Ошибка валидации пользователя');
@@ -86,11 +80,20 @@ export class JwtAuthService {
 
       const payload = this.getPayload(user);
 
-      if (dayjs().diff(expireIn, 'millisecond') > 0) {
+      // if refresh token is expired
+      if (dayjs().isAfter(expireInRefresh)) {
         const refreshToken = await this.generateToken(payload, '30d');
         const accessToken = await this.generateToken(payload, '24h');
 
         return { accessToken, refreshToken };
+      }
+
+      const accessTokenCookie = cookies[TOKENS.ACCESS];
+
+      const { expireIn: expireInAccess } = this.verifyToken(accessTokenCookie);
+      // if access token is fresh
+      if (dayjs().isBefore(expireInAccess)) {
+        return { accessToken: accessTokenCookie, refreshToken: null };
       }
 
       const accessToken = await this.generateToken(payload, '24h');
@@ -114,7 +117,7 @@ export class JwtAuthService {
       const { isValid, info } = this.verifyToken(cookies[TOKENS.ACCESS]);
 
       if (!isValid) {
-        return { isAuth: isValid, roles: [] };
+        throw this.errorService.unauthorized();
       }
 
       const { user } = await this.userService.getBy({ id: info.id }, { withRoles: true });
@@ -133,14 +136,18 @@ export class JwtAuthService {
     }
   }
 
-  private verifyToken(token: string) {
+  private verifyToken(token: string): VerifyToken {
+    let expireIn = 0;
     try {
       const info = this.jwtService.verify<User<{ exp: number; iat: number }>>(token, {
         secret: this.configService.get('JWT_SECRET'),
       });
-      return { isValid: true, info };
+
+      expireIn = dayjs(info.exp * 1000).valueOf();
+
+      return { isValid: true, info, expireIn };
     } catch (e) {
-      return { isValid: false };
+      return { isValid: false, info: null, expireIn };
     }
   }
 
