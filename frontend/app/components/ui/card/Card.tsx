@@ -51,9 +51,7 @@ interface IItemProps extends PropsWithChildren {
 const Item: FC<IItemProps> = ({ children, justify, type }) => {
 	return (
 		<div
-			className={classNames(styles.cardContent__item, {
-				[styles.cardContent__item_alignEnd]: justify === 'end',
-				[styles.cardContent__item_alignStart]: justify === 'start',
+			className={classNames(styles.cardContent__item, styles[`cardContent__item_align-${justify}`], {
 				[styles.cardContent__item_small]: type === 'secondary'
 			})}
 		>

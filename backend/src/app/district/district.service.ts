@@ -28,6 +28,8 @@ export class DistrictService {
 
       const districts = await this.districtRepository.find({
         where: whereExpression,
+        relations: { pointOfSale: true },
+        withDeleted: true,
       });
 
       return this.errorService.success('Районы успешно получены', { districts });

@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
 
-import UpdateIngredient from '@components/pages/admin/ingredient/update/ingredient'
+import UpdateIngredient from '@components/pages/admin/ingredient/update/Ingredient'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'

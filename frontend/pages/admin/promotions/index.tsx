@@ -1,9 +1,11 @@
 import React from 'react'
 
+import Promotions from '@components/pages/admin/promotion/list/Promotions'
+
 import { NextPageAuth } from '@common-types/private-route.types'
 
 const PromotionsPage: NextPageAuth = () => {
-	return <div>promotions page</div>
+	return <Promotions />
 }
 
 PromotionsPage.isOnlyRoles = ['admin']

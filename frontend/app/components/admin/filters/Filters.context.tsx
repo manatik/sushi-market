@@ -1,10 +1,13 @@
 import { Dispatch, SetStateAction, createContext, useContext } from 'react'
 
+import { TypePromotion } from '@common-types/promotion.types'
+
 export type FiltersObject = {
 	search?: string
 	categoryId?: string
 	subCategoryId?: string
 	onlyHidden?: boolean
+	promotionType?: TypePromotion
 }
 
 interface IFilterContext {

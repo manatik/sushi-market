@@ -1,7 +1,13 @@
 import { axiosInstance } from '@api/axios'
 
 import { IDefaultResponse } from '@common-types/default-response.types'
-import { ICreatePromotion, IPromotion, IPromotionResponse, IUpdatePromotion } from '@common-types/promotion.types'
+import {
+	ICreatePromotion,
+	IPromotion,
+	IPromotionFilters,
+	IPromotionResponse,
+	IUpdatePromotion
+} from '@common-types/promotion.types'
 
 const URLS = {
 	all: 'promotion',
@@ -12,8 +18,14 @@ const URLS = {
 }
 
 export const PromotionService = {
-	async all() {
-		const { data } = await axiosInstance.get<IPromotionResponse>(URLS.all)
+	async all(filters?: IPromotionFilters) {
+		const { data } = await axiosInstance.get<IPromotionResponse>(URLS.all, {
+			params: {
+				onlyHidden: filters?.onlyHidden,
+				name: filters?.search,
+				promotionType: filters?.promotionType
+			}
+		})
 		return data
 	},
 
@@ -27,8 +39,8 @@ export const PromotionService = {
 		return data
 	},
 
-	async update(dto: IUpdatePromotion) {
-		const { data } = await axiosInstance.patch<IDefaultResponse>(URLS.update, dto)
+	async update({ id, dto }: { id: string; dto: IUpdatePromotion }) {
+		const { data } = await axiosInstance.patch<IDefaultResponse>(`${URLS.update}/${id}`, dto)
 		return data
 	},
 

@@ -26,7 +26,7 @@ const UpdateCategory: FC<Props> = ({ category, isOpen, onClose }) => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty }
+		formState: { errors, isValid }
 	} = useForm<IUpdateCategory>({
 		defaultValues: { ...category, hidden: !!category.dateDeleted }
 	})
@@ -69,7 +69,7 @@ const UpdateCategory: FC<Props> = ({ category, isOpen, onClose }) => {
 					</div>
 
 					<div className={styles.formField}>
-						<button className={styles.formField__button} disabled={!isDirty || !!Object.keys(errors).length}>
+						<button className={styles.formField__button} disabled={!isValid || !!Object.keys(errors).length}>
 							Обновить
 						</button>
 					</div>

@@ -9,7 +9,7 @@ import { useUpdateProduct } from '@query-hooks/useProducts'
 
 import { IProduct } from '@common-types/product.types'
 
-import { dateToFormatDate } from '@utils/utils'
+import { currencyFormatter, dateToFormatDate } from '@utils/utils'
 
 import styles from '@styles/admin/admin-page.style.module.scss'
 
@@ -43,7 +43,7 @@ const ProductItem: FC<Props> = ({ product }) => {
 						<span>Категория</span>
 						<span
 							className={classNames({
-								[styles.card__emptyField]: !product.category?.name
+								[styles.card__emptyField]: !product.category
 							})}
 						>
 							{product.category?.name || 'не задана'}
@@ -54,7 +54,7 @@ const ProductItem: FC<Props> = ({ product }) => {
 						<span>Подкатегория</span>
 						<span
 							className={classNames({
-								[styles.card__emptyField]: !product.subCategory?.name
+								[styles.card__emptyField]: !product.subCategory
 							})}
 						>
 							{product.subCategory?.name || 'не задана'}
@@ -63,13 +63,7 @@ const ProductItem: FC<Props> = ({ product }) => {
 
 					<Card.Item>
 						<span>Цена</span>
-						<span>
-							{Intl.NumberFormat('ru-RU', {
-								style: 'currency',
-								currency: 'RUB',
-								maximumFractionDigits: 0
-							}).format(product.price)}
-						</span>
+						<span>{currencyFormatter(product.price)}</span>
 					</Card.Item>
 
 					<Card.Item>

@@ -42,11 +42,7 @@ const SubCategoryContextMenu: FC<Props> = ({ children, subCategory }) => {
 	}
 
 	const onHide = (hidden: boolean) => {
-		if (hidden) {
-			updateSubCategory({ id: subCategory.id, dto: { ...subCategory, hidden: false } })
-		} else {
-			updateSubCategory({ id: subCategory.id, dto: { ...subCategory, hidden: true } })
-		}
+		updateSubCategory({ id: subCategory.id, dto: { ...subCategory, hidden: !hidden } })
 	}
 
 	return (

@@ -18,7 +18,6 @@ import styles from './district.style.module.scss'
 const CreateDistrict = () => {
 	const { mutate: createDistrict } = useCreateDistrict()
 	const { data: pointsOfSale, isLoading: isPsLoading } = usePointsOfSale()
-	console.log(pointsOfSale)
 
 	const {
 		handleSubmit,

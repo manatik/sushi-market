@@ -1,32 +1,32 @@
 import { FC } from 'react'
 
-import { IProduct } from '@common-types/product.types'
+import { IDistrict } from '@common-types/district.types'
 
-import ProductItem from './Product-item'
+import DistrictItem from './District-item'
 
 import styles from '@styles/admin/admin-page.style.module.scss'
 
 interface Props {
-	products?: IProduct[]
+	districts?: IDistrict[]
 	isLoading: boolean
 }
 
-const ProductList: FC<Props> = ({ isLoading, products }) => {
+const DistrictList: FC<Props> = ({ isLoading, districts }) => {
 	if (isLoading) {
 		return <div>loading...</div>
 	}
 
-	if (!products?.length) {
+	if (!districts?.length) {
 		return <div className={styles.cards}>Ничего не найдено</div>
 	}
 
 	return (
 		<div className={styles.cards}>
-			{products?.map(product => (
-				<ProductItem key={product.id} product={product} />
+			{districts?.map(district => (
+				<DistrictItem key={district.id} district={district} />
 			))}
 		</div>
 	)
 }
 
-export default ProductList
+export default DistrictList

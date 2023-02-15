@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren } from 'react'
 
-import UpdateProduct from '@components/pages/admin/product/update/product'
 import ContextMenu from '@components/ui/context-menu/Context-menu'
 import Link from '@components/ui/link/Link'
 import Separator from '@components/ui/separator/Separator'
@@ -18,6 +17,8 @@ import {
 	CREATE_PRODUCT_PATH,
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
+
+import UpdateProduct from '../update/product'
 
 interface Props extends PropsWithChildren {
 	product: IProduct
@@ -47,11 +48,7 @@ const ProductContextMenu: FC<Props> = ({ children, product }) => {
 	}
 
 	const onHide = (hidden: boolean) => {
-		if (hidden) {
-			updateProduct({ id: product.id, dto: { ...product, hidden: false } })
-		} else {
-			updateProduct({ id: product.id, dto: { ...product, hidden: true } })
-		}
+		updateProduct({ id: product.id, dto: { ...product, hidden: !hidden } })
 	}
 
 	return (

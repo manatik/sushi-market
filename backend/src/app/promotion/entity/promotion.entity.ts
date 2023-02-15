@@ -28,6 +28,9 @@ export class PromotionEntity extends Base {
   @Column({ name: 'type_promotion', enum: TypePromotion })
   typePromotion: TypePromotion;
 
+  @Column({ name: 'old_price' })
+  oldPrice: number;
+
   @Column()
   price: number;
 

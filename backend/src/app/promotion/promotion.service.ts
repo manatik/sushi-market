@@ -3,15 +3,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { PhotosService } from '@photos/photos.service';
-import { AddPhotosDto } from '@product/dto/add-photos.dto';
-import { GetAllQuery } from '@product/dto/get-all.query';
-import { CreatePromotionDto } from '@promotion/dto/create-promotion.dto';
-import { UpdatePromotionDto } from '@promotion/dto/update-promotion.dto';
-import { PromotionEntity } from '@promotion/entity/promotion.entity';
 import { FileManipulatorSingleton } from '@utils/file-manipulator';
+import { idsArrayToArrayOfObjects } from '@utils/utils';
 import * as path from 'path';
-import { FindManyOptions, FindOptionsWhere, Not, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, IsNull, Not, Repository } from 'typeorm';
 import * as uuid from 'uuid';
+import { AddPhotosDto } from './dto/add-photos.dto';
+import { AddProductsDto } from './dto/add-products.dto';
+import { CreatePromotionDto } from './dto/create-promotion.dto';
+import { GetAllQuery } from './dto/get-all.query';
+import { UpdatePromotionDto } from './dto/update-promotion.dto';
+import { PromotionEntity } from './entity/promotion.entity';
 
 @Injectable()
 export class PromotionService {
@@ -31,9 +33,33 @@ export class PromotionService {
 
   async all(query: GetAllQuery) {
     try {
-      const whereExpression: FindManyOptions<PromotionEntity> = { withDeleted: query.onlyHidden };
+      const whereExpression: FindOptionsWhere<PromotionEntity>[] = [
+        { name: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull(), typePromotion: undefined },
+        { article: query.name ? ILike(`%${query.name}%`) : undefined, dateDeleted: IsNull(), typePromotion: undefined },
+        {
+          promocode: query.name ? ILike(`%${query.name}%`) : undefined,
+          dateDeleted: IsNull(),
+          typePromotion: undefined,
+        },
+      ];
 
-      const promotions = await this.promotionRepository.find(whereExpression);
+      if (query.onlyHidden) {
+        for (const expression of whereExpression) {
+          expression.dateDeleted = Not(IsNull());
+        }
+      }
+
+      if (query.promotionType) {
+        for (const expression of whereExpression) {
+          expression.typePromotion = query.promotionType;
+        }
+      }
+
+      const promotions = await this.promotionRepository.find({
+        where: whereExpression,
+        relations: { products: true, photos: true },
+        withDeleted: true,
+      });
 
       return this.errorService.success('Акции успешно получены', { promotions });
     } catch (e) {
@@ -53,7 +79,11 @@ export class PromotionService {
 
   async create(dto: CreatePromotionDto) {
     try {
-      const promotionEntity = await this.promotionRepository.create(dto);
+      if (!dto.promocode) {
+        dto.promocode = null;
+      }
+
+      const promotionEntity = this.promotionRepository.create(dto);
 
       await this.checkDuplicateAndThrow(promotionEntity);
 
@@ -71,14 +101,14 @@ export class PromotionService {
 
   async update(id: string, dto: UpdatePromotionDto) {
     try {
-      const promotionEntity = await this.promotionRepository.create(dto);
+      const promotionEntity = await this.promotionRepository.create({ ...dto, id });
 
       await this.checkDuplicateAndThrow(promotionEntity);
 
       if (dto.hidden) {
         promotionEntity.dateDeleted = new Date();
       } else {
-        promotionEntity.dateDeleted = undefined;
+        promotionEntity.dateDeleted = null;
       }
 
       const promotion = await this.promotionRepository.update({ id }, promotionEntity);
@@ -159,16 +189,43 @@ export class PromotionService {
     }
   }
 
+  async addProducts(id: string, dto: AddProductsDto) {
+    try {
+      const product = await this.promotionRepository.findOne({ where: { id }, relations: { products: true } });
+
+      await this.promotionRepository.save({ ...product, products: idsArrayToArrayOfObjects(dto.products) });
+
+      return this.errorService.success('Продукты добавлены');
+    } catch (e) {
+      throw this.errorService.internal('Ошибка добавления продукты', e.message);
+    }
+  }
+
+  async removeProduct(id: string, productId: string) {
+    try {
+      const product = await this.promotionRepository.findOne({ where: { id }, relations: { products: true } });
+
+      await this.promotionRepository.save({
+        ...product,
+        ingredients: product.products.filter((ingredient) => ingredient.id !== productId),
+      });
+
+      return this.errorService.success('Продукт успешно удалён');
+    } catch (e) {
+      throw this.errorService.internal('Ошибка удаления продукта', e.message);
+    }
+  }
+
   private async checkDuplicateAndThrow(dto: PromotionEntity) {
     for (const uniqKey of this.UNIQ_KEYS) {
+      if (!dto[uniqKey]) {
+        continue;
+      }
+
       const expression: FindOptionsWhere<PromotionEntity> = { [uniqKey]: dto[uniqKey] };
 
       if (dto.id) {
         expression.id = Not(dto.id);
-      }
-
-      if (!expression) {
-        continue;
       }
 
       const promotionExists = await this.promotionRepository.findOne({

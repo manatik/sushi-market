@@ -37,9 +37,7 @@ const UpdateIngredient: FC<Props> = ({ ingredient, onClose, isOpen }) => {
 	return (
 		<Dialog isOpen={isOpen} onClose={onClose} position={'right'}>
 			<div className={styles.ingredient}>
-				<h3 className={styles.ingredientTitle}>
-					<span className={styles.ingredientTitle__label}>Обновление ингредиента</span>
-				</h3>
+				<h3 className={styles.ingredient__title}>Обновление ингредиента</h3>
 
 				<Separator />
 

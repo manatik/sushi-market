@@ -1,6 +1,8 @@
-.ingredient {
-	background-color: #fff;
-	border-radius: var(--medium-border-radius);
+@import '../../../../../styles/mixins';
+
+.district {
+	@include outside-container-style-without-shadow;
+
 	width: 20rem;
 	padding: 2rem;
 

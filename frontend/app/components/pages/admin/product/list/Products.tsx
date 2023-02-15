@@ -1,12 +1,13 @@
 import { useState } from 'react'
 
 import Filters from '@components/admin/filters/Filters'
-import ProductList from '@components/pages/admin/product/list/Product-list'
 import Separator from '@components/ui/separator/Separator'
 
 import { useProducts } from '@query-hooks/useProducts'
 
 import { IProductFilters } from '@common-types/product.types'
+
+import ProductList from './Product-list'
 
 import styles from '@styles/admin/admin-page.style.module.scss'
 

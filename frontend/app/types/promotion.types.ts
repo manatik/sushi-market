@@ -1,4 +1,5 @@
 import { IDefaultResponse } from '@common-types/default-response.types'
+import { IProduct } from '@common-types/product.types'
 
 export interface IPromotionResponse<T = IPromotion[]> extends IDefaultResponse {
 	promotions: T
@@ -9,6 +10,7 @@ export interface IPromotion {
 	article: string
 	name: string
 	typePromotion: TypePromotion
+	products: IProduct[]
 	price: number
 	oldPrice: number
 	dateStart: string
@@ -39,4 +41,17 @@ export interface ICreatePromotion
 	hidden: boolean
 }
 
-export interface IUpdatePromotion extends Partial<IPromotion> {}
+export interface IUpdatePromotion extends Partial<IPromotion> {
+	hidden: boolean
+}
+
+export interface IPromotionFilters {
+	onlyHidden?: boolean
+	search?: string
+	promotionType?: TypePromotion
+}
+
+export const TranslatesTypePromotion = {
+	[TypePromotion.PROMOTION]: 'акция',
+	[TypePromotion.COMBO]: 'комбо-набор'
+}

@@ -177,31 +177,6 @@ export class ProductService {
     }
   }
 
-  private async checkDuplicateAndThrow(dto: ProductEntity) {
-    for (const uniqKey of this.UNIQ_KEYS) {
-      if (!dto[uniqKey]) {
-        continue;
-      }
-
-      const expression: FindOptionsWhere<ProductEntity> = { [uniqKey]: dto[uniqKey] };
-
-      if (dto.id) {
-        expression.id = Not(dto.id);
-      }
-
-      const productExists = await this.productRepository.findOne({
-        where: expression,
-        withDeleted: true,
-      });
-
-      if (productExists) {
-        const translate: string = this.ERROR_TRANSLATES[uniqKey](dto[uniqKey]);
-
-        throw new Error(`Продукт с ${translate} уже существует`);
-      }
-    }
-  }
-
   async addIngredients(id: string, dto: AddIngredientsDto) {
     try {
       const product = await this.productRepository.findOne({ where: { id }, relations: { ingredients: true } });
@@ -226,6 +201,31 @@ export class ProductService {
       return this.errorService.success('Ингредиент успешно удалён');
     } catch (e) {
       throw this.errorService.internal('Ошибка удаления ингредиента', e.message);
+    }
+  }
+
+  private async checkDuplicateAndThrow(dto: ProductEntity) {
+    for (const uniqKey of this.UNIQ_KEYS) {
+      if (!dto[uniqKey]) {
+        continue;
+      }
+
+      const expression: FindOptionsWhere<ProductEntity> = { [uniqKey]: dto[uniqKey] };
+
+      if (dto.id) {
+        expression.id = Not(dto.id);
+      }
+
+      const productExists = await this.productRepository.findOne({
+        where: expression,
+        withDeleted: true,
+      });
+
+      if (productExists) {
+        const translate: string = this.ERROR_TRANSLATES[uniqKey](dto[uniqKey]);
+
+        throw new Error(`Продукт с ${translate} уже существует`);
+      }
     }
   }
 }

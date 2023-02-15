@@ -20,7 +20,7 @@ const SearchFilter: FC = () => {
 		setFilters(prev => ({ ...prev, search: debouncedSearch }))
 	}, [debouncedSearch, setFilters])
 
-	return <Input label={'Поиск'} color={'white'} onChange={handleSearch} value={search} />
+	return <Input type='search' label='Поиск' color={'white'} onChange={handleSearch} value={search} />
 }
 
 export default SearchFilter

@@ -53,13 +53,13 @@ const CreatePromotion = () => {
 					<div className={styles.formWithColumns__columnFields}>
 						<h3>Основные поля</h3>
 
-						<Input {...register('name')} label={'Название'} error={errors.name?.message} type='text' />
+						<Input {...register('name')} label='Название' error={errors.name?.message} type='text' />
 
-						<Input {...register('article')} label={'Артикул'} error={errors.article?.message} type='text' />
+						<Input {...register('article')} label='Артикул' error={errors.article?.message} type='text' />
 
 						<Controller
 							control={control}
-							name={'typePromotion'}
+							name='typePromotion'
 							render={({ field }) => (
 								<Select
 									fullWidth
@@ -76,21 +76,21 @@ const CreatePromotion = () => {
 
 						<Input
 							{...register('oldPrice', { valueAsNumber: true })}
-							label={'Старая цена, ₽'}
+							label='Старая цена, ₽'
 							error={errors.oldPrice?.message}
 							type='number'
 						/>
 
 						<Input
 							{...register('price', { valueAsNumber: true })}
-							label={'Новая цена, ₽'}
+							label='Новая цена, ₽'
 							error={errors.price?.message}
 							type='number'
 						/>
 
-						<Input {...register('dateStart')} label={'Дата старта'} error={errors.dateStart?.message} type='text' />
+						<Input {...register('dateStart')} label='Дата старта' error={errors.dateStart?.message} type='text' />
 
-						<Input {...register('dateEnd')} label={'Дата окончания'} error={errors.dateEnd?.message} type='text' />
+						<Input {...register('dateEnd')} label='Дата окончания' error={errors.dateEnd?.message} type='text' />
 					</div>
 
 					<div className={styles.formWithColumns__columnFields}>
@@ -98,17 +98,17 @@ const CreatePromotion = () => {
 
 						<Input
 							{...register('discount', { valueAsNumber: true })}
-							label={'Скидка, %'}
+							label='Скидка, %'
 							error={errors.discount?.message}
 							type='number'
 						/>
 
-						<Input {...register('promocode')} label={'Промокод'} error={errors.promocode?.message} type='text' />
+						<Input {...register('promocode')} label='Промокод' error={errors.promocode?.message} type='text' />
 
-						<Input {...register('description')} label={'Описание'} error={errors.description?.message} type='text' />
+						<Input {...register('description')} label='Описание' error={errors.description?.message} type='text' />
 
 						<div className={styles.formField}>
-							<Label.Root htmlFor={'isDisposable'} className={styles.formField__label}>
+							<Label.Root htmlFor='isDisposable' className={styles.formField__label}>
 								Одноразовая:
 							</Label.Root>
 

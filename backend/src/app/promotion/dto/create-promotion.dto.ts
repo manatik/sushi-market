@@ -1,5 +1,5 @@
 import { TypePromotion } from '@promotion/entity/promotion.entity';
-import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsBoolean, IsDateString, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class CreatePromotionDto {
   @IsNotEmpty()
@@ -23,11 +23,11 @@ export class CreatePromotionDto {
   oldPrice: number;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   dateStart: Date;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   dateEnd: Date;
 
   @IsOptional()

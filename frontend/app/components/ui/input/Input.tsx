@@ -16,14 +16,7 @@ function InputRef(props: Props, ref: Ref<HTMLInputElement>) {
 		<label className={styles.customField}>
 			<input
 				{...otherProps}
-				className={classNames(
-					styles.input,
-					{
-						[styles.input_gray]: color === 'gray',
-						[styles.input_white]: color === 'white'
-					},
-					className
-				)}
+				className={classNames(styles.input, styles[`input_${color}`], className)}
 				placeholder='&nbsp;'
 				ref={ref}
 			/>

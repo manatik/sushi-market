@@ -1,5 +1,5 @@
 import { TypePromotion } from '@promotion/entity/promotion.entity';
-import { IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsBoolean, IsDateString, IsEnum, IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class UpdatePromotionDto {
   @IsOptional()
@@ -47,10 +47,10 @@ export class UpdatePromotionDto {
   description?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   dateStart: Date;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   dateEnd: Date;
 }

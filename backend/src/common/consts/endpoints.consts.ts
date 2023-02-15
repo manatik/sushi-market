@@ -53,4 +53,15 @@ export const ENDPOINTS = {
     REMOVE_PHOTO: 'photos/:id',
     REMOVE_INGREDIENT: 'ingredients/:id',
   },
+  PROMOTION: {
+    ALL: '',
+    CREATE: '',
+    BY_ID: ':id',
+    UPDATE: ':id',
+    REMOVE: ':id',
+    ADD_PHOTOS: 'photos/:id',
+    REMOVE_PHOTO: 'photos/:id',
+    ADD_PRODUCTS: 'products/:id',
+    REMOVE_PRODUCT: 'product/:id',
+  },
 };
