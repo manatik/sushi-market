@@ -6,7 +6,6 @@ import {
 	GearIcon,
 	HobbyKnifeIcon,
 	LayersIcon,
-	LockOpen1Icon,
 	PersonIcon,
 	StackIcon
 } from '@radix-ui/react-icons'
@@ -25,7 +24,6 @@ import {
 	ADMIN_POINT_OF_SALES_PATH,
 	ADMIN_PRODUCTS_PATH,
 	ADMIN_PROMOTIONS_PATH,
-	ADMIN_ROLES_PATH,
 	ADMIN_SUB_CATEGORIES_PATH,
 	ADMIN_USERS_PATH,
 	CREATE_CATEGORY_PATH,
@@ -53,7 +51,6 @@ const AdminSidebar = () => {
 			<SidebarItem path={ADMIN_DISTRICTS_PATH} Icon={GearIcon} label={'Районы'} />
 			<SidebarItem path={ADMIN_POINT_OF_SALES_PATH} Icon={GearIcon} label={'Точки продаж'} />
 			<SidebarItem path={ADMIN_USERS_PATH} Icon={PersonIcon} label={'Пользователи'} />
-			<SidebarItem path={ADMIN_ROLES_PATH} Icon={LockOpen1Icon} label={'Роли'} />
 
 			<SidebarItemCollapsible title={'Создать'}>
 				<SidebarItem path={CREATE_CATEGORY_PATH} Icon={StackIcon} label={'Категория'} />

@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsDateString, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, Length } from 'class-validator';
 
 export class CreateUserDto {
@@ -20,11 +21,14 @@ export class CreateUserDto {
   lastname: string;
 
   @IsOptional()
+  @IsString()
+  @Transform(({ value }) => (!value ? undefined : value))
   @IsDateString()
   birthdate: Date;
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => (!value ? undefined : value))
   @IsEmail()
   email: string;
 }

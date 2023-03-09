@@ -10,7 +10,7 @@ interface SelectProps extends PropsWithChildren {
 	id?: string
 	placeholder: string
 	onChange?: (value: string) => void
-	value?: string
+	value?: string | null
 	fullWidth?: boolean
 	disabled?: boolean
 	error?: string
@@ -23,7 +23,7 @@ function SelectRef(props: SelectProps, ref: Ref<HTMLButtonElement>) {
 
 	return (
 		<div style={{ width }}>
-			<RadixSelect.Root onValueChange={onChange} value={value} disabled={disabled}>
+			<RadixSelect.Root onValueChange={onChange} value={!value ? undefined : value} disabled={disabled}>
 				<RadixSelect.Trigger ref={ref} id={id} className={styles.selectTrigger}>
 					<RadixSelect.Value placeholder={placeholder} />
 

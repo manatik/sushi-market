@@ -17,7 +17,7 @@ export class PointOfSaleService {
 
   private readonly UNIQ_KEYS = ['addressPointSale'];
   private readonly ERROR_TRANSLATES = {
-    name: (value: string | number) => `адресом - ${value}`,
+    addressPointSale: (value: string | number) => `адресом - ${value}`,
   };
 
   async all(query: GetAllQuery) {

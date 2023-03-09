@@ -4,6 +4,10 @@ export interface UserResponse extends IDefaultResponse {
 	user: IUser
 }
 
+export interface UsersResponse extends IDefaultResponse {
+	users: IUser[]
+}
+
 export interface IUser {
 	id: string
 	firstname: string
@@ -17,6 +21,12 @@ export interface IUser {
 	dateCreated: string
 	dateDeleted: string | null
 	dateUpdated: string | null
+}
+
+export interface ICreateUser extends Pick<IUser, 'firstname' | 'lastname' | 'email' | 'phone'> {
+	birthdate?: string | null
+	roles: string[]
+	password: string
 }
 
 export interface IUpdateUser extends Partial<IUser> {}
@@ -43,4 +53,9 @@ export interface ISignIn {
 export interface ISignUp extends ISignIn {
 	firstname: string
 	birthdate?: string
+}
+
+export interface IUserFilters {
+	search?: string
+	onlyHidden?: boolean
 }

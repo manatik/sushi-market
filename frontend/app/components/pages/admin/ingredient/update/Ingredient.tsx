@@ -23,7 +23,7 @@ const UpdateIngredient: FC<Props> = ({ ingredient, onClose, isOpen }) => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors, isDirty }
+		formState: { errors, isValid }
 	} = useForm<ICreateIngredient>({
 		defaultValues: {
 			...ingredient
@@ -47,7 +47,7 @@ const UpdateIngredient: FC<Props> = ({ ingredient, onClose, isOpen }) => {
 					<Input {...register('description')} label={'Описание'} error={errors.description?.message} type='text' />
 
 					<div className={styles.formField}>
-						<button className={styles.formField__button} disabled={!isDirty || !!Object.keys(errors).length}>
+						<button className={styles.formField__button} disabled={!isValid || !!Object.keys(errors).length}>
 							Обновить
 						</button>
 					</div>

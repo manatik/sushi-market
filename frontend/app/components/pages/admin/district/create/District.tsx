@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/router'
 import { Controller, useForm } from 'react-hook-form'
 
 import Input from '@components/ui/input/Input'
@@ -16,6 +17,7 @@ import { DistrictSchema } from './district.schema'
 import styles from './district.style.module.scss'
 
 const CreateDistrict = () => {
+	const router = useRouter()
 	const { mutate: createDistrict } = useCreateDistrict()
 	const { data: pointsOfSale, isLoading: isPsLoading } = usePointsOfSale()
 
@@ -26,7 +28,10 @@ const CreateDistrict = () => {
 		formState: { errors, isValid },
 		reset
 	} = useForm<ICreateDistrict>({
-		resolver: zodResolver(DistrictSchema)
+		resolver: zodResolver(DistrictSchema),
+		defaultValues: {
+			pointSaleId: router.query?.pointOfSaleId as string
+		}
 	})
 
 	const onSubmit = (formData: ICreateDistrict) => {
@@ -80,6 +85,7 @@ const CreateDistrict = () => {
 							placeholder='Выберите точку продаж'
 							error={errors.pointSaleId?.message}
 							fullWidth
+							value={field.value}
 						>
 							{pointsOfSale?.map(pointOfSale => (
 								<SelectItem key={pointOfSale.id} value={pointOfSale.id}>

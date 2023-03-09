@@ -1,9 +1,11 @@
 import React from 'react'
 
+import Users from '@components/pages/admin/user/list/Users'
+
 import { NextPageAuth } from '@common-types/private-route.types'
 
 const UsersPage: NextPageAuth = () => {
-	return <div>users page</div>
+	return <Users />
 }
 
 UsersPage.isOnlyRoles = ['admin']
