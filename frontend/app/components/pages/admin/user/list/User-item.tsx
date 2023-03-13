@@ -62,6 +62,17 @@ const UserItem: FC<Props> = ({ user }) => {
 							{user.birthdate || 'не задана'}
 						</span>
 					</Card.Item>
+
+					<Card.Item>
+						<span>Роли</span>
+						<span
+							className={classNames({
+								[styles.card__emptyField]: !user.roles.length
+							})}
+						>
+							{user.roles.map(role => role.name).join(', ') || 'нет ролей'}
+						</span>
+					</Card.Item>
 				</Card.Content>
 
 				<Card.Content>

@@ -41,8 +41,9 @@ export interface ICreatePromotion
 	hidden: boolean
 }
 
-export interface IUpdatePromotion extends Partial<IPromotion> {
+export interface IUpdatePromotion extends Partial<Omit<IPromotion, 'products'>> {
 	hidden: boolean
+	products: string[]
 }
 
 export interface IPromotionFilters {

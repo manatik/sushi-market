@@ -23,8 +23,8 @@ const CreateProduct = () => {
 	const router = useRouter()
 
 	const { mutate: createProduct } = useCreateProduct()
-	const { isLoading: isCategoryLoading, data: categories } = useCategories()
-	const { isLoading: isSubCategoryLoading, data: subCategories } = useSubCategories()
+	const { isLoading: isCategoryLoading, data: categories = [] } = useCategories()
+	const { isLoading: isSubCategoryLoading, data: subCategories = [] } = useSubCategories()
 
 	const {
 		handleSubmit,
@@ -50,7 +50,7 @@ const CreateProduct = () => {
 	}
 
 	if (isCategoryLoading || isSubCategoryLoading) {
-		return <Loader />
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	return (
@@ -87,11 +87,11 @@ const CreateProduct = () => {
 									fullWidth
 									onChange={field.onChange}
 									value={field.value}
-									disabled={!categories?.length}
-									placeholder={categories?.length ? 'Выберите категорию' : 'Нет категорий'}
+									disabled={!categories.length}
+									placeholder={categories.length ? 'Выберите категорию' : 'Нет категорий'}
 									error={errors.categoryId?.message}
 								>
-									{categories?.map(category => (
+									{categories.map(category => (
 										<SelectItem key={category.id} value={category.id}>
 											{category.name}
 										</SelectItem>
@@ -108,11 +108,11 @@ const CreateProduct = () => {
 									fullWidth
 									onChange={field.onChange}
 									value={field.value}
-									disabled={!subCategories?.length}
-									placeholder={subCategories?.length ? 'Выб. подкатегорию' : 'Нет подкатегорий'}
+									disabled={!subCategories.length}
+									placeholder={subCategories.length ? 'Выб. подкатегорию' : 'Нет подкатегорий'}
 									error={errors.subCategoryId?.message}
 								>
-									{subCategories?.map(subCategory => (
+									{subCategories.map(subCategory => (
 										<SelectItem key={subCategory.id} value={subCategory.id}>
 											{subCategory.name}
 										</SelectItem>

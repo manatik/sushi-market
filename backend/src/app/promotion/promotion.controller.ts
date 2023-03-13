@@ -13,7 +13,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { RemoveProductQuery } from '@promotion/dto/remove-product.query';
 import { AddPhotosDto } from './dto/add-photos.dto';
 import { AddProductsDto } from './dto/add-products.dto';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
@@ -55,7 +54,7 @@ export class PromotionController {
   }
 
   @Post(ENDPOINTS.PROMOTION.ADD_PRODUCTS)
-  async addIngredients(@Param('id') id: string, @Body() dto: AddProductsDto) {
+  async addProducts(@Param('id') id: string, @Body() dto: AddProductsDto) {
     return await this.promotionService.addProducts(id, dto);
   }
 
@@ -72,10 +71,5 @@ export class PromotionController {
   @Delete(ENDPOINTS.PROMOTION.REMOVE_PHOTO)
   async removePhoto(@Param('id') id: string, @Query() query: RemovePromotionPhotoQuery) {
     return await this.promotionService.removePhoto(id, query.photoId);
-  }
-
-  @Delete(ENDPOINTS.PROMOTION.REMOVE_PRODUCT)
-  async removeRole(@Param('id') id: string, @Query() query: RemoveProductQuery) {
-    return await this.promotionService.removeProduct(id, query.productId);
   }
 }

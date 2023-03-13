@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 
 import PromotionItem from '@components/pages/admin/promotion/list/Promotion-item'
+import Loader from '@components/ui/loader/Loader'
 
 import { IPromotion } from '@common-types/promotion.types'
 
@@ -13,7 +14,7 @@ interface Props {
 
 const PromotionList: FC<Props> = ({ isLoading, promotions }) => {
 	if (isLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	if (!promotions?.length) {

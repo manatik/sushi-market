@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 
 import IngredientItem from '@components/pages/admin/ingredient/list/Ingredient-item'
+import Loader from '@components/ui/loader/Loader'
 
 import { IIngredient } from '@common-types/ingredient.types'
 
@@ -13,7 +14,7 @@ interface Props {
 
 const IngredientList: FC<Props> = ({ isLoading, ingredients }) => {
 	if (isLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	if (!ingredients?.length) {

@@ -1,7 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
 import { FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
+import { CategorySchema } from '@components/pages/admin/category/create/category.schema'
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
 import Separator from '@components/ui/separator/Separator'
@@ -28,6 +30,7 @@ const UpdateCategory: FC<Props> = ({ category, isOpen, onClose }) => {
 		control,
 		formState: { errors, isValid }
 	} = useForm<IUpdateCategory>({
+		resolver: zodResolver(CategorySchema),
 		defaultValues: { ...category, hidden: !!category.dateDeleted }
 	})
 

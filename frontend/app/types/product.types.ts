@@ -1,5 +1,3 @@
-import { SelectOption } from '@components/ui/multi-select/Multi-select'
-
 import { ICategory } from '@common-types/category.types'
 import { IDefaultResponse } from '@common-types/default-response.types'
 import { IIngredient } from '@common-types/ingredient.types'
@@ -38,7 +36,9 @@ export interface ICreateProduct
 	hidden?: boolean
 }
 
-export interface IUpdateProduct extends Partial<IProduct> {}
+export interface IUpdateProduct extends Partial<Omit<IProduct, 'ingredients'>> {
+	ingredients?: string[]
+}
 
 export interface IProductFilters {
 	categoryId?: string

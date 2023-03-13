@@ -1,5 +1,7 @@
 import React, { FC } from 'react'
 
+import Loader from '@components/ui/loader/Loader'
+
 import { IPointOfSale } from '@common-types/point-of-sale.types'
 
 import PointOfSaleItem from './Point-of-sale-item'
@@ -13,7 +15,7 @@ interface Props {
 
 const IngredientList: FC<Props> = ({ isLoading, pointsOfSale }) => {
 	if (isLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	if (!pointsOfSale?.length) {

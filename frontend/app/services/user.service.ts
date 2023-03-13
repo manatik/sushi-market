@@ -1,13 +1,25 @@
 import { axiosInstance } from '@api/axios'
 
 import { IDefaultResponse } from '@common-types/default-response.types'
-import { ICreateUser, IUpdateUser, IUserFilters, UserResponse, UsersResponse } from '@common-types/user.types'
+import {
+	ICreateUser,
+	IUpdateUser,
+	IUserFilters,
+	RolesResponse,
+	UserResponse,
+	UsersResponse
+} from '@common-types/user.types'
 
 export const UserService = {
 	async all(filters: IUserFilters) {
 		const { data } = await axiosInstance.get<UsersResponse>('user/all', {
 			params: { onlyHidden: filters?.onlyHidden, name: filters?.search }
 		})
+		return data
+	},
+
+	async roles() {
+		const { data } = await axiosInstance.get<RolesResponse>('role')
 		return data
 	},
 

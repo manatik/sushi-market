@@ -18,7 +18,7 @@ import {
 	CREATE_SUB_CATEGORY_PATH
 } from '@utils/pages-paths'
 
-import UpdateProduct from '../update/product'
+import UpdateProduct from '../update/Product'
 
 interface Props extends PropsWithChildren {
 	product: IProduct
@@ -48,7 +48,7 @@ const ProductContextMenu: FC<Props> = ({ children, product }) => {
 	}
 
 	const onHide = (hidden: boolean) => {
-		updateProduct({ id: product.id, dto: { ...product, hidden: !hidden } })
+		updateProduct({ id: product.id, dto: { ...product, ingredients: [], hidden: !hidden } })
 	}
 
 	return (
@@ -98,6 +98,8 @@ const ProductContextMenu: FC<Props> = ({ children, product }) => {
 					<Separator />
 
 					<ContextMenu.Item onClick={() => handleAction(product, ContextActions.EDIT)}>Редактировать</ContextMenu.Item>
+
+					<Separator />
 
 					<ContextMenu.Item onClick={() => onHide(isHiddenProduct)}>
 						{isHiddenProduct ? 'Вернуть' : 'Скрыть'}

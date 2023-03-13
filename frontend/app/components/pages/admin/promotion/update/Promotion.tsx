@@ -1,18 +1,24 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
 import { FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
+import Loader from '@components/ui/loader/Loader'
+import MultiSelect from '@components/ui/multi-select/Multi-select'
+import { MultiSelectOption } from '@components/ui/multi-select/types'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
 
-import { useUpdatePromotion } from '@query-hooks/usePromotion'
+import { useProducts } from '@query-hooks/useProducts'
+import { useSetPromotionProducts, useUpdatePromotion } from '@query-hooks/usePromotion'
 
 import { IPromotion, IUpdatePromotion, TypePromotion } from '@common-types/promotion.types'
 
+import { PromotionSchema } from './promotion.schema'
 import styles from './promotion.style.module.scss'
 
 interface Props {
@@ -23,20 +29,41 @@ interface Props {
 
 const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 	const { mutate: updatePromotion } = useUpdatePromotion()
+	const { mutate: setProducts } = useSetPromotionProducts()
+
+	const { isLoading: isProductsLoading, data: products = [] } = useProducts()
 
 	const {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isValid }
+		formState: { errors, isValid, isDirty }
 	} = useForm<IUpdatePromotion>({
+		resolver: zodResolver(PromotionSchema),
 		defaultValues: {
-			...promotion
+			...promotion,
+			products: promotion.products.map(product => product.id)
 		}
 	})
 
+	const productOptions: MultiSelectOption[] = products.map(product => ({
+		value: product.id,
+		label: product.name
+	}))
+
 	const onSubmit = (formData: IUpdatePromotion) => {
+		if (formData.products && !promotion.products.every(product => formData.products?.includes(product.id))) {
+			setProducts({ id: promotion.id, products: formData.products })
+		}
 		updatePromotion({ id: promotion.id, dto: formData })
+	}
+
+	if (isProductsLoading) {
+		return (
+			<Dialog isOpen={isOpen} onClose={onClose} position={'right'}>
+				<Loader text={'Загрузка'} size={'large'} />
+			</Dialog>
+		)
 	}
 
 	return (
@@ -94,6 +121,19 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 						<div className={styles.formWithColumns__columnFields}>
 							<h3>Необязательные поля</h3>
 
+							<Controller
+								control={control}
+								name={'products'}
+								render={({ field }) => (
+									<MultiSelect
+										{...field}
+										options={productOptions}
+										defaultValue={field.value}
+										placeholder={'Продукты'}
+									/>
+								)}
+							/>
+
 							<Input
 								{...register('discount', { valueAsNumber: true })}
 								label={'Скидка, %'}
@@ -136,7 +176,10 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 					</section>
 
 					<div className={styles.formFooter}>
-						<button className={styles.formFooter__button} disabled={!isValid || !!Object.keys(errors).length}>
+						<button
+							className={styles.formFooter__button}
+							disabled={!isValid || !isDirty || !!Object.keys(errors).length}
+						>
 							Обновить
 						</button>
 					</div>

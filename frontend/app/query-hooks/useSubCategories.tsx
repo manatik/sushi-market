@@ -57,6 +57,7 @@ export const useUpdateSubCategory = ({ isShowToast }: UpdateQueryHook = { isShow
 		{
 			onSuccess(data) {
 				queryClient.invalidateQueries({ queryKey: ['sub-categories'] })
+
 				if (isShowToast) {
 					toast.success(data.message)
 				}

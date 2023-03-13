@@ -4,9 +4,10 @@ import { toast } from 'react-toastify'
 
 import { UserService } from '@services/user.service'
 
+import { UpdateQueryHook } from '@common-types/common.types'
 import type { IDefaultResponse } from '@common-types/default-response.types'
-import type { ICreateUser, IUpdateUser, IUser, UserResponse, UsersResponse } from '@common-types/user.types'
-import { IUserFilters } from '@common-types/user.types'
+import type { ICreateUser, IRole, IUpdateUser, IUser, UserResponse, UsersResponse } from '@common-types/user.types'
+import { IUserFilters, RolesResponse } from '@common-types/user.types'
 
 export const useGetUser = () =>
 	useQuery<UserResponse, AxiosError<IDefaultResponse>, IUser>(['user'], UserService.getInfo, {
@@ -16,6 +17,11 @@ export const useGetUser = () =>
 export const useUsers = (filters: IUserFilters) =>
 	useQuery<UsersResponse, AxiosError<IDefaultResponse>, IUser[]>(['users', filters], () => UserService.all(filters), {
 		select: data => data.users
+	})
+
+export const useRoles = () =>
+	useQuery<RolesResponse, AxiosError<IDefaultResponse>, IRole[]>(['roles'], UserService.roles, {
+		select: data => data.roles
 	})
 
 export const useCreateUser = () => {
@@ -37,7 +43,7 @@ export const useCreateUser = () => {
 	})
 }
 
-export const useUpdateUser = () => {
+export const useUpdateUser = ({ isShowToast }: UpdateQueryHook = { isShowToast: true }) => {
 	const queryClient = useQueryClient()
 
 	return useMutation<UserResponse, AxiosError<IDefaultResponse>, { id: string; dto: IUpdateUser }>(
@@ -46,6 +52,10 @@ export const useUpdateUser = () => {
 		{
 			onSuccess(data) {
 				queryClient.invalidateQueries({ queryKey: ['users'] })
+
+				if (isShowToast) {
+					toast.success(data.message)
+				}
 			},
 			onError(error) {
 				toast.error(

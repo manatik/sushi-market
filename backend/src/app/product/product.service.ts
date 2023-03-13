@@ -180,27 +180,17 @@ export class ProductService {
   async addIngredients(id: string, dto: AddIngredientsDto) {
     try {
       const product = await this.productRepository.findOne({ where: { id }, relations: { ingredients: true } });
+      let message = 'Ингредиенты добавлены';
+
+      if (product.ingredients.length > dto.ingredients.length) {
+        message = 'Ингредиенты удалены';
+      }
 
       await this.productRepository.save({ ...product, ingredients: idsArrayToArrayOfObjects(dto.ingredients) });
 
-      return this.errorService.success('Ингредиенты добавлены');
+      return this.errorService.success(message);
     } catch (e) {
       throw this.errorService.internal('Ошибка добавления ингредиентов', e.message);
-    }
-  }
-
-  async removeIngredient(id: string, ingredientId: string) {
-    try {
-      const product = await this.productRepository.findOne({ where: { id }, relations: { ingredients: true } });
-
-      await this.productRepository.save({
-        ...product,
-        ingredients: product.ingredients.filter((ingredient) => ingredient.id !== ingredientId),
-      });
-
-      return this.errorService.success('Ингредиент успешно удалён');
-    } catch (e) {
-      throw this.errorService.internal('Ошибка удаления ингредиента', e.message);
     }
   }
 

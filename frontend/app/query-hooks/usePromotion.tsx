@@ -39,6 +39,29 @@ export const useCreatePromotion = () => {
 	)
 }
 
+export const useSetPromotionProducts = () => {
+	const queryClient = useQueryClient()
+
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; products: string[] }>(
+		['set-promotion-products'],
+		PromotionService.setProducts,
+		{
+			onSuccess(data) {
+				queryClient.invalidateQueries({ queryKey: ['promotions'] })
+				toast.success(data.message)
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
+			}
+		}
+	)
+}
+
 export const useUpdatePromotion = ({ isShowToast }: UpdateQueryHook = { isShowToast: true }) => {
 	const queryClient = useQueryClient()
 

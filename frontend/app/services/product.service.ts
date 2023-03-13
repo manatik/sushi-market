@@ -14,7 +14,8 @@ const URLS = {
 	byId: 'product',
 	create: 'product',
 	update: 'product',
-	remove: 'product'
+	remove: 'product',
+	setIngredients: 'product/ingredients'
 }
 
 export const ProductService = {
@@ -37,6 +38,11 @@ export const ProductService = {
 
 	async create(dto: ICreateProduct) {
 		const { data } = await axiosInstance.post<IDefaultResponse>(URLS.create, dto)
+		return data
+	},
+
+	async setIngredients({ id, ingredients }: { id: string; ingredients: string[] }) {
+		const { data } = await axiosInstance.post<IDefaultResponse>(`${URLS.setIngredients}/${id}`, { ingredients })
 		return data
 	},
 

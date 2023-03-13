@@ -39,7 +39,11 @@ const UpdateDistrict: FC<Props> = ({ district, onClose, isOpen }) => {
 	}
 
 	if (isPsLoading) {
-		return <Loader />
+		return (
+			<Dialog isOpen={isOpen} onClose={onClose} position={'right'}>
+				<Loader text={'Загрузка'} size={'large'} />
+			</Dialog>
+		)
 	}
 
 	return (

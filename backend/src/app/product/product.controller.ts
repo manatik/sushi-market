@@ -18,7 +18,6 @@ import { AddIngredientsDto } from '@product/dto/add-ingredients.dto';
 import { AddPhotosDto } from '@product/dto/add-photos.dto';
 import { CreateProductDto } from '@product/dto/create-product.dto';
 import { GetAllQuery } from '@product/dto/get-all.query';
-import { RemoveIngredientQuery } from '@product/dto/remove-ingredient.query';
 import { RemoveProductPhotoQuery } from '@product/dto/remove-product-photo.query';
 import { UpdateProductDto } from '@product/dto/update-product.dto';
 import { ProductService } from '@product/product.service';
@@ -74,10 +73,5 @@ export class ProductController {
   @Delete(ENDPOINTS.PRODUCT.REMOVE_PHOTO)
   async removePhoto(@Param('id') id: string, @Query() query: RemoveProductPhotoQuery) {
     return await this.productService.removePhoto(id, query.photoId);
-  }
-
-  @Delete(ENDPOINTS.PRODUCT.REMOVE_INGREDIENT)
-  async removeRole(@Param('id') id: string, @Query() query: RemoveIngredientQuery) {
-    return await this.productService.removeIngredient(id, query.ingredientId);
   }
 }

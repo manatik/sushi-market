@@ -14,7 +14,8 @@ const URLS = {
 	byId: 'promotion',
 	create: 'promotion',
 	update: 'promotion',
-	remove: 'promotion'
+	remove: 'promotion',
+	setProducts: 'promotion/products'
 }
 
 export const PromotionService = {
@@ -36,6 +37,11 @@ export const PromotionService = {
 
 	async create(dto: ICreatePromotion) {
 		const { data } = await axiosInstance.post<IDefaultResponse>(URLS.create, dto)
+		return data
+	},
+
+	async setProducts({ id, products }: { id: string; products: string[] }) {
+		const { data } = await axiosInstance.post(`${URLS.setProducts}/${id}`, { products })
 		return data
 	},
 

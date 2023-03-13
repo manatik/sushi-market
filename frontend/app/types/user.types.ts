@@ -8,6 +8,10 @@ export interface UsersResponse extends IDefaultResponse {
 	users: IUser[]
 }
 
+export interface RolesResponse extends IDefaultResponse {
+	roles: IRole[]
+}
+
 export interface IUser {
 	id: string
 	firstname: string
@@ -29,7 +33,9 @@ export interface ICreateUser extends Pick<IUser, 'firstname' | 'lastname' | 'ema
 	password: string
 }
 
-export interface IUpdateUser extends Partial<IUser> {}
+export interface IUpdateUser extends Partial<Omit<IUser, 'roles'>> {
+	roles?: string[]
+}
 
 export interface IUserAuth {
 	isAuth: boolean

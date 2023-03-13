@@ -21,7 +21,6 @@ const CreateUser = () => {
 		formState: { errors, isValid },
 		reset
 	} = useForm<ICreateUser>({
-		mode: 'onBlur',
 		resolver: zodResolver(UserSchema),
 		defaultValues: {
 			roles: undefined
@@ -36,8 +35,6 @@ const CreateUser = () => {
 		})
 	}
 
-	console.log(errors, isValid)
-
 	return (
 		<div className={styles.user}>
 			<h3 className={styles.userTitle}>
@@ -47,27 +44,15 @@ const CreateUser = () => {
 			<Separator />
 
 			<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-				<Input
-					{...register('firstname')}
-					label={'Имя'}
-					error={errors.firstname?.message}
-					type='text'
-					autoComplete={'given-name'}
-				/>
+				<Input {...register('firstname')} label={'Имя'} error={errors.firstname?.message} type='text' />
 
-				<Input
-					{...register('lastname')}
-					label={'Фамилия'}
-					error={errors.lastname?.message}
-					type='text'
-					autoComplete={'family-name'}
-				/>
+				<Input {...register('lastname')} label={'Фамилия'} error={errors.lastname?.message} type='text' />
 
 				<Input {...register('birthdate')} label={'Дата рождения'} error={errors.birthdate?.message} type='text' />
 
-				<Input {...register('email')} label={'E-mail'} error={errors.email?.message} type='email' />
+				<Input {...register('email')} label={'E-mail'} error={errors.email?.message} type='text' />
 
-				<Input {...register('phone')} label={'Номер телефона'} error={errors.phone?.message} type='tel' />
+				<Input {...register('phone')} label={'Номер телефона'} error={errors.phone?.message} type='text' />
 
 				<Input {...register('password')} label={'Пароль'} error={errors.password?.message} type='password' />
 

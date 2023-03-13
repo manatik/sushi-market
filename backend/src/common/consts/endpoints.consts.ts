@@ -51,7 +51,6 @@ export const ENDPOINTS = {
     UPDATE: ':id',
     REMOVE: ':id',
     REMOVE_PHOTO: 'photos/:id',
-    REMOVE_INGREDIENT: 'ingredients/:id',
   },
   PROMOTION: {
     ALL: '',
@@ -62,6 +61,5 @@ export const ENDPOINTS = {
     ADD_PHOTOS: 'photos/:id',
     REMOVE_PHOTO: 'photos/:id',
     ADD_PRODUCTS: 'products/:id',
-    REMOVE_PRODUCT: 'product/:id',
   },
 };

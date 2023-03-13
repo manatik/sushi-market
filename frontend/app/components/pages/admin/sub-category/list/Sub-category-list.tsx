@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 
 import SubCategoryItem from '@components/pages/admin/sub-category/list/Sub-category-item'
+import Loader from '@components/ui/loader/Loader'
 
 import { ISubCategory } from '@common-types/sub-category.types'
 
@@ -13,7 +14,7 @@ interface Props {
 
 const SubCategoryList: FC<Props> = ({ isLoading, subCategories }) => {
 	if (isLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	if (!subCategories?.length) {

@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import Loader from '@components/ui/loader/Loader'
+
 import { IDistrict } from '@common-types/district.types'
 
 import DistrictItem from './District-item'
@@ -13,7 +15,7 @@ interface Props {
 
 const DistrictList: FC<Props> = ({ isLoading, districts }) => {
 	if (isLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	if (!districts?.length) {

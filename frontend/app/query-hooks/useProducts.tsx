@@ -43,6 +43,29 @@ export const useCreateProduct = () => {
 	)
 }
 
+export const useSetProductIngredients = () => {
+	const queryClient = useQueryClient()
+
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; ingredients: string[] }>(
+		['set-product-ingredients'],
+		ProductService.setIngredients,
+		{
+			onSuccess(data) {
+				queryClient.invalidateQueries({ queryKey: ['products'] })
+				toast.success(data.message)
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
+			}
+		}
+	)
+}
+
 export const useUpdateProduct = ({ isShowToast }: UpdateQueryHook = { isShowToast: true }) => {
 	const queryClient = useQueryClient()
 

@@ -43,7 +43,7 @@ const CreateDistrict = () => {
 	}
 
 	if (isPsLoading) {
-		return <Loader />
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	return (

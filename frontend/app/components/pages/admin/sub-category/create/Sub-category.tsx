@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
 import { useRouter } from 'next/router'
+import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { SubCategorySchema } from '@components/pages/admin/sub-category/create/sub-category.schema'
 import Input from '@components/ui/input/Input'
+import Loader from '@components/ui/loader/Loader'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
@@ -46,7 +48,7 @@ const CreateSubCategory = () => {
 	}
 
 	if (isCategoriesLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	return (

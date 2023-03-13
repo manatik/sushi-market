@@ -1,9 +1,10 @@
 import * as Label from '@radix-ui/react-label'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
+import Loader from '@components/ui/loader/Loader'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
@@ -43,7 +44,11 @@ const UpdateSubCategory: FC<Props> = ({ subCategory, onClose, isOpen }) => {
 	}
 
 	if (isCategoriesLoading) {
-		return <div>loading...</div>
+		return (
+			<Dialog isOpen={isOpen} onClose={onClose} position={'right'}>
+				<Loader text={'Загрузка'} size={'large'} />
+			</Dialog>
+		)
 	}
 
 	return (

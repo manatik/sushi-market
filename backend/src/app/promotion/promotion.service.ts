@@ -191,28 +191,18 @@ export class PromotionService {
 
   async addProducts(id: string, dto: AddProductsDto) {
     try {
-      const product = await this.promotionRepository.findOne({ where: { id }, relations: { products: true } });
+      const promotion = await this.promotionRepository.findOne({ where: { id }, relations: { products: true } });
+      let message = 'Продукты добавлены';
 
-      await this.promotionRepository.save({ ...product, products: idsArrayToArrayOfObjects(dto.products) });
+      if (promotion.products.length > dto.products.length) {
+        message = 'Продукты убраны';
+      }
 
-      return this.errorService.success('Продукты добавлены');
+      await this.promotionRepository.save({ ...promotion, products: idsArrayToArrayOfObjects(dto.products) });
+
+      return this.errorService.success(message);
     } catch (e) {
       throw this.errorService.internal('Ошибка добавления продукты', e.message);
-    }
-  }
-
-  async removeProduct(id: string, productId: string) {
-    try {
-      const product = await this.promotionRepository.findOne({ where: { id }, relations: { products: true } });
-
-      await this.promotionRepository.save({
-        ...product,
-        ingredients: product.products.filter((ingredient) => ingredient.id !== productId),
-      });
-
-      return this.errorService.success('Продукт успешно удалён');
-    } catch (e) {
-      throw this.errorService.internal('Ошибка удаления продукта', e.message);
     }
   }
 

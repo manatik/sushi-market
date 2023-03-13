@@ -1,16 +1,22 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
 import { FC } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
+import { ProductSchema } from '@components/pages/admin/product/create/product.schema'
 import Dialog from '@components/ui/dialog/Dialog'
 import Input from '@components/ui/input/Input'
+import Loader from '@components/ui/loader/Loader'
+import MultiSelect from '@components/ui/multi-select/Multi-select'
+import { MultiSelectOption } from '@components/ui/multi-select/types'
 import Select from '@components/ui/select/Select'
 import SelectItem from '@components/ui/select/SelectItem'
 import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
 
 import { useCategories } from '@query-hooks/useCategories'
-import { useUpdateProduct } from '@query-hooks/useProducts'
+import { useIngredients } from '@query-hooks/useIngredients'
+import { useSetProductIngredients, useUpdateProduct } from '@query-hooks/useProducts'
 import { useSubCategories } from '@query-hooks/useSubCategories'
 
 import { IProduct, IUpdateProduct } from '@common-types/product.types'
@@ -25,26 +31,44 @@ interface Props {
 
 const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 	const { mutate: updateProduct } = useUpdateProduct()
+	const { mutate: setIngredients } = useSetProductIngredients()
+
 	const { isLoading: isCategoryLoading, data: categories } = useCategories()
 	const { isLoading: isSubCategoryLoading, data: subCategories } = useSubCategories()
+	const { isLoading: isIngredientsLoading, data: ingredients = [] } = useIngredients()
 
 	const {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isDirty }
+		formState: { errors, isValid }
 	} = useForm<IUpdateProduct>({
+		resolver: zodResolver(ProductSchema),
 		defaultValues: {
-			...product
+			...product,
+			ingredients: product.ingredients.map(ingredient => ingredient.id)
 		}
 	})
 
+	const ingredientOptions: MultiSelectOption[] = ingredients.map(ingredient => ({
+		value: ingredient.id,
+		label: ingredient.name
+	}))
+
 	const onSubmit = (formData: IUpdateProduct) => {
+		if (formData.ingredients && !product.ingredients.every(ingre => formData.ingredients?.includes(ingre.id))) {
+			setIngredients({ id: product.id, ingredients: formData.ingredients })
+		}
+
 		updateProduct({ id: product.id, dto: formData })
 	}
 
-	if (isCategoryLoading || isSubCategoryLoading) {
-		return <div>loading...</div>
+	if (isCategoryLoading || isSubCategoryLoading || isIngredientsLoading) {
+		return (
+			<Dialog isOpen={isOpen} onClose={onClose} position={'right'}>
+				<Loader text={'Загрузка'} />
+			</Dialog>
+		)
 	}
 
 	return (
@@ -116,6 +140,19 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 								)}
 							/>
 
+							<Controller
+								control={control}
+								name={'ingredients'}
+								render={({ field }) => (
+									<MultiSelect
+										{...field}
+										options={ingredientOptions}
+										defaultValue={field.value}
+										placeholder={'Ингредиенты'}
+									/>
+								)}
+							/>
+
 							<Input {...register('description')} label={'Описание'} error={errors.description?.message} type='text' />
 
 							<Input
@@ -161,7 +198,7 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 					</section>
 
 					<div className={styles.formFooter}>
-						<button className={styles.formFooter__button} disabled={!isDirty || !!Object.keys(errors).length}>
+						<button className={styles.formFooter__button} disabled={!isValid || !!Object.keys(errors).length}>
 							Обновить
 						</button>
 					</div>

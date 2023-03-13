@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import Loader from '@components/ui/loader/Loader'
+
 import { IProduct } from '@common-types/product.types'
 
 import ProductItem from './Product-item'
@@ -13,7 +15,7 @@ interface Props {
 
 const ProductList: FC<Props> = ({ isLoading, products }) => {
 	if (isLoading) {
-		return <div>loading...</div>
+		return <Loader text={'Загрузка'} size={'large'} />
 	}
 
 	if (!products?.length) {

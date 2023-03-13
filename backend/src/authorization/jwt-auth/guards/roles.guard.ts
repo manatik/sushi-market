@@ -1,11 +1,11 @@
+import { Role, TOKENS } from '@jwt-auth/enum';
 import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
-import { ROLES_KEY } from '../decorators/roles.decorator';
 import { JwtService } from '@nestjs/jwt';
+import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
-import { Role, TOKENS } from '@jwt-auth/enum';
+import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
