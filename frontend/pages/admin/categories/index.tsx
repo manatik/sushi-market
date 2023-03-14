@@ -2,15 +2,19 @@ import { QueryClient, dehydrate } from '@tanstack/react-query'
 
 import Categories from '@components/pages/admin/category/list/Categories'
 
+import CheckRole from '@providers/CheckRole'
+
 import { CategoryService } from '@services/category.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
 
 const CategoriesPage: NextPageAuth = props => {
-	return <Categories />
+	return (
+		<CheckRole roles={['admin']}>
+			<Categories />
+		</CheckRole>
+	)
 }
-
-CategoriesPage.isOnlyRoles = ['admin']
 
 export async function getServerSideProps() {
 	const queryClient = new QueryClient()
@@ -20,7 +24,7 @@ export async function getServerSideProps() {
 	return {
 		props: {
 			dehydratedState: dehydrate(queryClient)
-		} // will be passed to the page component as props
+		}
 	}
 }
 

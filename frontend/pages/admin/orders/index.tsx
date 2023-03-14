@@ -1,11 +1,9 @@
-import React from 'react'
+import CheckRole from '@providers/CheckRole'
 
 import { NextPageAuth } from '@common-types/private-route.types'
 
 const OrdersPage: NextPageAuth = () => {
-	return <div>orders</div>
+	return <CheckRole roles={['admin']}>orders</CheckRole>
 }
-
-OrdersPage.isOnlyRoles = ['admin']
 
 export default OrdersPage

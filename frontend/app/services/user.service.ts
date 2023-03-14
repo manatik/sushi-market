@@ -11,7 +11,7 @@ import {
 } from '@common-types/user.types'
 
 export const UserService = {
-	async all(filters: IUserFilters) {
+	async all(filters?: IUserFilters) {
 		const { data } = await axiosInstance.get<UsersResponse>('user/all', {
 			params: { onlyHidden: filters?.onlyHidden, name: filters?.search }
 		})

@@ -43,7 +43,7 @@ const PromotionContextMenu: FC<Props> = ({ children, promotion }) => {
 	}
 
 	const onHide = (hidden: boolean) => {
-		updatePromotion({ id: promotion.id, dto: { ...promotion, hidden: !hidden } })
+		updatePromotion({ id: promotion.id, dto: { ...promotion, products: [], hidden: !hidden } })
 	}
 
 	return (

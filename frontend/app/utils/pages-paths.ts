@@ -6,6 +6,7 @@ export const USER_PROFILE_PATH = `${USER}/profile`
 export const USER_PROFILE_EDIT_PATH = `${USER}/profile/edit`
 
 const ADMIN = '/admin'
+export const ADMIN_SETTINGS_PATH = `${ADMIN}/settings`
 export const ADMIN_DASHBOARD_PATH = `${ADMIN}/dashboard`
 export const ADMIN_CATEGORIES_PATH = `${ADMIN}/categories`
 export const ADMIN_SUB_CATEGORIES_PATH = `${ADMIN}/sub-categories`

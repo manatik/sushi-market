@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
 
+import Settings from '@components/admin/settings/Settings'
 import AdminSidebar from '@components/admin/sidebar/Sidebar'
 import UserAvatar from '@components/admin/user-info/User-avatar'
 import CurrentDate from '@components/ui/current-date/Current-date'
@@ -8,20 +9,21 @@ import styles from './layout.module.scss'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
 	return (
-		<div className={styles.layout}>
-			<div className={styles.left}>
+		<main className={styles.layout}>
+			<nav className={styles.left}>
 				<AdminSidebar />
-			</div>
+			</nav>
 
 			<div className={styles.right}>
-				<div className={styles.topLine}>
+				<section className={styles.topLine}>
 					<CurrentDate />
 					<UserAvatar />
-				</div>
-				<div className={styles.center}>{children}</div>
-				<div className={styles.bottomLine}>.</div>
+					<Settings />
+				</section>
+				<section className={styles.center}>{children}</section>
+				<section className={styles.bottomLine}>_</section>
 			</div>
-		</div>
+		</main>
 	)
 }
 

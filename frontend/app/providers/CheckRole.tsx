@@ -7,12 +7,11 @@ import Loader from '@components/ui/loader/Loader'
 
 import { AuthService } from '@services/auth.service'
 
-import { TypeComponentAuthFields } from '@common-types/private-route.types'
 import { IUserAuth } from '@common-types/user.types'
 
 import { HOME_PATH, LOGIN_PATH } from '@utils/pages-paths'
 
-const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({ children, Component: { isOnlyRoles } }) => {
+const CheckRole: FC<PropsWithChildren<{ roles: string[] }>> = ({ children, roles }) => {
 	const router = useRouter()
 	const {
 		isLoading: authIsLoading,
@@ -33,11 +32,7 @@ const CheckRole: FC<PropsWithChildren<TypeComponentAuthFields>> = ({ children, C
 		return null
 	}
 
-	if (
-		isOnlyRoles?.length &&
-		!authData?.roles.some(role => isOnlyRoles.includes(role.name)) &&
-		router.pathname !== HOME_PATH
-	) {
+	if (roles?.length && !authData?.roles.some(role => roles.includes(role.name)) && router.pathname !== HOME_PATH) {
 		router.replace(HOME_PATH)
 	}
 

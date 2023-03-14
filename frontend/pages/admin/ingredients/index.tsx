@@ -2,15 +2,19 @@ import { QueryClient, dehydrate } from '@tanstack/react-query'
 
 import Ingredients from '@components/pages/admin/ingredient/list/Ingredients'
 
+import CheckRole from '@providers/CheckRole'
+
 import { IngredientService } from '@services/ingredient.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
 
 const IngredientsPage: NextPageAuth = () => {
-	return <Ingredients />
+	return (
+		<CheckRole roles={['admin']}>
+			<Ingredients />
+		</CheckRole>
+	)
 }
-
-IngredientsPage.isOnlyRoles = ['admin']
 
 export async function getServerSideProps() {
 	const queryClient = new QueryClient()

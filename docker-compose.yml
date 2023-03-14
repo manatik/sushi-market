@@ -50,7 +50,6 @@ services:
     working_dir: /frontend
     command: bash -c "
       yarn install
-      && yarn build
       && yarn dev"
 
 

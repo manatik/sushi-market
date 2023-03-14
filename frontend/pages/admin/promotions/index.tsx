@@ -1,13 +1,31 @@
-import React from 'react'
+import { QueryClient, dehydrate } from '@tanstack/react-query'
 
 import Promotions from '@components/pages/admin/promotion/list/Promotions'
+
+import CheckRole from '@providers/CheckRole'
+
+import { PromotionService } from '@services/promotion.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
 
 const PromotionsPage: NextPageAuth = () => {
-	return <Promotions />
+	return (
+		<CheckRole roles={['admin']}>
+			<Promotions />
+		</CheckRole>
+	)
 }
 
-PromotionsPage.isOnlyRoles = ['admin']
+export async function getServerSideProps() {
+	const queryClient = new QueryClient()
+
+	await queryClient.prefetchQuery(['promotions'], () => PromotionService.all())
+
+	return {
+		props: {
+			dehydratedState: dehydrate(queryClient)
+		}
+	}
+}
 
 export default PromotionsPage
