@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import Filters from '@components/admin/filters/Filters'
 import CategoryList from '@components/pages/admin/category/list/Category-list'
 import Separator from '@components/ui/separator/Separator'
 
@@ -13,15 +14,13 @@ const Categories = () => {
 	const [filters, setFilters] = useState<ICategoryFilters>({})
 
 	const { isLoading: isCategoriesLoading, data: categories } = useCategories(filters)
-	console.log(categories)
 
 	return (
 		<div className={styles.adminPage}>
-			ochko
-			{/*<Filters onChange={filters => setFilters(filters)}>*/}
-			{/*	<Filters.Search />*/}
-			{/*	<Filters.Hidden />*/}
-			{/*</Filters>*/}
+			<Filters onChange={filters => setFilters(filters)}>
+				<Filters.Search />
+				<Filters.Hidden />
+			</Filters>
 			<Separator />
 			<CategoryList isLoading={isCategoriesLoading} categories={categories} />
 		</div>

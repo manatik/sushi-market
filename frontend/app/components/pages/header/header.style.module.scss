@@ -1,0 +1,12 @@
+.main {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-top: 1rem;
+
+	.right {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+}

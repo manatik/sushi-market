@@ -22,6 +22,7 @@ export interface IUser {
 	email: string | null
 	phone: string
 	roles: IRole[]
+	isAdmin?: boolean
 	dateCreated: string
 	dateDeleted: string | null
 	dateUpdated: string | null

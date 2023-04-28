@@ -42,7 +42,7 @@ const ProductItem: FC<Props> = ({ product }) => {
 					<Card.Item>
 						<span>Категория</span>
 						<span
-							className={classNames({
+							className={classNames(styles.card__truncate_field, {
 								[styles.card__emptyField]: !product.category
 							})}
 						>
@@ -53,7 +53,8 @@ const ProductItem: FC<Props> = ({ product }) => {
 					<Card.Item>
 						<span>Подкатегория</span>
 						<span
-							className={classNames({
+							title={product.subCategory?.name || 'не задана'}
+							className={classNames(styles.card__truncate_field, {
 								[styles.card__emptyField]: !product.subCategory
 							})}
 						>
@@ -67,7 +68,7 @@ const ProductItem: FC<Props> = ({ product }) => {
 					</Card.Item>
 
 					<Card.Item>
-						<span>Кол-во ингредиентов</span>
+						<span>Ингредиентов</span>
 						<span>{product.ingredients.length}</span>
 					</Card.Item>
 

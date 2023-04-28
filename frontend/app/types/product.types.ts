@@ -13,7 +13,7 @@ export interface IProduct {
 	name: string
 	price: number
 	categoryId?: string
-	category?: ICategory
+	category: ICategory
 	subCategoryId?: string
 	subCategory?: ISubCategory
 	ingredients: IIngredient[]

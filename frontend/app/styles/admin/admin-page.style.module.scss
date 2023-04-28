@@ -15,7 +15,7 @@
 
 		&__hidden {
 			@include outside-container-style;
-			padding: 11px;
+			padding: 6px 11px;
 			display: flex;
 			align-items: center;
 			gap: 10px;
@@ -54,6 +54,13 @@
 	}
 
 	.card {
+		&__truncate_field {
+			overflow: hidden;
+			white-space: nowrap;
+			width: 45%;
+			text-align: right;
+		}
+
 		&__emptyField {
 			color: #b6b6b6;
 		}

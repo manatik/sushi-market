@@ -1,5 +1,5 @@
 import { CheckIcon } from '@radix-ui/react-icons'
-import React, { ChangeEvent, Ref, forwardRef, useEffect, useState } from 'react'
+import React, { ChangeEvent, Ref, forwardRef, useEffect, useRef, useState } from 'react'
 
 import { MultiSelectOption } from '@components/ui/multi-select/types'
 
@@ -18,7 +18,6 @@ interface Props {
 type SelectState = {
 	selectOptions: MultiSelectOption[]
 	searchTerm: string
-	selectedValues: Set<string>
 	selectedOptions: MultiSelectOption[]
 	isFocused: boolean
 }
@@ -27,15 +26,15 @@ const MultiSelectRef = (
 	{ options, onChange, defaultValue = [], placeholder }: Props,
 	inputRef: Ref<HTMLInputElement>
 ) => {
+	const selectedValuesRef = useRef<Set<string>>(new Set(defaultValue))
 	const [selectState, setSelectState] = useState<SelectState>({
 		selectOptions: options,
 		searchTerm: '',
-		selectedValues: new Set(defaultValue),
 		selectedOptions: options.filter(opt => defaultValue?.includes(opt.value)),
 		isFocused: false
 	})
 
-	const { selectOptions, selectedValues, selectedOptions, isFocused, searchTerm } = selectState
+	const { selectOptions, selectedOptions, isFocused, searchTerm } = selectState
 
 	const onClickOutside = () => {
 		setSelectState(prev => ({
@@ -63,40 +62,34 @@ const MultiSelectRef = (
 
 	const handleChange = (option: MultiSelectOption) => {
 		if (!selectedOptions.some(opt => opt.value === option.value)) {
-			setSelectState(prev => {
-				prev.selectedValues.add(option.value)
+			selectedValuesRef.current.add(option.value)
+			onChange(Array.from(selectedValuesRef.current))
 
-				return {
-					...prev,
-					selectedOptions: [...prev.selectedOptions, option],
-					searchTerm: ''
-				}
-			})
+			setSelectState(prev => ({
+				...prev,
+				selectedOptions: [...prev.selectedOptions, option],
+				searchTerm: ''
+			}))
 
 			return
 		}
 
-		setSelectState(prev => {
-			prev.selectedValues.delete(option.value)
+		selectedValuesRef.current.delete(option.value)
+		onChange(Array.from(selectedValuesRef.current))
 
-			return {
-				...prev,
-				selectedOptions: prev.selectedOptions.filter(opt => opt.value !== option.value),
-				searchTerm: ''
-			}
-		})
+		setSelectState(prev => ({
+			...prev,
+			selectedOptions: prev.selectedOptions.filter(opt => opt.value !== option.value),
+			searchTerm: ''
+		}))
 	}
 
 	useEffect(() => {
 		setSelectState(prev => ({
 			...prev,
-			selectOptions: options.filter(option => option.label.includes(debouncedValue))
+			selectOptions: options.filter(option => option.label.toLowerCase().includes(debouncedValue.toLowerCase()))
 		}))
 	}, [debouncedValue, options])
-
-	useEffect(() => {
-		onChange(Array.from(selectedValues))
-	}, [onChange, selectedValues])
 
 	return (
 		<div className={styles.select}>
@@ -122,7 +115,7 @@ const MultiSelectRef = (
 					<div className={styles.list}>
 						{selectOptions.map(option => (
 							<div className={styles.list__item} key={option.value} onClick={() => handleChange(option)}>
-								{selectedValues.has(option.value) && <CheckIcon />}
+								{selectedValuesRef.current.has(option.value) && <CheckIcon />}
 								<span>{option.label}</span>
 							</div>
 						))}

@@ -41,7 +41,7 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isValid }
+		formState: { errors, isValid, isDirty }
 	} = useForm<IUpdateProduct>({
 		resolver: zodResolver(ProductSchema),
 		defaultValues: {
@@ -56,7 +56,8 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 	}))
 
 	const onSubmit = (formData: IUpdateProduct) => {
-		if (formData.ingredients && !product.ingredients.every(ingre => formData.ingredients?.includes(ingre.id))) {
+		console.log(formData)
+		if (formData.ingredients) {
 			setIngredients({ id: product.id, ingredients: formData.ingredients })
 		}
 
