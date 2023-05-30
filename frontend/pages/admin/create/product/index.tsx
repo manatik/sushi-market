@@ -1,6 +1,6 @@
-import CreateProduct from '@components/pages/admin/product/create/Product'
-
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import CreateProduct from '../../../../app/pages/admin/product/create/Product'
 
 const CreateProductPage: NextPageAuth = () => {
 	return <CreateProduct />

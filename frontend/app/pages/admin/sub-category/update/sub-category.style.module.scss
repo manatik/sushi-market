@@ -1,0 +1,50 @@
+@import '../../../../styles/mixins';
+
+.subCategory {
+	@include outside-container-style-without-shadow;
+
+	width: 20rem;
+	padding: 2rem;
+
+	&__title {
+		font-size: var(--large-font-size);
+		font-weight: 600;
+	}
+}
+
+.form {
+	margin-top: 2rem;
+	display: flex;
+	flex-direction: column;
+	width: 20rem;
+	gap: 2rem;
+}
+
+.formField {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	&__label {
+		font-size: var(--secondary-font-size);
+		font-weight: 600;
+	}
+
+	&__button {
+		width: 8rem;
+		height: 2rem;
+		text-align: center;
+		font-weight: 600;
+		border-radius: var(--small-border-radius);
+		background-color: #efe5e3;
+
+		&:hover {
+			background-color: #e5dad8;
+		}
+
+		&:disabled {
+			background-color: #f2f2f2;
+			color: #bdbdbd;
+		}
+	}
+}

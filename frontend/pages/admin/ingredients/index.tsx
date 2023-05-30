@@ -1,12 +1,12 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import Ingredients from '@components/pages/admin/ingredient/list/Ingredients'
-
 import CheckRole from '@providers/CheckRole'
 
 import { IngredientService } from '@services/ingredient.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import Ingredients from '../../../app/pages/admin/ingredient/list/Ingredients'
 
 const IngredientsPage: NextPageAuth = () => {
 	return (

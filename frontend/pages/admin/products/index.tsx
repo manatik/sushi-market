@@ -1,12 +1,12 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import Products from '@components/pages/admin/product/list/Products'
-
 import CheckRole from '@providers/CheckRole'
 
 import { ProductService } from '@services/product.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import Products from '../../../app/pages/admin/product/list/Products'
 
 const ProductsPage: NextPageAuth = () => {
 	return (

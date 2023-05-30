@@ -1,12 +1,12 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import Promotions from '@components/pages/admin/promotion/list/Promotions'
-
 import CheckRole from '@providers/CheckRole'
 
 import { PromotionService } from '@services/promotion.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import Promotions from '../../../app/pages/admin/promotion/list/Promotions'
 
 const PromotionsPage: NextPageAuth = () => {
 	return (

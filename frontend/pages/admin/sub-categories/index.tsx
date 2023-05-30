@@ -1,12 +1,12 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import SubCategories from '@components/pages/admin/sub-category/list/Sub-categories'
-
 import CheckRole from '@providers/CheckRole'
 
 import { SubCategoryService } from '@services/sub-category.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import SubCategories from '../../../app/pages/admin/sub-category/list/Sub-categories'
 
 const SubCategoriesPage: NextPageAuth = () => {
 	return (

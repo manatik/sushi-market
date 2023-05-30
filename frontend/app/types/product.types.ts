@@ -17,6 +17,7 @@ export interface IProduct {
 	subCategoryId?: string
 	subCategory?: ISubCategory
 	ingredients: IIngredient[]
+	photos: any[]
 	description?: string
 	hidden?: boolean
 	orderBy: number

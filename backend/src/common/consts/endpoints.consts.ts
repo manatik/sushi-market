@@ -6,11 +6,12 @@ export const GLOBAL_PREFIXES = {
   SUB_CATEGORY: 'sub-category',
   PRODUCT: 'product',
   PROMOTION: 'promotion',
+  PROMOTION_BANNER: 'promotion-banner',
   INGREDIENT: 'ingredient',
   POINT_OF_SALE: 'point-of-sale',
   DISTRICT: 'district',
   ORDER: 'order',
-};
+} as const;
 
 export const ENDPOINTS = {
   DEFAULT: {
@@ -62,4 +63,10 @@ export const ENDPOINTS = {
     REMOVE_PHOTO: 'photos/:id',
     ADD_PRODUCTS: 'products/:id',
   },
-};
+  PROMOTION_BANNER: {
+    ALL: '',
+    CREATE: '',
+    UPDATE: ':id',
+    REMOVE: ':id',
+  },
+} as const;

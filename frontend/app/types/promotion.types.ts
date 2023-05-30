@@ -11,6 +11,7 @@ export interface IPromotion {
 	name: string
 	typePromotion: TypePromotion
 	products: IProduct[]
+	photos: any[]
 	price: number
 	oldPrice: number
 	dateStart: string

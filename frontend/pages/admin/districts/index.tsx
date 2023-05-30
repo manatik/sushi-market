@@ -1,12 +1,12 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import Districts from '@components/pages/admin/district/list/Districts'
-
 import CheckRole from '@providers/CheckRole'
 
 import { DistrictService } from '@services/district.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import Districts from '../../../app/pages/admin/district/list/Districts'
 
 const DistrictsPage: NextPageAuth = () => {
 	return (

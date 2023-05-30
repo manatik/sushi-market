@@ -5,10 +5,12 @@ import * as sharp from 'sharp';
 
 export class FileManipulator {
   PATH = path.join('assets');
+  REMOTE_PATH = path.join('uploads');
 
   async write(filename: string, buffer: Buffer, { signal }) {
     try {
       const pathToFile = `${this.PATH}/${filename}`;
+      const remotePathToFile = `${this.REMOTE_PATH}/${filename}`;
 
       if (!fs.existsSync(pathToFile)) {
         const separatedPath = pathToFile.split(path.sep);
@@ -22,7 +24,7 @@ export class FileManipulator {
         message: 'Файл успешно записан',
         success: true,
         error: false,
-        data: { path: pathToFile },
+        data: { path: pathToFile, remotePath: remotePathToFile },
       };
     } catch (e) {
       console.log(e);
@@ -72,7 +74,11 @@ export class FileManipulator {
         message: 'Файл успешно сжат и записан',
         success: true,
         error: false,
-        data: { path: result.data.path, filename: filenameWithChangedExt },
+        data: {
+          path: result.data.path,
+          remotePath: result.data.remotePath,
+          filename: filenameWithChangedExt,
+        },
       };
     } catch (e) {
       throw e;

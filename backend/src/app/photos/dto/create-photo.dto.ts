@@ -11,6 +11,10 @@ export class CreatePhotoDto {
 
   @IsNotEmpty()
   @IsString()
+  remotePath: string;
+
+  @IsNotEmpty()
+  @IsString()
   filename: string;
 
   @IsNotEmpty()

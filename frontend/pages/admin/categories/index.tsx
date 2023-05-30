@@ -1,12 +1,12 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import Categories from '@components/pages/admin/category/list/Categories'
-
 import CheckRole from '@providers/CheckRole'
 
 import { CategoryService } from '@services/category.service'
 
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import Categories from '../../../app/pages/admin/category/list/Categories'
 
 const CategoriesPage: NextPageAuth = props => {
 	return (

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Authorization from '@components/pages/authorization/Authorization'
+import Authorization from '../../app/pages/authorization/Authorization'
 
 const Login = () => {
 	return <Authorization />

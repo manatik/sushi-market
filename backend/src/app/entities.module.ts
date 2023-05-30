@@ -11,22 +11,9 @@ import { PromotionModule } from '@promotion/promotion.module';
 import { RoleModule } from '@role/role.module';
 import { SubCategoryModule } from '@sub-category/sub-category.module';
 import { UserModule } from '@user/user.module';
+import { PromotionBannerModule } from './promotion-banner/promotion-banner.module';
 
 @Module({
-  imports: [
-    CategoryModule,
-    DistrictModule,
-    IngredientModule,
-    OrderModule,
-    PaymentModule,
-    PhotosEntity,
-    PointOfSaleModule,
-    ProductModule,
-    PromotionModule,
-    RoleModule,
-    SubCategoryModule,
-    UserModule,
-  ],
   exports: [
     CategoryModule,
     DistrictModule,
@@ -37,6 +24,22 @@ import { UserModule } from '@user/user.module';
     PointOfSaleModule,
     ProductModule,
     PromotionModule,
+    PromotionBannerModule,
+    RoleModule,
+    SubCategoryModule,
+    UserModule,
+  ],
+  imports: [
+    CategoryModule,
+    DistrictModule,
+    IngredientModule,
+    OrderModule,
+    PaymentModule,
+    PhotosEntity,
+    PointOfSaleModule,
+    ProductModule,
+    PromotionModule,
+    PromotionBannerModule,
     RoleModule,
     SubCategoryModule,
     UserModule,

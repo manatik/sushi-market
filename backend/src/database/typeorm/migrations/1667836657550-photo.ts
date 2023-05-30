@@ -26,6 +26,11 @@ export class Photo1667836657550 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'remote_path',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
             name: 'filename',
             type: 'varchar',
             isNullable: false,

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Settings from '@components/pages/admin/settings/Settings'
+import Settings from '../../../app/pages/admin/settings/Settings'
 
 const SettingsPage = () => {
 	return <Settings />

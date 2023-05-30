@@ -1,7 +1,8 @@
 import { PhotosEntity } from '@photos/entity/photos.entity';
 import { ProductEntity } from '@product/entity/product.entity';
 import { Base } from '@typeorm/Base';
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { PromotionBannerEntity } from '../../promotion-banner/entity/promotion-banner.entity';
 
 export enum TypePromotion {
   COMBO = 'combo',
@@ -53,4 +54,7 @@ export class PromotionEntity extends Base {
 
   @ManyToMany(() => PhotosEntity, (photo) => photo.promotions, { eager: true })
   photos: PhotosEntity[];
+
+  @OneToMany(() => PromotionBannerEntity, (banners) => banners.promotion)
+  banners: PromotionBannerEntity[];
 }

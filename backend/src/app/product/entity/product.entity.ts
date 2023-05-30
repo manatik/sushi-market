@@ -55,7 +55,7 @@ export class ProductEntity extends Base {
   @ManyToMany(() => PromotionEntity, (promotion) => promotion.products)
   promotions: PromotionEntity[];
 
-  @ManyToMany(() => PhotosEntity, (photo) => photo.products)
+  @ManyToMany(() => PhotosEntity, (photo) => photo.products, { eager: true })
   photos: PhotosEntity[];
 
   @ManyToMany(() => IngredientEntity, (ingredient) => ingredient.products)

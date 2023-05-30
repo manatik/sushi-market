@@ -131,7 +131,7 @@ export class ProductService {
         const filename = uuid.v4() + path.extname(photo.originalname);
 
         const result = await FileManipulatorSingleton.writeWithCompress(filename, photo.buffer, {
-          quality: dto.quality,
+          quality: dto.quality || 60,
         });
 
         wroteFiles.push(result.data.path);
@@ -139,6 +139,7 @@ export class ProductService {
         const createdPhoto = await this.photosService.create({
           name: dto.name,
           path: result.data.path,
+          remotePath: result.data.remotePath,
           description: dto.description,
           filename: result.data.filename,
           size: photo.size,

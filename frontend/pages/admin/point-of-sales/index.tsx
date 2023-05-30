@@ -1,10 +1,10 @@
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 
-import PointsOfSale from '@components/pages/admin/point-of-sale/list/Points-of-sale'
-
 import CheckRole from '@providers/CheckRole'
 
 import { PointOfSaleService } from '@services/point-of-sale.service'
+
+import PointsOfSale from '../../../app/pages/admin/point-of-sale/list/Points-of-sale'
 
 const PointOfSalesPage = () => {
 	return (

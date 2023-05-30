@@ -93,7 +93,7 @@ export class PromotionService {
 
       const promotion = await this.promotionRepository.save(promotionEntity);
 
-      return this.errorService.success('Акция успешно создана', { promotion: promotion });
+      return this.errorService.success('Акция успешно создана', { promotion });
     } catch (e) {
       throw this.errorService.internal('Ошибка создания акции', e.message);
     }
@@ -146,6 +146,7 @@ export class PromotionService {
         const createdPhoto = await this.photosService.create({
           name: dto.name,
           path: result.data.path,
+          remotePath: result.data.remotePath,
           description: dto.description,
           filename: result.data.filename,
           size: photo.size,

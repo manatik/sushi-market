@@ -11,6 +11,9 @@ export class PhotosEntity extends Base {
   @Column()
   path: string;
 
+  @Column({ name: 'remote_path' })
+  remotePath: string;
+
   @Column()
   filename: string;
 

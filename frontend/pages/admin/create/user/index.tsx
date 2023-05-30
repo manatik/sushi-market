@@ -1,6 +1,6 @@
-import CreateUser from '@components/pages/admin/user/create/user'
-
 import { NextPageAuth } from '@common-types/private-route.types'
+
+import CreateUser from '../../../../app/pages/admin/user/create/user'
 
 const CreateUserPage: NextPageAuth = () => {
 	return <CreateUser />

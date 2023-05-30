@@ -1,4 +1,4 @@
-import CreateSubCategory from '@components/pages/admin/sub-category/create/Sub-category'
+import CreateSubCategory from '../../../../app/pages/admin/sub-category/create/Sub-category'
 
 const SubCategoryPage = () => {
 	return <CreateSubCategory />

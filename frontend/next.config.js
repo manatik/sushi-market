@@ -7,10 +7,19 @@ const nextConfig = {
 		REACT_APP_ENVIRONMENT: process.env.REACT_APP_ENVIRONMENT
 	},
 	env: {
-		API_URL: process.env.REACT_APP_API_URL
+		API_URL: `${process.env.REACT_APP_API_URL}/api`,
+		STATIC_URL: process.env.REACT_APP_API_URL
 	},
 	images: {
-		domains: ['nestjs']
+		domains: ['sman_nestjs', 'localhost'],
+		remotePatterns: [
+			{
+				port: '9000',
+				protocol: 'http',
+				hostname: 'sman_nestjs',
+				pathname: '/uploads/**'
+			}
+		]
 	},
 	i18n: {
 		locales: ['ru'],

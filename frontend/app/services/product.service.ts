@@ -15,8 +15,9 @@ const URLS = {
 	create: 'product',
 	update: 'product',
 	remove: 'product',
-	setIngredients: 'product/ingredients'
-}
+	setIngredients: 'product/ingredients',
+	addPhotos: 'product/photos'
+} as const
 
 export const ProductService = {
 	async all(filters?: IProductFilters) {
@@ -41,11 +42,6 @@ export const ProductService = {
 		return data
 	},
 
-	async setIngredients({ id, ingredients }: { id: string; ingredients: string[] }) {
-		const { data } = await axiosInstance.post<IDefaultResponse>(`${URLS.setIngredients}/${id}`, { ingredients })
-		return data
-	},
-
 	async update({ id, dto }: { id: string; dto: IUpdateProduct }) {
 		const { data } = await axiosInstance.patch<IDefaultResponse>(`${URLS.update}/${id}`, dto)
 		return data
@@ -53,6 +49,16 @@ export const ProductService = {
 
 	async remove(id: string) {
 		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.remove}/${id}`)
+		return data
+	},
+
+	async addPhotos({ id, dto }: { id: string; dto: any }) {
+		const { data } = await axiosInstance.post<IDefaultResponse>(`${URLS.addPhotos}/${id}`, dto)
+		return data
+	},
+
+	async setIngredients({ id, ingredients }: { id: string; ingredients: string[] }) {
+		const { data } = await axiosInstance.post<IDefaultResponse>(`${URLS.setIngredients}/${id}`, { ingredients })
 		return data
 	}
 }

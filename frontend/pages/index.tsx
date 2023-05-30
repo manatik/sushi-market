@@ -1,7 +1,8 @@
 import { NextPage } from 'next'
 
 import Layout from '@components/layout/Layout'
-import Home from '@components/pages/home/Home'
+
+import Home from '../app/pages/home/Home'
 
 const HomePage: NextPage = props => {
 	return (
