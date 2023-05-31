@@ -14,6 +14,7 @@ const Menu = () => {
 	const { data: categories = [], isLoading: isCategoryLoading } = useCategories()
 	const { data: subCategories = [], isLoading: isSubCategoryLoading } = useSubCategories()
 	const [selectedCategory, setSelectedCategory] = useState<ICategory | undefined>(undefined)
+	const filteredCategories = categories.filter(c => c.products.length)
 
 	const onSelectCategory = (name: string) => {
 		const category = categories.find(category => category.name === name)
@@ -26,7 +27,7 @@ const Menu = () => {
 
 	return (
 		<div className={styles.main}>
-			<MenuList items={categories?.map(category => category.name)} onClick={onSelectCategory} />
+			<MenuList items={filteredCategories?.map(category => category.name)} onClick={onSelectCategory} />
 
 			{selectedCategory && (
 				<MenuList

@@ -8,6 +8,7 @@ export interface ICategory {
 	article: string
 	code: string
 	hidden: boolean
+	products: any[]
 	id: string
 	name: string
 	orderBy: number

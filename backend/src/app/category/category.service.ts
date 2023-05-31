@@ -37,6 +37,8 @@ export class CategoryService {
       const categories = await this.categoryRepository.find({
         where: whereExpression,
         order: { orderBy: 'ASC' },
+        relations: { products: true },
+        select: { products: { id: true } },
         withDeleted: true,
       });
 

@@ -69,8 +69,13 @@ const ProductItem: FC<Props> = ({ product }) => {
 					</Card.Item>
 
 					<Card.Item>
-						<span>Ингредиентов</span>
+						<span>Кол-во ингред.</span>
 						<span>{product.ingredients.length}</span>
+					</Card.Item>
+
+					<Card.Item>
+						<span>Кол-во фото</span>
+						<span>{product.photos.length}</span>
 					</Card.Item>
 
 					<Card.Item>

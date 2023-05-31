@@ -1,6 +1,7 @@
 import { STATIC_URL } from '@api/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Label from '@radix-ui/react-label'
+import FormData from 'form-data'
 import { FC, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -16,7 +17,12 @@ import Separator from '@components/ui/separator/Separator'
 import Switch from '@components/ui/switch/Switch'
 
 import { useProducts } from '@query-hooks/useProducts'
-import { useSetPromotionProducts, useUpdatePromotion } from '@query-hooks/usePromotion'
+import {
+	useAddPromotionPhotos,
+	useRemovePromotionPhoto,
+	useSetPromotionProducts,
+	useUpdatePromotion
+} from '@query-hooks/usePromotion'
 
 import { IPromotion, IUpdatePromotion, TypePromotion } from '@common-types/promotion.types'
 
@@ -32,6 +38,8 @@ interface Props {
 const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 	const { mutate: updatePromotion } = useUpdatePromotion()
 	const { mutate: setProducts } = useSetPromotionProducts()
+	const { mutate: addPhotos } = useAddPromotionPhotos()
+	const { mutate: removePhoto } = useRemovePromotionPhoto()
 
 	const { isLoading: isProductsLoading, data: products = [] } = useProducts()
 
@@ -41,7 +49,7 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isValid, isDirty }
+		formState: { errors, isValid }
 	} = useForm<IUpdatePromotion>({
 		resolver: zodResolver(PromotionSchema),
 		defaultValues: {
@@ -56,7 +64,20 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 	}))
 
 	const onSubmit = (formData: IUpdatePromotion) => {
-		if (formData.products && !promotion.products.every(product => formData.products?.includes(product.id))) {
+		if (files.length) {
+			const formData = new FormData()
+			files.forEach(file => {
+				formData.append('photos', file, file.name)
+			})
+			formData.append('name', 'test')
+			addPhotos({ id: promotion.id, dto: formData })
+		}
+
+		if (
+			formData.products &&
+			(formData.products?.length !== promotion.products.length ||
+				promotion.products.some(prod => !formData.products?.includes(prod.id)))
+		) {
 			setProducts({ id: promotion.id, products: formData.products })
 		}
 		updatePromotion({ id: promotion.id, dto: formData })
@@ -70,6 +91,7 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 		)
 	}
 
+	console.log(!files.length)
 	return (
 		<Dialog isOpen={isOpen} onClose={onClose} position={'right'}>
 			<div className={styles.promotion}>
@@ -80,7 +102,16 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 
 				<FileDropzone
 					onChange={setFiles}
-					previewImages={promotion.photos.map(photo => `${STATIC_URL}/${photo.remotePath}`)}
+					previewImages={promotion.photos.map(photo => ({
+						id: photo.id,
+						src: `${STATIC_URL}/${photo.remotePath}`,
+						name: photo.filename
+					}))}
+					onRemovePreview={file => {
+						if (file.id) {
+							removePhoto({ id: promotion.id, photoId: file.id })
+						}
+					}}
 				/>
 
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -188,7 +219,7 @@ const UpdatePromotion: FC<Props> = ({ promotion, isOpen, onClose }) => {
 					<div className={styles.formFooter}>
 						<button
 							className={styles.formFooter__button}
-							disabled={!isValid || !isDirty || !!Object.keys(errors).length}
+							disabled={!files.length || !isValid || !!Object.keys(errors).length}
 						>
 							Обновить
 						</button>

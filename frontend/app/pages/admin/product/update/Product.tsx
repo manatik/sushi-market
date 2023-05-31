@@ -18,7 +18,12 @@ import Switch from '@components/ui/switch/Switch'
 
 import { useCategories } from '@query-hooks/useCategories'
 import { useIngredients } from '@query-hooks/useIngredients'
-import { useAddProductPhotos, useSetProductIngredients, useUpdateProduct } from '@query-hooks/useProducts'
+import {
+	useAddProductPhotos,
+	useRemoveProductPhoto,
+	useSetProductIngredients,
+	useUpdateProduct
+} from '@query-hooks/useProducts'
 import { useSubCategories } from '@query-hooks/useSubCategories'
 
 import { IProduct, IUpdateProduct } from '@common-types/product.types'
@@ -37,6 +42,7 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 	const { mutate: updateProduct } = useUpdateProduct()
 	const { mutate: setIngredients } = useSetProductIngredients()
 	const { mutate: addPhotos } = useAddProductPhotos()
+	const { mutate: removePhoto } = useRemoveProductPhoto()
 
 	const { isLoading: isCategoryLoading, data: categories } = useCategories()
 	const { isLoading: isSubCategoryLoading, data: subCategories } = useSubCategories()
@@ -48,7 +54,7 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 		handleSubmit,
 		register,
 		control,
-		formState: { errors, isValid, isDirty }
+		formState: { errors, isValid }
 	} = useForm<IUpdateProduct>({
 		resolver: zodResolver(ProductSchema),
 		defaultValues: {
@@ -72,11 +78,16 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 			addPhotos({ id: product.id, dto: formData })
 		}
 
-		if (formData.ingredients) {
+		if (
+			formData.ingredients &&
+			(formData.ingredients?.length !== product.ingredients.length ||
+				product.ingredients.some(ing => !formData.ingredients?.includes(ing.id)))
+		) {
 			setIngredients({ id: product.id, ingredients: formData.ingredients })
 		}
 
 		updateProduct({ id: product.id, dto: formData })
+		onClose()
 	}
 
 	if (isCategoryLoading || isSubCategoryLoading || isIngredientsLoading) {
@@ -97,7 +108,16 @@ const UpdateProduct: FC<Props> = ({ product, isOpen, onClose }) => {
 
 				<FileDropzone
 					onChange={setFiles}
-					previewImages={product.photos.map(photo => `${STATIC_URL}/${photo.remotePath}`)}
+					previewImages={product.photos.map(photo => ({
+						id: photo.id,
+						src: `${STATIC_URL}/${photo.remotePath}`,
+						name: photo.filename
+					}))}
+					onRemovePreview={file => {
+						if (file.id) {
+							removePhoto({ id: product.id, photoId: file.id })
+						}
+					}}
 				/>
 
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

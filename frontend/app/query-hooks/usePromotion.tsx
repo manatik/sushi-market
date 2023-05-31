@@ -109,3 +109,49 @@ export const useRemovePromotion = () => {
 		}
 	)
 }
+
+export const useAddPromotionPhotos = () => {
+	const queryClient = useQueryClient()
+
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; dto: any }>(
+		['add-promotion-photos'],
+		PromotionService.addPhotos,
+		{
+			onSuccess(data) {
+				queryClient.invalidateQueries({ queryKey: ['promotions'] })
+				toast.success(data.message)
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
+			}
+		}
+	)
+}
+
+export const useRemovePromotionPhoto = () => {
+	const queryClient = useQueryClient()
+
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; photoId: string }>(
+		['remove-promotion-photo'],
+		PromotionService.removePhoto,
+		{
+			onSuccess(data) {
+				queryClient.invalidateQueries({ queryKey: ['promotions'] })
+				toast.success(data.message)
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
+			}
+		}
+	)
+}

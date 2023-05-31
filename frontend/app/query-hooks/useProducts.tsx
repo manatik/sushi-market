@@ -136,3 +136,26 @@ export const useAddProductPhotos = () => {
 		}
 	)
 }
+
+export const useRemoveProductPhoto = () => {
+	const queryClient = useQueryClient()
+
+	return useMutation<IDefaultResponse, AxiosError<IDefaultResponse>, { id: string; photoId: string }>(
+		['remove-product-photos'],
+		ProductService.removePhoto,
+		{
+			onSuccess(data) {
+				queryClient.invalidateQueries({ queryKey: ['products'] })
+				toast.success(data.message)
+			},
+			onError(error) {
+				toast.error(
+					<div>
+						<p>{error.response?.data.message}</p>
+						<p>{error.response?.data.error}</p>
+					</div>
+				)
+			}
+		}
+	)
+}

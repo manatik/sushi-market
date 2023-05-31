@@ -1,4 +1,3 @@
-import cn from 'classnames'
 import Image from 'next/image'
 import { DragEvent, FC, useRef, useState } from 'react'
 
@@ -8,15 +7,21 @@ import styles from './file-dropzone.style.module.scss'
 
 interface FileDropzoneProps {
 	onChange: (files: File[]) => void
-	previewImages?: string[]
-	onRemovePreview?: (name: string) => void
+	previewImages?: IPreview[]
+	onRemovePreview?: (file: IPreview) => void
+}
+
+interface IPreview {
+	id?: string
+	name: string
+	src: string
 }
 
 const FileDropzone: FC<FileDropzoneProps> = ({ onChange, previewImages, onRemovePreview }) => {
 	const scrollRef = useHorizontalScroll<HTMLDivElement>()
 
 	const inputRef = useRef<HTMLInputElement>(null)
-	const [previewFiles, setPreviewFiles] = useState<string[]>(previewImages || [])
+	const [previewFiles, setPreviewFiles] = useState<IPreview[]>(previewImages || [])
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([])
 	const [uniqNames, setUniqNames] = useState<string[]>([])
 	const [isDragActive, setIsDragActive] = useState<boolean>(false)
@@ -55,21 +60,31 @@ const FileDropzone: FC<FileDropzoneProps> = ({ onChange, previewImages, onRemove
 				reader.readAsDataURL(file)
 
 				reader.onloadend = e => {
-					setPreviewFiles(prev => prev.concat([e.target?.result as string]))
+					setPreviewFiles(prev =>
+						prev.concat([
+							{
+								name: file.name,
+								src: e.target?.result as string
+							}
+						])
+					)
 				}
 			}
 		}
 
 		onChange(selectedFiles.concat(_selectedFiles))
+
 		setSelectedFiles(prev => prev.concat(_selectedFiles))
 		setUniqNames(prev => prev.concat(_uniqNames))
 	}
 
 	const handleRemove = (index: number) => {
 		const file = selectedFiles[index]
+		const preview = previewFiles[index]
 		const _selectedFiles = selectedFiles.filter((it, i) => i !== index)
 
 		onChange(_selectedFiles)
+		onRemovePreview?.(preview)
 
 		setUniqNames(prev => prev.filter(name => name !== `${file.name}/${file.size}`))
 		setSelectedFiles(_selectedFiles)
@@ -83,7 +98,7 @@ const FileDropzone: FC<FileDropzoneProps> = ({ onChange, previewImages, onRemove
 	return (
 		<div className={styles.root}>
 			<div
-				className={cn(styles.dropzone, { [styles.dropzone__active]: isDragActive })}
+				className={`${styles.dropzone} ${isDragActive ? styles.dropzone__active : ''}`}
 				onDragEnd={handleDrag}
 				onDragEnter={handleDrag}
 				onDragLeave={handleDrag}
@@ -100,8 +115,8 @@ const FileDropzone: FC<FileDropzoneProps> = ({ onChange, previewImages, onRemove
 
 			<div className={styles.preview} ref={scrollRef}>
 				{previewFiles.map((preview, i) => (
-					<div key={preview} className={styles.preview_item}>
-						<Image decoding='auto' width={100} height={80} src={preview} alt={`preview-${i}`} />
+					<div key={preview.src} className={styles.preview_item}>
+						<Image decoding='auto' width={100} height={80} src={preview.src} alt={`preview-${i}`} />
 						<button className={styles.preview_remove} onClick={() => handleRemove(i)}>
 							x
 						</button>

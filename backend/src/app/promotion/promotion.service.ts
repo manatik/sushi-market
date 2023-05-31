@@ -58,6 +58,7 @@ export class PromotionService {
       const promotions = await this.promotionRepository.find({
         where: whereExpression,
         relations: { products: true, photos: true },
+        select: { photos: { id: true, remotePath: true, filename: true } },
         withDeleted: true,
       });
 

@@ -44,20 +44,20 @@ export class ProductEntity extends Base {
   @Column({ name: 'sub_category_id' })
   subCategoryId: string;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products)
+  @ManyToOne(() => CategoryEntity, (category) => category.products, { eager: true })
   @JoinColumn({ name: 'category_id' })
   category: CategoryEntity;
 
-  @ManyToOne(() => SubCategoryEntity, (sub) => sub.products)
+  @ManyToOne(() => SubCategoryEntity, (sub) => sub.products, { eager: true })
   @JoinColumn({ name: 'sub_category_id' })
   subCategory: SubCategoryEntity;
 
   @ManyToMany(() => PromotionEntity, (promotion) => promotion.products)
   promotions: PromotionEntity[];
 
-  @ManyToMany(() => PhotosEntity, (photo) => photo.products, { eager: true })
+  @ManyToMany(() => PhotosEntity, (photo) => photo.products)
   photos: PhotosEntity[];
 
-  @ManyToMany(() => IngredientEntity, (ingredient) => ingredient.products)
+  @ManyToMany(() => IngredientEntity, (ingredient) => ingredient.products, { eager: true })
   ingredients: IngredientEntity[];
 }

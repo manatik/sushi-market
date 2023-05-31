@@ -1,3 +1,5 @@
+import { STATIC_URL } from '@api/axios'
+import Image from 'next/image'
 import { FC } from 'react'
 
 import { IProduct } from '@common-types/product.types'
@@ -11,9 +13,14 @@ interface Props {
 }
 
 const ProductItem: FC<Props> = ({ product }) => {
+	const { name, photos } = product
 	return (
 		<div className={styles.main}>
-			<div className={styles.image}>картинка</div>
+			<div className={styles.image}>
+				{!!product.photos.length && (
+					<Image width={200} height={150} src={`${STATIC_URL}/${photos[0]?.remotePath}`} alt={photos[0]?.filename} />
+				)}
+			</div>
 
 			<div className={styles.title}>{product.name}</div>
 

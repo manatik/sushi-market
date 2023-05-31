@@ -44,7 +44,7 @@ export class PromotionEntity extends Base {
   @Column({ name: 'date_end' })
   dateEnd: Date;
 
-  @ManyToMany(() => ProductEntity, (product) => product.promotions)
+  @ManyToMany(() => ProductEntity, (product) => product.promotions, { eager: true })
   @JoinTable({
     name: 'promotion_product',
     joinColumn: { name: 'promotion_id' },
@@ -52,7 +52,7 @@ export class PromotionEntity extends Base {
   })
   products: ProductEntity[];
 
-  @ManyToMany(() => PhotosEntity, (photo) => photo.promotions, { eager: true })
+  @ManyToMany(() => PhotosEntity, (photo) => photo.promotions)
   photos: PhotosEntity[];
 
   @OneToMany(() => PromotionBannerEntity, (banners) => banners.promotion)

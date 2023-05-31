@@ -82,6 +82,17 @@ const PromotionItem: FC<Props> = ({ promotion }) => {
 							{promotion.products.length}
 						</span>
 					</Card.Item>
+
+					<Card.Item>
+						<span>Кол-во фото</span>
+						<span
+							className={classNames({
+								[styles.card__emptyField]: !promotion.photos.length
+							})}
+						>
+							{promotion.photos.length}
+						</span>
+					</Card.Item>
 				</Card.Content>
 
 				<Card.Content>

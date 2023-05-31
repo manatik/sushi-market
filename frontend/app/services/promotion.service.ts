@@ -15,7 +15,9 @@ const URLS = {
 	create: 'promotion',
 	update: 'promotion',
 	remove: 'promotion',
-	setProducts: 'promotion/products'
+	setProducts: 'promotion/products',
+	addPhotos: 'promotion/photos',
+	removePhoto: 'promotion/photos'
 }
 
 export const PromotionService = {
@@ -52,6 +54,16 @@ export const PromotionService = {
 
 	async remove(id: string) {
 		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.remove}/${id}`)
+		return data
+	},
+
+	async addPhotos({ id, dto }: { id: string; dto: any }) {
+		const { data } = await axiosInstance.post<IDefaultResponse>(`${URLS.addPhotos}/${id}`, dto)
+		return data
+	},
+
+	async removePhoto({ id, photoId }: { id: string; photoId: string }) {
+		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.removePhoto}/${id}`, { params: { photoId } })
 		return data
 	}
 }

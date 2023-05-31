@@ -23,7 +23,7 @@ const Header: FC<Props> = ({ user }) => {
 
 			<div className={styles.right}>
 				{userIsAdmin(user?.roles) && <Link href={'/admin/dashboard'}>Админка</Link>}
-				{user ? <UserAvatar /> : <div>войти</div>}
+				{user ? <UserAvatar /> : <Link href={'/sign'}>войти</Link>}
 			</div>
 		</div>
 	)

@@ -50,7 +50,8 @@ export class ProductService {
       const products = await this.productRepository.find({
         where: whereExpression,
         order: { orderBy: 'ASC' },
-        relations: { category: true, subCategory: true, ingredients: true },
+        relations: { photos: true },
+        select: { photos: { id: true, remotePath: true, filename: true } },
         withDeleted: true,
       });
 
@@ -62,7 +63,11 @@ export class ProductService {
 
   async byId(id: string) {
     try {
-      const product = await this.productRepository.findOne({ where: { id } });
+      const product = await this.productRepository.findOne({
+        where: { id },
+        relations: { photos: true },
+        select: { photos: { id: true, remotePath: true, filename: true } },
+      });
 
       return this.errorService.success('Продукт успешно получен', { product });
     } catch (e) {

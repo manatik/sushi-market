@@ -16,7 +16,8 @@ const URLS = {
 	update: 'product',
 	remove: 'product',
 	setIngredients: 'product/ingredients',
-	addPhotos: 'product/photos'
+	addPhotos: 'product/photos',
+	removePhoto: 'product/photos'
 } as const
 
 export const ProductService = {
@@ -54,6 +55,11 @@ export const ProductService = {
 
 	async addPhotos({ id, dto }: { id: string; dto: any }) {
 		const { data } = await axiosInstance.post<IDefaultResponse>(`${URLS.addPhotos}/${id}`, dto)
+		return data
+	},
+
+	async removePhoto({ id, photoId }: { id: string; photoId: string }) {
+		const { data } = await axiosInstance.delete<IDefaultResponse>(`${URLS.removePhoto}/${id}`, { params: { photoId } })
 		return data
 	},
 
