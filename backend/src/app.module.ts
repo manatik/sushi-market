@@ -1,6 +1,6 @@
 import { getJwtConfig } from '@config/jwt.config';
 import { getDataSourceFactory, getTypeormConfig } from '@config/typeorm.config';
-import { JwtAuthGuard } from '@jwt-auth/guards/jwt.guard';
+import { JwtGuard } from '@jwt-auth/guards/jwt.guard';
 import { RolesGuard } from '@jwt-auth/guards/roles.guard';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -29,7 +29,7 @@ import { AuthorizationModule } from './authorization/authorization.module';
   ],
   controllers: [],
   providers: [
-    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: JwtGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })

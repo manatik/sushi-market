@@ -17,6 +17,7 @@ export const getTypeormConfig = async (configService: ConfigService): Promise<Ty
 
 export const getDataSourceFactory = async (options: DataSourceOptions) => {
   const datasorce = await new DataSource(options).initialize();
+  datasorce.runMigrations({ transaction: 'all' });
   // await datasorce.dropDatabase();
   return datasorce;
 };
