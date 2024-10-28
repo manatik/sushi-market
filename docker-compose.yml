@@ -1,10 +1,8 @@
-version: "3.10"
-
-x-node-version: &node-version node:18.13.0
+x-node-version: &node-version node:23.1.0
 
 services:
   db:
-    image: postgres:14.5
+    image: postgres:17.0
     container_name: sman_db
     ports:
       - "25432:5432"
@@ -18,39 +16,45 @@ services:
     networks:
       - web
 
+  root:
+    image: *node-version
+    container_name: sman_root
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: bash -c "yarn install"
+
   backend:
     image: *node-version
     container_name: sman_nestjs
+    working_dir: /app
     ports:
       - "9000:9000"
     networks:
       - web
     depends_on:
       - db
+      - root
     volumes:
-      - ./backend:/backend
       - pgsql-sock:/var/run/postgresql
-      - ./backend/assets:/var/lib/images
-    working_dir: /backend
-    command: bash -c "
-      yarn install
-      && yarn build
-      && yarn typeorm migration:run
-      && yarn start:dev"
+      - .:/app
+      - ./packages/backend/assets:/var/lib/images
+    command: bash -c "yarn backend:dev"
 
   frontend:
     image: *node-version
     container_name: sman_nextjs
+    working_dir: /app
     ports:
       - "3000:3000"
     networks:
       - web
+    depends_on:
+      - root
+      - backend
     volumes:
-      - ./frontend:/frontend
-    working_dir: /frontend
-    command: bash -c "
-      yarn install
-      && yarn dev"
+      - .:/app
+    command: bash -c "yarn frontend:dev"
 
 
 volumes:

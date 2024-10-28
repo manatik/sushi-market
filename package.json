@@ -1,0 +1,13 @@
+{
+  "name": "sman",
+  "private": true,
+  "packageManager": "yarn@4.5.1",
+  "scripts": {
+    "frontend:dev": "yarn workspace frontend start:dev",
+    "backend:dev": "yarn workspace backend start:dev",
+    "backend:migrate": "yarn workspace backend migration:run"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
