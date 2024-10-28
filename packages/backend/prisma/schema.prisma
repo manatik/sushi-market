@@ -1,14 +1,420 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Category {
+  id           String        @id(map: "PK_9c4e4a89e3674fc9f382d733f03") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String        @db.VarChar
+  article      String        @unique(map: "UQ_b86c3b363a296af3fb0f149b607") @db.VarChar
+  code         String        @unique(map: "UQ_652a15c02538138f021f1320de8") @db.VarChar
+  order_by     Int           @default(1)
+  date_created DateTime      @default(now()) @db.Timestamp(6)
+  date_updated DateTime?     @db.Timestamp(6)
+  date_deleted DateTime?     @db.Timestamp(6)
+  product      Product[]
+  subCategory  SubCategory[]
+}
+
+model District {
+  id                  String    @id(map: "PK_ee5cb6fd5223164bb87ea693f1e") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                String    @unique(map: "UQ_d9ed355e46edb25f094ad3a6461") @db.VarChar
+  point_sale_id       String?   @db.Uuid
+  min_sum_order       Int
+  price_delivery      Int
+  price_free_delivery Int
+  date_created        DateTime  @default(now()) @db.Timestamp(6)
+  date_updated        DateTime? @db.Timestamp(6)
+  date_deleted        DateTime? @db.Timestamp(6)
+
+  pointsOfSale       PointsOfSale?       @relation(fields: [point_sale_id], references: [id], onUpdate: NoAction, map: "fk-district-points_of_sale")
+  districtProduct    DistrictProduct[]
+  district_promotion DistrictPromotion[]
+}
+
+model DistrictProduct {
+  id           String    @id(map: "PK_bb6600a2705c1e37f3918742f80") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  district_id  String    @db.Uuid
+  product_id   String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  district District @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_district-product_district")
+  product  Product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_district-product_product")
+}
+
+model DistrictPromotion {
+  id           String    @id(map: "PK_92cb4aba263237e69d69a08b483") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  district_id  String    @db.Uuid
+  promotion_id String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  district  District  @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_district-promotion_district")
+  promotion Promotion @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_district-promotion_promotion")
+}
+
+model Feedback {
+  id           String    @id(map: "PK_8389f9e087a57689cd5be8b2b13") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String    @db.Uuid
+  order_id     String    @db.Uuid
+  message      String    @db.VarChar
+  image_path   String    @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_feedback_order")
+  user  User  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_feedback_user")
+}
+
+model Ingredient {
+  id           String    @id(map: "PK_6f1e945604a0b59f56a57570e98") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String    @unique(map: "UQ_b6802ac7fbd37aa71d856a95d8f") @db.VarChar
+  description  String?   @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  product_ingredient ProductIngredient[]
+}
+
+model Migrations {
+  id        Int    @id(map: "PK_8c82d7f526340ab734260ea46be") @default(autoincrement())
+  timestamp BigInt
+  name      String @db.VarChar
+}
+
+model Order {
+  id           String    @id(map: "PK_1031171c13130102495201e3e20") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String?   @db.Uuid
+  payment_id   String?   @db.Uuid
+  status_id    String?   @db.Uuid
+  price_total  Int
+  order_number String    @db.VarChar
+  phone        String    @db.VarChar
+  name         String    @db.VarChar
+  email        String?   @db.VarChar
+  address      String    @db.VarChar
+  comment      String?   @db.VarChar
+  date_order   DateTime  @db.Timestamp(6)
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  feedback        Feedback[]
+  order_status    OrderStatus?     @relation(fields: [status_id], references: [id], onUpdate: NoAction, map: "fk_order_order-status")
+  payment         Payment?         @relation(fields: [payment_id], references: [id], onUpdate: NoAction, map: "fk_order_payment")
+  user            User?            @relation(fields: [user_id], references: [id], onUpdate: NoAction, map: "fk_order_user")
+  order_product   OrderProduct[]
+  order_promotion OrderPromotion[]
+}
+
+model OrderProduct {
+  id              String  @id(map: "PK_539ede39e518562dfdadfddb492") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  order_id        String  @db.Uuid
+  count           Int
+  sub_category_id String? @db.Uuid
+  category_id     String? @db.Uuid
+  article         String  @unique(map: "UQ_0e5483b6e426d22dca7b6693477") @db.VarChar
+  name            String  @db.VarChar
+  description     String? @db.VarChar
+  price           Int
+  calories        String? @db.VarChar
+  proteins        String? @db.VarChar
+  fats            String? @db.VarChar
+  carbohydrates   String? @db.VarChar
+  weight          String? @db.VarChar
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_ea143999ecfa6a152f2202895e2")
+}
+
+model OrderPromotion {
+  id             String         @id(map: "PK_cc0131c78b2fd0eb50395732cbe") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  order_id       String         @db.Uuid
+  article        String         @unique(map: "UQ_53bd54d6423573ec63fed9c2bc5") @db.VarChar
+  discount       Int            @default(0)
+  name           String         @unique(map: "UQ_1bfc82f8855783afa668a77e297") @db.VarChar
+  promocode      String?        @unique(map: "UQ_ff3b25e2b71f7eb2e2a8c4e6a56") @db.VarChar
+  is_disposable  Boolean?       @default(true)
+  type_promotion type_promotion
+  old_price      Int
+  price          Int
+  description    String?        @db.VarChar
+  date_start     DateTime       @db.Timestamp(6)
+  date_end       DateTime       @db.Timestamp(6)
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_order-promotion_order")
+}
+
+model OrderStatus {
+  id           String    @id(map: "PK_8ea75b2a26f83f3bc98b9c6aaf6") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  code         String    @unique(map: "UQ_5ba083ed178d6a695d146cd8769") @db.VarChar
+  status       String    @unique(map: "UQ_cebd2e1627ddddc1857fd335bcb") @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  order Order[]
+}
+
+model Payment {
+  id           String    @id(map: "PK_fcaec7df5adf9cac408c686b2ab") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  code         Int       @unique(map: "UQ_a8816ab86cdecd6cc7f576ff82f")
+  name         String    @unique(map: "UQ_06a96865bf0d5a224c8dc13c653") @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  order Order[]
+}
+
+model Photo {
+  id                String    @id(map: "PK_723fa50bf70dcfd06fb5a44d4ff") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name              String    @db.VarChar
+  path              String    @db.VarChar
+  remote_path       String    @db.VarChar
+  filename          String    @db.VarChar
+  original_filename String    @db.VarChar
+  size              Int       @default(0)
+  description       String?   @db.VarChar
+  date_created      DateTime  @default(now()) @db.Timestamp(6)
+  date_updated      DateTime? @db.Timestamp(6)
+  date_deleted      DateTime? @db.Timestamp(6)
+
+  product_photo   ProductPhoto[]
+  promotion_photo PromotionPhoto[]
+}
+
+model PointsOfSale {
+  id                        String    @id(map: "PK_4635613a15bd74725e9b6547273") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  address_point_sale        String    @unique(map: "UQ_30665961aa3430b66b996f21824") @db.VarChar
+  fp_api_code               String?   @db.VarChar
+  city                      String    @db.VarChar
+  operating_mode_point_sale String    @db.VarChar
+  operating_mode_delivery   String    @db.VarChar
+  date_created              DateTime  @default(now()) @db.Timestamp(6)
+  date_updated              DateTime? @db.Timestamp(6)
+  date_deleted              DateTime? @db.Timestamp(6)
+
+  district District[]
+}
+
+model Product {
+  id              String    @id(map: "PK_bebc9158e480b949565b4dc7a82") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  sub_category_id String?   @db.Uuid
+  category_id     String?   @db.Uuid
+  article         String    @unique(map: "UQ_e6bad5d08f4ab9bdecedb8a97fd") @db.VarChar
+  name            String    @db.VarChar
+  description     String?   @db.VarChar
+  order_by        Int       @default(1)
+  price           Int
+  calories        String?   @db.VarChar
+  proteins        String?   @db.VarChar
+  fats            String?   @db.VarChar
+  carbohydrates   String?   @db.VarChar
+  weight          String?   @db.VarChar
+  date_created    DateTime  @default(now()) @db.Timestamp(6)
+  date_updated    DateTime? @db.Timestamp(6)
+  date_deleted    DateTime? @db.Timestamp(6)
+
+  district_product   DistrictProduct[]
+  category           Category?           @relation(fields: [category_id], references: [id], onUpdate: NoAction, map: "fk_product_category")
+  sub_category       SubCategory?        @relation(fields: [sub_category_id], references: [id], onUpdate: NoAction, map: "fk_product_sub-category")
+  product_ingredient ProductIngredient[]
+  product_photo      ProductPhoto[]
+  promotion_product  PromotionProduct[]
+}
+
+model ProductIngredient {
+  id            String    @id(map: "PK_e7431906c21f94c0152d6b0db99") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  product_id    String    @db.Uuid
+  ingredient_id String    @db.Uuid
+  count         Int       @default(1)
+  date_created  DateTime  @default(now()) @db.Timestamp(6)
+  date_updated  DateTime? @db.Timestamp(6)
+
+  ingredient Ingredient @relation(fields: [ingredient_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_3f9b3e7181dc8cd771e6d513b7b")
+  product    Product    @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_a7a4b2de441d2ab00df5b0d4cdd")
+}
+
+model ProductPhoto {
+  id           String    @id(map: "PK_6c701613676cfa922e429eb1bae") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  product_id   String    @db.Uuid
+  photo_id     String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+
+  photo   Photo   @relation(fields: [photo_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product-photo_photo")
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product-photo_product")
+
+  @@unique([product_id, photo_id], map: "uniq-product_id-photo_id")
+}
+
+model PromocodeUser {
+  id           String    @id(map: "PK_598c07fcf799d18d3bd739b5db0") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String    @db.Uuid
+  promocode_id String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  promotion Promotion @relation(fields: [promocode_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promocode-user_promotion")
+  user      User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promocode-user_user")
+}
+
+model Promotion {
+  id             String         @id(map: "PK_fab3630e0789a2002f1cadb7d38") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  article        String         @unique(map: "UQ_6855732c8fb73c367e144e3a2a3") @db.VarChar
+  discount       Int            @default(0)
+  name           String         @unique(map: "UQ_7dc10a09d1f198907d448e67425") @db.VarChar
+  promocode      String?        @unique(map: "UQ_12638e3b59003bf4b8bb06c030e") @db.VarChar
+  is_disposable  Boolean?       @default(true)
+  type_promotion type_promotion
+  old_price      Int
+  price          Int
+  description    String?        @db.VarChar
+  date_start     DateTime       @db.Timestamp(6)
+  date_end       DateTime       @db.Timestamp(6)
+  date_created   DateTime       @default(now()) @db.Timestamp(6)
+  date_updated   DateTime?      @db.Timestamp(6)
+  date_deleted   DateTime?      @db.Timestamp(6)
+
+  district_promotion DistrictPromotion[]
+  promocode_user     PromocodeUser[]
+  promotion_banner   PromotionBanner?
+  promotion_photo    PromotionPhoto[]
+  promotion_product  PromotionProduct[]
+  user_promotion     UserPromotion[]
+}
+
+model PromotionBanner {
+  id           String    @id(map: "PK_4f4a57df95170e73b622d9e9ae3") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  promotion_id String    @unique(map: "UQ_c34e30e4837ab6e01f56ea7a855") @db.Uuid
+  order_by     Int       @default(1)
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  promotion Promotion @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promotion-banner_promotion")
+}
+
+model PromotionPhoto {
+  id           String    @id(map: "PK_43bfe9f6764de36b2f1c4efdebc") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  promotion_id String    @db.Uuid
+  photo_id     String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+
+  photo     Photo     @relation(fields: [photo_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promotion-photo_photo")
+  promotion Promotion @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promotion-photo_promotion")
+
+  @@unique([promotion_id, photo_id], map: "uniq-promotion_id-photo_id")
+}
+
+model PromotionProduct {
+  id           String    @id(map: "PK_63567e833c47688b0d2a1e40ceb") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  product_id   String    @db.Uuid
+  promotion_id String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  product   Product   @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promotion-product_product")
+  promotion Promotion @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_promotion-product_promotion")
+
+  @@unique([product_id, promotion_id], map: "uniq-promotion_id-product_id")
+}
+
+model Role {
+  id           String    @id(map: "PK_b36bcfe02fc8de3c57a8b2391c2") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String    @unique(map: "UQ_ae4578dcaed5adff96595e61660") @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  user_role UserRole[]
+}
+
+model SubCategory {
+  id           String    @id(map: "PK_59f4461923255f1ce7fc5e7423c") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  category_id  String    @db.Uuid
+  name         String    @db.VarChar
+  article      String    @unique(map: "UQ_6da5a16de1997e8f92702751332") @db.VarChar
+  order_by     Int       @default(1)
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  product  Product[]
+  category Category  @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sub-category_category")
+}
+
+model User {
+  id                String    @id(map: "PK_cace4a159ff9f2512dd42373760") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  active_address_id String?   @db.Uuid
+  firstname         String    @db.VarChar
+  lastname          String?   @db.VarChar
+  phone             String    @unique(map: "UQ_8e1f623798118e629b46a9e6299") @db.VarChar
+  birthdate         DateTime? @db.Timestamp(6)
+  email             String?   @unique(map: "UQ_e12875dfb3b1d92d7d7c5377e22") @db.VarChar
+  password          String    @db.VarChar
+  date_created      DateTime  @default(now()) @db.Timestamp(6)
+  date_updated      DateTime? @db.Timestamp(6)
+  date_deleted      DateTime? @db.Timestamp(6)
+
+  feedback       Feedback[]
+  order          Order[]
+  promocode_user PromocodeUser[]
+  user_addresses UserAddresses[]
+  user_promotion UserPromotion[]
+  user_role      UserRole[]
+}
+
+model UserAddresses {
+  id           String    @id(map: "PK_8abbeb5e3239ff7877088ffc25b") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String    @db.Uuid
+  address      String    @db.VarChar
+  comment      String?   @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user-addresses_user")
+}
+
+model UserPromotion {
+  id           String    @id(map: "PK_a384c712c001b8498406ae9a86c") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String    @db.Uuid
+  promotion_id String    @db.Uuid
+  user_phone   String    @db.VarChar
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+  date_deleted DateTime? @db.Timestamp(6)
+
+  promotion Promotion @relation(fields: [promotion_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user-promotion_promotion")
+  user      User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user-promotion_user")
+}
+
+model UserRole {
+  id           String    @id(map: "PK_fb2e442d14add3cefbdf33c4561") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id      String    @db.Uuid
+  role_id      String    @db.Uuid
+  date_created DateTime  @default(now()) @db.Timestamp(6)
+  date_updated DateTime? @db.Timestamp(6)
+
+  role Role @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user-role_role")
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user-role_user")
+}
+
+enum type_promotion {
+  combo
+  promo
 }
